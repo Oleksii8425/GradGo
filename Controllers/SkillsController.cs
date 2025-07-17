@@ -7,16 +7,16 @@ namespace GradGo.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class JobsController : ControllerBase
+public class SkillsController : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    public JobsController(AppDbContext context)
+    public SkillsController(AppDbContext context)
     {
         _context = context;
     }
 
-    [HttpGet(Name = "GetJobs")]
-    public async Task<ActionResult<List<Job>>> Get() =>
-        await _context.Jobs.ToListAsync();
+    [HttpGet(Name = "GetSkills")]
+    public async Task<ActionResult<List<Skill>>> Get() =>
+        await _context.Skills.ToListAsync();
 }

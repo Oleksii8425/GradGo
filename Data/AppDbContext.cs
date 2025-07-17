@@ -9,5 +9,6 @@ namespace GradGo.Data
             : base(options) { }
 
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<Skill> Skills { get; set; }
     }
 }

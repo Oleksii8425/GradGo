@@ -1,6 +1,11 @@
-@GradGo_HostAddress = http://localhost:5272
+@GradGo_HostAddress = https://localhost:7086
 
-GET {{GradGo_HostAddress}}/weatherforecast/
+GET {{GradGo_HostAddress}}/jobs/
+Accept: application/json
+
+###
+
+Get {{GradGo_HostAddress}}/skills/
 Accept: application/json
 
 ###
