@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace GradGo.Models
 {
     public enum JobType
@@ -10,6 +12,7 @@ namespace GradGo.Models
     public class Job
     {
         public int Id { get; set; }
+        public Guid EmployerId { get; set; }
         public required Employer Employer { get; set; }
         public required string Description { get; set; }
         public JobType Type { get; set; }
