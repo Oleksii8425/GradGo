@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c314ba57eb10d00a1db8cc252a7714c7357803b5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1b57ba555afa3763e5177d821e2d3a705dc4d5e")]
 [assembly: System.Reflection.AssemblyProductAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
