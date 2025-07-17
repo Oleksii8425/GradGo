@@ -20,6 +20,7 @@ namespace GradGo.Models
         public required string Country { get; set; }
         public required string RequiredDegree { get; set; }
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public ICollection<Application> Applications { get; set; } = new List<Application>();
         public int ApplicantsNo { get; set; }
     }
 }

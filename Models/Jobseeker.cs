@@ -11,5 +11,6 @@ namespace GradGo.Models
         public required string City { get; set; }
         public required string Country { get; set; }
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public ICollection<Application> Applications { get; set; } = new List<Application>();
     }
 }
