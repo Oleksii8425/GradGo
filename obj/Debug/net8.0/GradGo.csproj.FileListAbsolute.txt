@@ -1,0 +1,8 @@
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.csproj.AssemblyReference.cache
+D:\source\repos\GradGo\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.GeneratedMSBuildEditorConfig.editorconfig
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.AssemblyInfoInputs.cache
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.AssemblyInfo.cs
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.csproj.CoreCompileInputs.cache
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.MvcApplicationPartsAssemblyInfo.cs
+D:\source\repos\GradGo\obj\Debug\net8.0\GradGo.MvcApplicationPartsAssemblyInfo.cache
