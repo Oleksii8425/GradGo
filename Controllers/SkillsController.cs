@@ -30,4 +30,13 @@ public class SkillsController : ControllerBase
 
         return skill;
     }
+
+    [HttpPost(Name = "CreateSkill")]
+    public async Task<IActionResult> Create(Skill skill)
+    {
+        _context.Skills.Add(skill);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(Get), new { id = skill.Id }, skill);
+    }
 }
