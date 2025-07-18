@@ -31,5 +31,13 @@ public class JobsController : ControllerBase
         return Ok(job);
     }
 
-    
+    [HttpGet("search", Name = "GetJobsBySkills")]
+    public async Task<ActionResult<List<Job>>> GetJobsBySkills([FromQuery] List<string> skills)
+    {
+        var jobs = await _context.Jobs
+            .Where(j => j.Skills.Any(s => skills.Contains(s.Title)))
+            .ToListAsync();
+
+        return Ok(jobs);
+    }
 }
