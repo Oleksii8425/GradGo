@@ -17,6 +17,19 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet(Name = "GetJobs")]
-    public async Task<ActionResult<List<Job>>> Get() =>
+    public async Task<ActionResult<List<Job>>> GetAll() =>
         await _context.Jobs.ToListAsync();
+
+    [HttpGet("{id}", Name = "GetJobById")]
+    public async Task<ActionResult<Job>> GetJobById(int id)
+    {
+        var job = await _context.Jobs.FindAsync(id);
+
+        if (job == null)
+            return NotFound();
+
+        return Ok(job);
+    }
+
+    
 }

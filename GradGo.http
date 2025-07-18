@@ -5,6 +5,11 @@ Accept: application/json
 
 ###
 
+GET {{GradGo_HostAddress}}/jobs/search?skills=C%23&skills=.Net
+Accept: application/json
+
+###
+
 Get {{GradGo_HostAddress}}/skills/
 Accept: application/json
 
