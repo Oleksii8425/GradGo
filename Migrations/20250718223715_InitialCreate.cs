@@ -13,7 +13,7 @@ namespace GradGo.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Course",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -26,11 +26,11 @@ namespace GradGo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Course", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employer",
+                name: "Employers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,11 +41,11 @@ namespace GradGo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employer", x => x.Id);
+                    table.PrimaryKey("PK_Employers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jobseeker",
+                name: "Jobseekers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -59,7 +59,7 @@ namespace GradGo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Jobseeker", x => x.Id);
+                    table.PrimaryKey("PK_Jobseekers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,6 +73,21 @@ namespace GradGo.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Universities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    Country = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Universities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,9 +108,9 @@ namespace GradGo.Migrations
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jobs_Employer_EmployerId",
+                        name: "FK_Jobs_Employers_EmployerId",
                         column: x => x.EmployerId,
-                        principalTable: "Employer",
+                        principalTable: "Employers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -111,15 +126,15 @@ namespace GradGo.Migrations
                 {
                     table.PrimaryKey("PK_CourseJobseeker", x => new { x.CoursesId, x.JobseekersId });
                     table.ForeignKey(
-                        name: "FK_CourseJobseeker_Course_CoursesId",
+                        name: "FK_CourseJobseeker_Courses_CoursesId",
                         column: x => x.CoursesId,
-                        principalTable: "Course",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseJobseeker_Jobseeker_JobseekersId",
+                        name: "FK_CourseJobseeker_Jobseekers_JobseekersId",
                         column: x => x.JobseekersId,
-                        principalTable: "Jobseeker",
+                        principalTable: "Jobseekers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -135,9 +150,9 @@ namespace GradGo.Migrations
                 {
                     table.PrimaryKey("PK_JobseekerSkill", x => new { x.JobseekersId, x.SkillsId });
                     table.ForeignKey(
-                        name: "FK_JobseekerSkill_Jobseeker_JobseekersId",
+                        name: "FK_JobseekerSkill_Jobseekers_JobseekersId",
                         column: x => x.JobseekersId,
-                        principalTable: "Jobseeker",
+                        principalTable: "Jobseekers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -149,7 +164,7 @@ namespace GradGo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Application",
+                name: "Applications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -161,17 +176,17 @@ namespace GradGo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Application", x => x.Id);
+                    table.PrimaryKey("PK_Applications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Application_Jobs_JobId",
+                        name: "FK_Applications_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Application_Jobseeker_JobseekerId",
+                        name: "FK_Applications_Jobseekers_JobseekerId",
                         column: x => x.JobseekerId,
-                        principalTable: "Jobseeker",
+                        principalTable: "Jobseekers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -201,13 +216,13 @@ namespace GradGo.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Application_JobId",
-                table: "Application",
+                name: "IX_Applications_JobId",
+                table: "Applications",
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Application_JobseekerId",
-                table: "Application",
+                name: "IX_Applications_JobseekerId",
+                table: "Applications",
                 column: "JobseekerId");
 
             migrationBuilder.CreateIndex(
@@ -235,7 +250,7 @@ namespace GradGo.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Application");
+                name: "Applications");
 
             migrationBuilder.DropTable(
                 name: "CourseJobseeker");
@@ -247,10 +262,13 @@ namespace GradGo.Migrations
                 name: "JobSkill");
 
             migrationBuilder.DropTable(
-                name: "Course");
+                name: "Universities");
 
             migrationBuilder.DropTable(
-                name: "Jobseeker");
+                name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Jobseekers");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
@@ -259,7 +277,7 @@ namespace GradGo.Migrations
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "Employer");
+                name: "Employers");
         }
     }
 }

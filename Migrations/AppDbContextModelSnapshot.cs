@@ -64,7 +64,7 @@ namespace GradGo.Migrations
 
                     b.HasIndex("JobseekerId");
 
-                    b.ToTable("Application");
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("GradGo.Models.Course", b =>
@@ -93,7 +93,7 @@ namespace GradGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("GradGo.Models.Employer", b =>
@@ -119,7 +119,7 @@ namespace GradGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employer");
+                    b.ToTable("Employers");
                 });
 
             modelBuilder.Entity("GradGo.Models.Job", b =>
@@ -196,7 +196,7 @@ namespace GradGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Jobseeker");
+                    b.ToTable("Jobseekers");
                 });
 
             modelBuilder.Entity("GradGo.Models.Skill", b =>
@@ -214,6 +214,31 @@ namespace GradGo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("GradGo.Models.University", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Universities");
                 });
 
             modelBuilder.Entity("JobSkill", b =>

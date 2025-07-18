@@ -10,7 +10,19 @@ Accept: application/json
 
 ###
 
-Get {{GradGo_HostAddress}}/skills/
+GET {{GradGo_HostAddress}}/skills
 Accept: application/json
 
 ###
+
+GET {{GradGo_HostAddress}}/skills/3
+Accept: application/json
+
+###
+
+POST {{GradGo_HostAddress}}/skills
+Content-Type: application/json
+
+{
+    "Title": "ASP.Net"
+}

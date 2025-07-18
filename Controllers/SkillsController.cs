@@ -17,6 +17,17 @@ public class SkillsController : ControllerBase
     }
 
     [HttpGet(Name = "GetSkills")]
-    public async Task<ActionResult<List<Skill>>> Get() =>
+    public async Task<ActionResult<List<Skill>>> GetAll() =>
         await _context.Skills.ToListAsync();
+
+    [HttpGet("{id}", Name = "GetSkillById")]
+    public async Task<ActionResult<Skill>> Get(int id)
+    {
+        var skill = await _context.Skills.FindAsync(id);
+
+        if (skill == null)
+            return NotFound();
+
+        return skill;
+    }
 }
