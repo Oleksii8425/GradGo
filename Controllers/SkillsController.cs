@@ -18,7 +18,7 @@ public class SkillsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<SkillDto>>> GetAll()
+    public async Task<ActionResult<List<SkillDto>>> GetAllSkills()
     {
         var skills = await _context.Skills
             .AsNoTracking()
@@ -29,7 +29,7 @@ public class SkillsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<SkillDto>> Get(int id)
+    public async Task<ActionResult<SkillDto>> GetSkill(int id)
     {
         var skill = await _context.Skills
             .AsNoTracking()
@@ -40,7 +40,7 @@ public class SkillsController : ControllerBase
         if (skill is null)
             return NotFound();
 
-        return skill;
+        return Ok(skill);
     }
 
     [HttpPost]
@@ -59,7 +59,7 @@ public class SkillsController : ControllerBase
 
         var result = new SkillDto(skill.Id, skill.Title);
 
-        return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetSkill), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
