@@ -16,17 +16,16 @@ POST {{GradGo_HostAddress}}/skills
 Content-Type: application/json
 
 {
-    "Title": "ASP.NET"
+    "Title": "C#"
 }
 
 ###
 
-PUT {{GradGo_HostAddress}}/skills/3
+PUT {{GradGo_HostAddress}}/skills/11
 Content-Type: application/json
 
 {
-    "Id": 3,
-    "Title": "ASP.NET"
+    "Title": "C++"
 }
 
 ###

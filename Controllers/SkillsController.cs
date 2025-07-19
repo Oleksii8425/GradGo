@@ -1,4 +1,5 @@
 using GradGo.Data;
+using GradGo.DTOs;
 using GradGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,59 +18,70 @@ public class SkillsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Skill>>> GetAll() =>
-        await _context.Skills.ToListAsync();
+    public async Task<ActionResult<List<SkillDto>>> GetAll()
+    {
+        var skills = await _context.Skills
+            .AsNoTracking()
+            .Select(s => new SkillDto(s.Id, s.Title))
+            .ToListAsync();
+
+        return Ok(skills);
+    }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Skill>> Get(int id)
+    public async Task<ActionResult<SkillDto>> Get(int id)
     {
-        var skill = await _context.Skills.FindAsync(id);
+        var skill = await _context.Skills
+            .AsNoTracking()
+            .Where(s => s.Id == id)
+            .Select(s => new SkillDto(s.Id, s.Title))
+            .FirstOrDefaultAsync();
 
-        if (skill == null)
+        if (skill is null)
             return NotFound();
 
         return skill;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSkill(Skill skill)
+    public async Task<ActionResult<SkillDto>> CreateSkill(SkillCreateDto dto)
     {
+        var exists = await _context.Skills
+            .AnyAsync(s => s.Title == dto.Title);
+
+        if (exists)
+            return BadRequest(new { message = "Skill with this title already exists." });
+
+        var skill = new Skill { Title = dto.Title };
+
         _context.Skills.Add(skill);
+        await _context.SaveChangesAsync();
+
+        var result = new SkillDto(skill.Id, skill.Title);
+
+        return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateSkill(int id, SkillCreateDto  dto)
+    {
+        var skill = await _context.Skills.FindAsync(id);
+
+        if (skill is null)
+            return NotFound();
+
+        skill.Title = dto.Title;
+
         try
         {
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateException)
         {
-            var skillExists = await _context.Skills.AnyAsync(s => s.Title == skill.Title);
-            if (skillExists)
-                return BadRequest("Skill already exists.");
-            else
-                throw;
-        }
+            if (await _context.Skills.AnyAsync(s => s.Id != id && s.Title == dto.Title))
+                return BadRequest(new { message = "Another skill with this title already exists." });
 
-        return CreatedAtAction(nameof(Get), new { id = skill.Id }, skill);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSkill(int id, Skill skill)
-    {
-        if (id != skill.Id)
-            return BadRequest();
-
-        _context.Entry(skill).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            var skillExists = await _context.Skills.AnyAsync(s => s.Id == id);
-            if (!skillExists)
-                return NotFound();
-            else
-                throw;
+            throw;
         }
 
         return NoContent();
@@ -79,6 +91,7 @@ public class SkillsController : ControllerBase
     public async Task<IActionResult> DeleteSkill(int id)
     {
         var skill = await _context.Skills.FindAsync(id);
+        
         if (skill == null)
             return NotFound();
 
