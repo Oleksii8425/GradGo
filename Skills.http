@@ -16,7 +16,7 @@ POST {{GradGo_HostAddress}}/skills
 Content-Type: application/json
 
 {
-    "Title": "ASP.Net"
+    "Title": "ASP.NET"
 }
 
 ###
@@ -31,6 +31,6 @@ Content-Type: application/json
 
 ###
 
-DELETE {{GradGo_HostAddress}}/skills/1
+DELETE {{GradGo_HostAddress}}/skills/5
 
 ###

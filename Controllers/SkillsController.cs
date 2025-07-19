@@ -35,7 +35,18 @@ public class SkillsController : ControllerBase
     public async Task<IActionResult> CreateSkill(Skill skill)
     {
         _context.Skills.Add(skill);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException)
+        {
+            var skillExists = await _context.Skills.AnyAsync(s => s.Title == skill.Title);
+            if (skillExists)
+                return BadRequest("Skill already exists.");
+            else
+                throw;
+        }
 
         return CreatedAtAction(nameof(Get), new { id = skill.Id }, skill);
     }

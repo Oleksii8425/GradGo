@@ -8,6 +8,16 @@ namespace GradGo.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Skill>()
+                .HasIndex(s => s.Title)
+                .IsUnique();
+        }
+
+
         public DbSet<Employer> Employers { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Jobseeker> Jobseekers { get; set; }
