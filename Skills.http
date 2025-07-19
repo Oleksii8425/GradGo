@@ -30,3 +30,7 @@ Content-Type: application/json
 }
 
 ###
+
+DELETE {{GradGo_HostAddress}}/skills/1
+
+###
