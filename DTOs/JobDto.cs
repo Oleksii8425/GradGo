@@ -7,6 +7,7 @@ namespace GradGo.DTOs
         Guid EmployerId,
         string Description,
         JobType Type,
+        int Salary,
         string City,
         string Country,
         string RequiredDegree,
