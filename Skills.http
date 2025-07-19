@@ -1,13 +1,5 @@
 @GradGo_HostAddress = https://localhost:7086
 
-GET {{GradGo_HostAddress}}/jobs/
-Accept: application/json
-
-###
-
-GET {{GradGo_HostAddress}}/jobs/search?skills=C%23&skills=.Net
-Accept: application/json
-
 ###
 
 GET {{GradGo_HostAddress}}/skills
@@ -26,3 +18,15 @@ Content-Type: application/json
 {
     "Title": "ASP.Net"
 }
+
+###
+
+PUT {{GradGo_HostAddress}}/skills/3
+Content-Type: application/json
+
+{
+    "Id": 3,
+    "Title": "ASP.NET"
+}
+
+###
