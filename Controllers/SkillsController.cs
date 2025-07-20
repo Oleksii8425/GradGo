@@ -18,23 +18,23 @@ public class SkillsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<SkillResponseDto>>> GetAllSkills()
+    public async Task<ActionResult<List<SkillDto>>> GetAllSkills()
     {
         var skills = await _context.Skills
             .AsNoTracking()
-            .Select(s => new SkillResponseDto(s.Id, s.Title))
+            .Select(s => new SkillDto(s.Id, s.Title))
             .ToListAsync();
 
         return Ok(skills);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<SkillResponseDto>> GetSkill(int id)
+    public async Task<ActionResult<SkillDto>> GetSkill(int id)
     {
         var skill = await _context.Skills
             .AsNoTracking()
             .Where(s => s.Id == id)
-            .Select(s => new SkillResponseDto(s.Id, s.Title))
+            .Select(s => new SkillDto(s.Id, s.Title))
             .FirstOrDefaultAsync();
 
         if (skill is null)
@@ -44,7 +44,7 @@ public class SkillsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<SkillResponseDto>> CreateSkill(SkillRequestDto dto)
+    public async Task<ActionResult<SkillDto>> CreateSkill(SkillCreateDto dto)
     {
         var exists = await _context.Skills
             .AnyAsync(s => s.Title == dto.Title);
@@ -57,13 +57,13 @@ public class SkillsController : ControllerBase
         _context.Skills.Add(skill);
         await _context.SaveChangesAsync();
 
-        var result = new SkillResponseDto(skill.Id, skill.Title);
+        var result = new SkillDto(skill.Id, skill.Title);
 
         return CreatedAtAction(nameof(GetSkill), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSkill(int id, SkillRequestDto dto)
+    public async Task<IActionResult> UpdateSkill(int id, SkillCreateDto dto)
     {
         var skill = await _context.Skills.FindAsync(id);
 

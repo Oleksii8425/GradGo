@@ -12,6 +12,6 @@ namespace GradGo.DTOs
         string Country,
         string RequiredDegree,
         int ApplicantsNo,
-        List<SkillResponseDto> Skills
+        List<SkillDto> Skills
     );
 }

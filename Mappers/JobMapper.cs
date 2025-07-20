@@ -65,7 +65,7 @@ namespace GradGo.Mappers
                 job.RequiredDegree,
                 job.ApplicantsNo,
                 job.Skills
-                    .Select(s => new SkillResponseDto(s.Id, s.Title))
+                    .Select(s => new SkillDto(s.Id, s.Title))
                     .ToList()
             );
         }
