@@ -1,1 +1,51 @@
 @GradGo_HostAddress = https://localhost:7086
+
+###
+
+GET {{GradGo_HostAddress}}/jobs
+Accept: application/json
+
+###
+
+GET {{GradGo_HostAddress}}/jobs/1
+Accept: application/json
+
+###
+
+POST {{GradGo_HostAddress}}/jobs
+Content-Type: application/json
+
+{
+    "EmployerId": 1,
+    "Description": "lsnflknsal;dfnnasldfnlsnadlfnlskadnflasklfjlasdlfk;jaslk;dfjlsjadflkjaslfjlaskjdflk;jsadlkfjlsajdlf;jaslkdjflkjsadljfljsadfljlasd;jf",
+    "Type": "Remote",
+    "Salary": 100,
+    "City": "Swansea",
+    "Country": "UK",
+    "RequiredDegree": "Bachelors",
+    "ApplicantsNo": 0,
+    "Skills": [
+        3,
+        11
+    ]
+}
+
+###
+
+PUT {{GradGo_HostAddress}}/jobs/1
+Content-Type: application/json
+
+{
+    "EmployerId": 1,
+    "Description": "lsnflknsal;dfnnasldfnlsnadlfnlskadnflasklfjlasdlfk;jaslk;dfjlsjadflkjaslfjlaskjdflk;jsadlkfjlsajdlf;jaslkdjflkjsadljfljsadfljlasd;jf",
+    "Type": "Remote",
+    "Salary": 1000,
+    "City": "Swansea",
+    "Country": "UK",
+    "RequiredDegree": "Bachelors",
+    "ApplicantsNo": 0,
+    "Skills": [
+        3,
+        11
+    ]
+}

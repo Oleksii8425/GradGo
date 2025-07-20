@@ -1,4 +1,4 @@
 namespace GradGo.DTOs
 {
-    public record SkillDto(int Id, string Title);
+    public record SkillResponseDto(int Id, string Title);
 }
