@@ -23,7 +23,7 @@ public class SkillsController : ControllerBase
     {
         var skills = await _context.Skills
             .AsNoTracking()
-            .Select(s => s.ToSkillDto())
+            .Select(s => s.ToDto())
             .ToListAsync();
 
         return Ok(skills);
@@ -35,7 +35,7 @@ public class SkillsController : ControllerBase
         var skill = await _context.Skills
             .AsNoTracking()
             .Where(s => s.Id == id)
-            .Select(s => s.ToSkillDto())
+            .Select(s => s.ToDto())
             .FirstOrDefaultAsync();
 
         if (skill is null)
@@ -58,7 +58,7 @@ public class SkillsController : ControllerBase
         _context.Skills.Add(skill);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetSkill), new { id = skill.Id }, skill.ToSkillDto());
+        return CreatedAtAction(nameof(GetSkill), new { id = skill.Id }, skill.ToDto());
     }
 
     [HttpPut("{id}")]

@@ -5,7 +5,7 @@ namespace GradGo.Mappers
 {
     public static class SkillMapper
     {
-        public static SkillDto ToSkillDto(this Skill skill)
+        public static SkillDto ToDto(this Skill skill)
         {
             return new SkillDto(
                 skill.Id,
