@@ -1,0 +1,37 @@
+@GradGo_HostAddress = https://localhost:7086
+
+###
+
+GET {{GradGo_HostAddress}}/universities
+Accept: application/json
+
+###
+
+GET {{GradGo_HostAddress}}/universities/1
+Accept: application/json
+
+###
+
+POST {{GradGo_HostAddress}}/universities
+Content-Type: application/json
+
+{
+    "Name": "University",
+    "City": "Swansea",
+    "CountryId": 2
+}
+
+###
+
+PUT {{GradGo_HostAddress}}/universities/1
+Content-Type: application/json
+
+{
+    "Name": "Swansea University"
+}
+
+###
+
+DELETE {{GradGo_HostAddress}}/universities/1
+
+###
