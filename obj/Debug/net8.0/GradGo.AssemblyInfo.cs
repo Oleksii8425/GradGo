@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e86466570cedeb7d9bc613beb6fe2d397dd1b43a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9a6480fd7e0314524f47b0accc934bbb7beec8f")]
 [assembly: System.Reflection.AssemblyProductAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GradGo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
