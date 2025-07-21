@@ -1,0 +1,36 @@
+@GradGo_HostAddress = https://localhost:7086
+
+###
+
+GET {{GradGo_HostAddress}}/countries
+Accept: application/json
+
+###
+
+GET {{GradGo_HostAddress}}/countries/1
+Accept: application/json
+
+###
+
+POST {{GradGo_HostAddress}}/countries
+Content-Type: application/json
+
+{
+    "PhoneCode": "+44",
+    "Name": "UK"
+}
+
+###
+
+PUT {{GradGo_HostAddress}}/countries/1
+Content-Type: application/json
+
+{
+    "Name": "United Kingdom"
+}
+
+###
+
+DELETE {{GradGo_HostAddress}}/countries/1
+
+###
