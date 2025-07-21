@@ -5,7 +5,7 @@ namespace GradGo.Mappers
 {
     public static class UniversityMapper
     {
-        public static UniversityDto ToUniversityDto(this University university)
+        public static UniversityDto ToDto(this University university)
         {
             return new UniversityDto(
                 university.Id,

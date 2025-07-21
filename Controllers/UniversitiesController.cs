@@ -22,7 +22,7 @@ namespace GradGo.Controllers
         {
             var universities = await _context.Universities
                 .Include(u => u.Country)
-                .Select(u => u.ToUniversityDto())
+                .Select(u => u.ToDto())
                 .AsSplitQuery()
                 .ToListAsync();
 
@@ -39,7 +39,7 @@ namespace GradGo.Controllers
             if (university is null)
                 return NotFound();
 
-            return Ok(university.ToUniversityDto());
+            return Ok(university.ToDto());
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace GradGo.Controllers
             _context.Universities.Add(university);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUniversityById), new { id = university.Id }, university.ToUniversityDto());
+            return CreatedAtAction(nameof(GetUniversityById), new { id = university.Id }, university.ToDto());
         }
 
         [HttpPut("{id}")]
