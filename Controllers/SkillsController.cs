@@ -1,5 +1,6 @@
 using GradGo.Data;
 using GradGo.DTOs;
+using GradGo.Mappers;
 using GradGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,14 +64,14 @@ public class SkillsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSkill(int id, SkillCreateDto dto)
+    public async Task<IActionResult> UpdateSkill(int id, SkillUpdateDto dto)
     {
         var skill = await _context.Skills.FindAsync(id);
 
         if (skill is null)
             return NotFound();
 
-        skill.Title = dto.Title;
+        skill.UpdateSkillFromDto(dto);
 
         try
         {
