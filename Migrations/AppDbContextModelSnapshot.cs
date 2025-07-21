@@ -130,12 +130,12 @@ namespace GradGo.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EmployeesNo")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("StaffCount")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
