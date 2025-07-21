@@ -18,7 +18,7 @@ namespace GradGo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<CountryDto>> GetCountries()
+        public async Task<ActionResult<List<CountryDto>>> GetCountries()
         {
             var countries = await _context.Countries
                 .Select(c => c.ToDto())
