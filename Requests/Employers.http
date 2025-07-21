@@ -2,7 +2,12 @@
 
 ###
 
-GET {{GradGo_HostAddress}}/employers/1
+GET {{GradGo_HostAddress}}/employers
+Accept: application/json
+
+###
+
+GET {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
 Accept: application/json
 
 ###
@@ -11,10 +16,23 @@ POST {{GradGo_HostAddress}}/employers
 Content-Type: application/json
 
 {
-    "CountryId": 1,
-    "Name": "1",
-    "City": "asd",
-    "EmployeesNo": 10
+    "Name": "Deliveroo",
+    "City": "Manchester",
+    "CountryId": 2,
+    "StaffCount": 1
 }
+
+###
+
+PUT {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
+Content-Type: application/json
+
+{
+    "StaffCount": 3
+}
+
+###
+
+DELETE {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
 
 ###
