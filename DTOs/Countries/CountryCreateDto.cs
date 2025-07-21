@@ -4,6 +4,6 @@ namespace GradGo.DTOs
 {
     public record CountryCreateDto(
         [Required] string PhoneCode,
-        [Required, MinLength(3), MaxLength(20)] string Name
+        [Required, MinLength(2), MaxLength(20)] string Name
     );
 }
