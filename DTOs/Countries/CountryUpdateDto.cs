@@ -1,7 +1,7 @@
 namespace GradGo.DTOs
 {
     public record CountryUpdateDto(
-        string PhoneCode,
-        string Name
+        string? PhoneCode,
+        string? Name
     );
 }

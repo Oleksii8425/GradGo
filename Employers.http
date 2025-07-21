@@ -1,0 +1,20 @@
+@GradGo_HostAddress = https://localhost:7086
+
+###
+
+GET {{GradGo_HostAddress}}/employers/1
+Accept: application/json
+
+###
+
+POST {{GradGo_HostAddress}}/employers
+Content-Type: application/json
+
+{
+    "CountryId": 1,
+    "Name": "1",
+    "City": "asd",
+    "EmployeesNo": 10
+}
+
+###
