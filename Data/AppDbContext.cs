@@ -25,5 +25,6 @@ namespace GradGo.Data
         public DbSet<Skill> Skills { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Country> Countries { get; set; }
     }
 }
