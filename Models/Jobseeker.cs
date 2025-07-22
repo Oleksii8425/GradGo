@@ -10,7 +10,7 @@ namespace GradGo.Models
         public required string Email { get; set; }
         public string? PhoneNumber { get; set; }
         public required string City { get; set; }
-        public Country? Country { get; set; }
+        public Country Country { get; set; } = null!;
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
         public ICollection<Course> Courses { get; set; } = new List<Course>();
         public ICollection<Application> Applications { get; set; } = new List<Application>();

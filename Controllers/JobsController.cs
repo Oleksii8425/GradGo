@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using GradGo.Data;
 using GradGo.DTOs;
 using GradGo.Mappers;
-using GradGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +11,12 @@ namespace GradGo.Controllers;
 public class JobsController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<JobsController> _logger;
 
-    public JobsController(AppDbContext context)
+    public JobsController(AppDbContext context, ILogger<JobsController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -24,68 +24,92 @@ public class JobsController : ControllerBase
     {
         var jobs = await _context.Jobs
             .AsNoTracking()
+            .Include(j => j.Employer)
+            .Include(j => j.Country)
             .Include(j => j.Skills)
-            .Select(j => JobMapper.ToJobDto(j))
+            .Include(j => j.Applications)
+            .AsSplitQuery()
             .ToListAsync();
 
-        return Ok(jobs);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<JobDto>> GetJobById(int id)
-    {
-        var job = await _context.Jobs
-            .AsNoTracking()
-            .Include(j => j.Skills)
-            .SingleOrDefaultAsync(j => j.Id == id);
-
-        if (job is null)
-            return NotFound();
-
-        var response = JobMapper.ToJobDto(job);
+        var response = jobs.Select(j => j.ToDto()).ToList();
 
         return Ok(response);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<JobDto>> CreateJob(JobCreateDto dto)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<JobDto>> GetJobById(Guid id)
     {
+        var job = await _context.Jobs
+            .AsNoTracking()
+            .Where(j => j.Id == id)
+            .Include(j => j.Employer)
+            .Include(j => j.Country)
+            .Include(j => j.Skills)
+            .Include(j => j.Applications)
+            .AsSplitQuery()
+            .SingleOrDefaultAsync();
+
+        if (job is null)
+            return NotFound();
+
+        return Ok(job.ToDto());
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<JobDto>> CreateJob([FromBody] JobCreateDto dto)
+    {
+        _logger.LogWarning("dto.Skills:");
+        foreach (var skill in dto.Skills)
+        {
+            _logger.LogWarning(skill.ToString());
+        }
+
         var skills = await _context.Skills
             .Where(s => dto.Skills.Contains(s.Id))
             .ToHashSetAsync();
 
-        var job = new Job
+        _logger.LogWarning("skills:");
+        foreach (var skill in skills)
         {
-            EmployerId = dto.EmployerId,
-            Description = dto.Description,
-            Type = dto.Type,
-            City = dto.City,
-            Country = dto.Country,
-            RequiredDegree = dto.RequiredDegree,
-            Skills = skills
-        };
+            _logger.LogWarning("skill " + skill.Id + ": " + skill.Title);
+        }
+
+        var job = dto.ToJob();
+        job.Skills = skills;
 
         _context.Add(job);
         await _context.SaveChangesAsync();
 
-        var result = JobMapper.ToJobDto(job);
+        var savedjob = await _context.Jobs
+            .AsNoTracking()
+            .Where(j => j.Id == job.Id)
+            .Include(j => j.Employer)
+            .Include(j => j.Skills)
+            .Include(j => j.Country)
+            .Include(j => j.Applications)
+            .SingleAsync();
 
-        return CreatedAtAction(nameof(GetJobById), new { id = job.Id }, job);
+        return CreatedAtAction(nameof(GetJobById), new { id = job.Id }, savedjob.ToDto());
     }
 
     [HttpPut]
-    public async Task<IActionResult> FullUpdateJob(int id, JobUpdateDto dto)
+    public async Task<IActionResult> UpdateJob(int id, [FromBody] JobUpdateDto dto)
     {
         var job = await _context.Jobs.FindAsync(id);
 
         if (job is null)
             return NotFound();
 
-        var skills = await _context.Skills
-            .Where(s => dto.Skills.Contains(s.Id))
-            .ToListAsync();
+        job.UpdateJobFromDto(dto);
 
-        JobMapper.UpdateJobFromDto(job, dto, skills);
+        if (dto.Skills != null)
+        {
+            var skills = await _context.Skills
+                        .Where(s => dto.Skills.Contains(s.Id))
+                        .ToListAsync();
+
+            job.Skills = skills;
+        }
 
         await _context.SaveChangesAsync();
 

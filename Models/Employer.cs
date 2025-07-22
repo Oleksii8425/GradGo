@@ -6,7 +6,7 @@ namespace GradGo.Models
         public int CountryId { get; set; }
         public required string Name { get; set; }
         public required string City { get; set; }
-        public Country? Country { get; set; }
+        public Country Country { get; set; } = null!;
         public StaffCount StaffCount { get; set; }
     }
 }

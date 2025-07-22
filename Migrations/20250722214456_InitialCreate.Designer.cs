@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GradGo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250721153117_MakeCountryPropertyNullableInUniversityTable")]
-    partial class MakeCountryPropertyNullableInUniversityTable
+    [Migration("20250722214456_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,17 +42,15 @@ namespace GradGo.Migrations
 
             modelBuilder.Entity("GradGo.Models.Application", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("AppliedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("JobId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("JobseekerId")
                         .HasColumnType("uuid");
@@ -99,8 +97,9 @@ namespace GradGo.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Degree")
-                        .HasColumnType("integer");
+                    b.Property<string>("Degree")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
@@ -112,8 +111,8 @@ namespace GradGo.Migrations
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("UniveristyId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UniveristyId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -133,27 +132,28 @@ namespace GradGo.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EmployeesNo")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("StaffCount")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("StaffCount")
+                        .IsUnique();
 
                     b.ToTable("Employers");
                 });
 
             modelBuilder.Entity("GradGo.Models.Job", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -176,8 +176,9 @@ namespace GradGo.Migrations
                     b.Property<int>("Salary")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -249,11 +250,9 @@ namespace GradGo.Migrations
 
             modelBuilder.Entity("GradGo.Models.University", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -275,8 +274,8 @@ namespace GradGo.Migrations
 
             modelBuilder.Entity("JobSkill", b =>
                 {
-                    b.Property<int>("JobsId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("JobsId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("SkillsId")
                         .HasColumnType("integer");

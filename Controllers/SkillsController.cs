@@ -1,7 +1,6 @@
 using GradGo.Data;
 using GradGo.DTOs;
 using GradGo.Mappers;
-using GradGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

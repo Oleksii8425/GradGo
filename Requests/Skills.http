@@ -7,7 +7,7 @@ Accept: application/json
 
 ###
 
-GET {{GradGo_HostAddress}}/skills/3
+GET {{GradGo_HostAddress}}/skills/1
 Accept: application/json
 
 ###
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{GradGo_HostAddress}}/skills/11
+PUT {{GradGo_HostAddress}}/skills/1
 Content-Type: application/json
 
 {
@@ -30,6 +30,6 @@ Content-Type: application/json
 
 ###
 
-DELETE {{GradGo_HostAddress}}/skills/5
+DELETE {{GradGo_HostAddress}}/skills/1
 
 ###

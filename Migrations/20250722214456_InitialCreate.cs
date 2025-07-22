@@ -32,9 +32,9 @@ namespace GradGo.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UniveristyId = table.Column<int>(type: "integer", nullable: false),
+                    UniveristyId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Degree = table.Column<int>(type: "integer", nullable: false),
+                    Degree = table.Column<string>(type: "text", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     EndDate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
@@ -57,21 +57,6 @@ namespace GradGo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Universities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    Country = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Universities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employers",
                 columns: table => new
                 {
@@ -79,7 +64,7 @@ namespace GradGo.Migrations
                     CountryId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     City = table.Column<string>(type: "text", nullable: false),
-                    EmployeesNo = table.Column<int>(type: "integer", nullable: false)
+                    StaffCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,15 +102,34 @@ namespace GradGo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Universities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CountryId = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Universities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Universities_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EmployerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CountryId = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
                     Salary = table.Column<int>(type: "integer", nullable: false),
                     City = table.Column<string>(type: "text", nullable: false),
                     RequiredDegree = table.Column<string>(type: "text", nullable: false)
@@ -199,10 +203,9 @@ namespace GradGo.Migrations
                 name: "Applications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    JobId = table.Column<Guid>(type: "uuid", nullable: false),
                     JobseekerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    JobId = table.Column<int>(type: "integer", nullable: false),
                     AppliedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false)
                 },
@@ -227,7 +230,7 @@ namespace GradGo.Migrations
                 name: "JobSkill",
                 columns: table => new
                 {
-                    JobsId = table.Column<int>(type: "integer", nullable: false),
+                    JobsId = table.Column<Guid>(type: "uuid", nullable: false),
                     SkillsId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -268,6 +271,12 @@ namespace GradGo.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employers_StaffCount",
+                table: "Employers",
+                column: "StaffCount",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CountryId",
                 table: "Jobs",
                 column: "CountryId");
@@ -297,6 +306,11 @@ namespace GradGo.Migrations
                 table: "Skills",
                 column: "Title",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Universities_CountryId",
+                table: "Universities",
+                column: "CountryId");
         }
 
         /// <inheritdoc />

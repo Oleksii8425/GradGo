@@ -1,7 +1,7 @@
 namespace GradGo.DTOs
 {
     public record UniversityDto(
-        int Id,
+        Guid Id,
         string Name,
         string City,
         string CountryName

@@ -10,7 +10,7 @@ namespace GradGo.DTOs
         JobType? Type,
         int? Salary,
         string? City,
-        string? RequiredDegree,
+        Degree? RequiredDegree,
         List<int>? Skills
     );
 }

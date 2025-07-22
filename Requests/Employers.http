@@ -7,7 +7,7 @@ Accept: application/json
 
 ###
 
-GET {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
+GET {{GradGo_HostAddress}}/employers/019833f8-a7ca-7302-bfc2-af0e2fa5ba15
 Accept: application/json
 
 ###
@@ -16,23 +16,23 @@ POST {{GradGo_HostAddress}}/employers
 Content-Type: application/json
 
 {
-    "Name": "Deliveroo",
-    "City": "Manchester",
-    "CountryId": 2,
-    "StaffCount": 1
+    "Name": "Microsoft",
+    "City": "London",
+    "CountryId": 1,
+    "StaffCount": "MoreThan500"
 }
 
 ###
 
-PUT {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
+PUT {{GradGo_HostAddress}}/employers/019833f8-a7ca-7302-bfc2-af0e2fa5ba15
 Content-Type: application/json
 
 {
-    "StaffCount": 3
+    "StaffCount": "MoreThan500"
 }
 
 ###
 
-DELETE {{GradGo_HostAddress}}/employers/01982e42-14e2-721f-b66a-7ae509e52905
+DELETE {{GradGo_HostAddress}}/employers/019833f8-a7ca-7302-bfc2-af0e2fa5ba15
 
 ###

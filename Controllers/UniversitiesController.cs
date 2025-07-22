@@ -30,7 +30,7 @@ namespace GradGo.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<UniversityDto>>> GetUniversityById(int id)
+        public async Task<ActionResult<IEnumerable<UniversityDto>>> GetUniversityById(Guid id)
         {
             var university = await _context.Universities
                 .Include(u => u.Country)
@@ -46,6 +46,7 @@ namespace GradGo.Controllers
         public async Task<ActionResult<UniversityDto>> CreateUniversity([FromBody] UniversityCreateDto dto)
         {
             var university = dto.ToUniversity();
+            
             _context.Universities.Add(university);
             await _context.SaveChangesAsync();
 
@@ -53,7 +54,7 @@ namespace GradGo.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUniversity(int id, [FromBody] UniversityUpdateDto dto)
+        public async Task<IActionResult> UpdateUniversity(Guid id, [FromBody] UniversityUpdateDto dto)
         {
             var university = await _context.Universities.FindAsync(id);
 
@@ -69,7 +70,7 @@ namespace GradGo.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUniversity(int id)
+        public async Task<IActionResult> DeleteUniversity(Guid id)
         {
             var university = await _context.Universities.FindAsync(id);
 

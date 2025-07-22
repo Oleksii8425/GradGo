@@ -13,14 +13,7 @@ namespace GradGo.Mappers
                 employer.Name,
                 employer.City,
                 employer.Country.Name,
-                employer.StaffCount switch
-                {
-                    StaffCount.LessThan50 => "Less than 50",
-                    StaffCount.Between50And100 => "50 to 100",
-                    StaffCount.Between100And500 => "100 to 500",
-                    StaffCount.MoreThan500 => "More than 500",
-                    _ => employer.StaffCount.ToString()
-                }
+                employer.StaffCount.GetDescription()
             );
         }
 

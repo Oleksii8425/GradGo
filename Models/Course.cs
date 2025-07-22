@@ -1,15 +1,9 @@
 namespace GradGo.Models
 {
-    public enum Degree
-    {
-        Bachelors,
-        Masters
-    }
-
     public class Course
     {
         public int Id { get; set; }
-        public int UniveristyId { get; set; }
+        public Guid UniveristyId { get; set; }
         public required string Name { get; set; }
         public required Degree Degree { get; set; }
         public DateOnly StartDate { get; set; }
