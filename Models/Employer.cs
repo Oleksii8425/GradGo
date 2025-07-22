@@ -1,13 +1,5 @@
 namespace GradGo.Models
 {
-    public enum StaffCount
-    {
-        LessThan50,
-        Between50And100,
-        Between100And500,
-        MoreThan500
-    }
-    
     public class Employer
     {
         public Guid Id { get; set; }
