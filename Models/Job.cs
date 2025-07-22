@@ -1,14 +1,5 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace GradGo.Models
 {
-    public enum JobType
-    {
-        OnSite,
-        Hybrid,
-        Remote
-    }
-
     public class Job
     {
         public int Id { get; set; }
