@@ -53,7 +53,7 @@ public class SkillsController : ControllerBase
         if (exists)
             return BadRequest(new { message = "Skill with this title already exists." });
 
-        var skill = new Skill { Title = dto.Title };
+        var skill = dto.ToSkill();
 
         _context.Skills.Add(skill);
         await _context.SaveChangesAsync();
