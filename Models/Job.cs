@@ -14,6 +14,5 @@ namespace GradGo.Models
         public required string RequiredDegree { get; set; }
         public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>();
         public ICollection<Application> Applications { get; set; } = new HashSet<Application>();
-        public int ApplicantsNo { get; set; }
     }
 }
