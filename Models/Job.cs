@@ -10,7 +10,7 @@ namespace GradGo.Models
         public JobType Type { get; set; }
         public int Salary { get; set; }
         public required string City { get; set; }
-        public required string Country { get; set; }
+        public Country? Country { get; set; }
         public required string RequiredDegree { get; set; }
         public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>();
         public ICollection<Application> Applications { get; set; } = new HashSet<Application>();
