@@ -7,7 +7,7 @@ namespace GradGo.Mappers
     {
         public static CountryDto ToDto(this Country country)
         {
-            return new CountryDto(country.Id, country.Name);
+            return new CountryDto(country.Id, country.PhoneCode, country.Name);
         }
 
         public static Country ToCountry(this CountryCreateDto dto)
