@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 14pt;
+}
+
+body {
+  padding: 5px;
+  background-color: #ccc;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  position: sticky;
+  top: 5px;
+  z-index: 1000;
+  background-color: #ccc;
+}
+
+.main-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 300px;
+  background-color: rgb(228, 228, 228);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input[type="text"] {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.entity__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.entity__list-item:hover {
+  background-color: rgb(147, 147, 147);
+  color: white;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border: 2px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed;
+  margin: 5px 0 5px 0;
+}
+
+th,
+td {
+  border: 2px solid black;
+  padding: 8px;
+}
+
+tr:hover {
+  font-weight: bold;
+  color: green;
+  background-color: #c0bfbf;
+}
+
+.table__row--selected,
+.table__row--selected:hover {
+  background-color: rgb(41, 131, 60);
+  font-weight: bold;
+  color: white;
+}
+
+.toolbar__button {
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.toolbar__button:hover {
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+}
+
+.toolbar__button--add {
+  background-color: green;
+  color: white;
+}
+
+.toolbar__button--edit {
+  background-color: rgb(238, 223, 18);
+  color: black;
+}
+
+.toolbar__button--delete {
+  background-color: red;
+  color: white;
+}
+
+.control {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.control:hover {
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
+}
+
+.error {
+    margin: 15px 0px 15px 0px;
+    color: red;
+}
