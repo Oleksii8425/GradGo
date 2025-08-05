@@ -57,51 +57,6 @@ namespace GradGo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CountryId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    StaffCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employers_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Jobseekers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CountryId = table.Column<int>(type: "integer", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Age = table.Column<int>(type: "integer", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Jobseekers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Jobseekers_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Universities",
                 columns: table => new
                 {
@@ -117,6 +72,57 @@ namespace GradGo.Migrations
                         name: "FK_Universities_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CountryId = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    role = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    StaffCount = table.Column<int>(type: "integer", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Age = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseJobseeker",
+                columns: table => new
+                {
+                    CoursesId = table.Column<int>(type: "integer", nullable: false),
+                    JobseekersId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseJobseeker", x => new { x.CoursesId, x.JobseekersId });
+                    table.ForeignKey(
+                        name: "FK_CourseJobseeker_Courses_CoursesId",
+                        column: x => x.CoursesId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseJobseeker_Users_JobseekersId",
+                        column: x => x.JobseekersId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -144,33 +150,9 @@ namespace GradGo.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Jobs_Employers_EmployerId",
+                        name: "FK_Jobs_Users_EmployerId",
                         column: x => x.EmployerId,
-                        principalTable: "Employers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseJobseeker",
-                columns: table => new
-                {
-                    CoursesId = table.Column<int>(type: "integer", nullable: false),
-                    JobseekersId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseJobseeker", x => new { x.CoursesId, x.JobseekersId });
-                    table.ForeignKey(
-                        name: "FK_CourseJobseeker_Courses_CoursesId",
-                        column: x => x.CoursesId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CourseJobseeker_Jobseekers_JobseekersId",
-                        column: x => x.JobseekersId,
-                        principalTable: "Jobseekers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -186,15 +168,15 @@ namespace GradGo.Migrations
                 {
                     table.PrimaryKey("PK_JobseekerSkill", x => new { x.JobseekersId, x.SkillsId });
                     table.ForeignKey(
-                        name: "FK_JobseekerSkill_Jobseekers_JobseekersId",
-                        column: x => x.JobseekersId,
-                        principalTable: "Jobseekers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_JobseekerSkill_Skills_SkillsId",
                         column: x => x.SkillsId,
                         principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JobseekerSkill_Users_JobseekersId",
+                        column: x => x.JobseekersId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,9 +201,9 @@ namespace GradGo.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Applications_Jobseekers_JobseekerId",
+                        name: "FK_Applications_Users_JobseekerId",
                         column: x => x.JobseekerId,
-                        principalTable: "Jobseekers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -266,17 +248,6 @@ namespace GradGo.Migrations
                 column: "JobseekersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employers_CountryId",
-                table: "Employers",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employers_StaffCount",
-                table: "Employers",
-                column: "StaffCount",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CountryId",
                 table: "Jobs",
                 column: "CountryId");
@@ -285,11 +256,6 @@ namespace GradGo.Migrations
                 name: "IX_Jobs_EmployerId",
                 table: "Jobs",
                 column: "EmployerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobseekers_CountryId",
-                table: "Jobseekers",
-                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobseekerSkill_SkillsId",
@@ -311,6 +277,17 @@ namespace GradGo.Migrations
                 name: "IX_Universities_CountryId",
                 table: "Universities",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CountryId",
+                table: "Users",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_StaffCount",
+                table: "Users",
+                column: "StaffCount",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -335,16 +312,13 @@ namespace GradGo.Migrations
                 name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Jobseekers");
-
-            migrationBuilder.DropTable(
                 name: "Jobs");
 
             migrationBuilder.DropTable(
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "Employers");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Countries");

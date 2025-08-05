@@ -116,36 +116,6 @@ namespace GradGo.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("GradGo.Models.Employer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("StaffCount")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StaffCount")
-                        .IsUnique();
-
-                    b.ToTable("Employers");
-                });
-
             modelBuilder.Entity("GradGo.Models.Job", b =>
                 {
                     b.Property<Guid>("Id")
@@ -184,44 +154,6 @@ namespace GradGo.Migrations
                     b.HasIndex("EmployerId");
 
                     b.ToTable("Jobs");
-                });
-
-            modelBuilder.Entity("GradGo.Models.Jobseeker", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Jobseekers");
                 });
 
             modelBuilder.Entity("GradGo.Models.Skill", b =>
@@ -269,6 +201,42 @@ namespace GradGo.Migrations
                     b.ToTable("Universities");
                 });
 
+            modelBuilder.Entity("GradGo.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("role")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("role").HasValue("User");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("JobSkill", b =>
                 {
                     b.Property<Guid>("JobsId")
@@ -297,6 +265,41 @@ namespace GradGo.Migrations
                     b.HasIndex("SkillsId");
 
                     b.ToTable("JobseekerSkill");
+                });
+
+            modelBuilder.Entity("GradGo.Models.Employer", b =>
+                {
+                    b.HasBaseType("GradGo.Models.User");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StaffCount")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("StaffCount")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("employer");
+                });
+
+            modelBuilder.Entity("GradGo.Models.Jobseeker", b =>
+                {
+                    b.HasBaseType("GradGo.Models.User");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("jobseeker");
                 });
 
             modelBuilder.Entity("CourseJobseeker", b =>
@@ -333,17 +336,6 @@ namespace GradGo.Migrations
                     b.Navigation("Jobseeker");
                 });
 
-            modelBuilder.Entity("GradGo.Models.Employer", b =>
-                {
-                    b.HasOne("GradGo.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("GradGo.Models.Job", b =>
                 {
                     b.HasOne("GradGo.Models.Country", "Country")
@@ -353,7 +345,7 @@ namespace GradGo.Migrations
                         .IsRequired();
 
                     b.HasOne("GradGo.Models.Employer", "Employer")
-                        .WithMany()
+                        .WithMany("Jobs")
                         .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -363,7 +355,7 @@ namespace GradGo.Migrations
                     b.Navigation("Employer");
                 });
 
-            modelBuilder.Entity("GradGo.Models.Jobseeker", b =>
+            modelBuilder.Entity("GradGo.Models.University", b =>
                 {
                     b.HasOne("GradGo.Models.Country", "Country")
                         .WithMany()
@@ -374,7 +366,7 @@ namespace GradGo.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("GradGo.Models.University", b =>
+            modelBuilder.Entity("GradGo.Models.User", b =>
                 {
                     b.HasOne("GradGo.Models.Country", "Country")
                         .WithMany()
@@ -418,6 +410,11 @@ namespace GradGo.Migrations
             modelBuilder.Entity("GradGo.Models.Job", b =>
                 {
                     b.Navigation("Applications");
+                });
+
+            modelBuilder.Entity("GradGo.Models.Employer", b =>
+                {
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("GradGo.Models.Jobseeker", b =>

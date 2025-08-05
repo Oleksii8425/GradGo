@@ -1,6 +1,7 @@
 using GradGo.Data;
 using GradGo.DTOs;
 using GradGo.Mappers;
+using GradGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace GradGo.Controllers
@@ -60,12 +61,22 @@ namespace GradGo.Controllers
         {
             var employer = await _context.Employers
                 .Include(e => e.Country)
+                .Include(e => e.Jobs)
                 .SingleOrDefaultAsync(e => e.Id == id);
 
             if (employer is null)
                 return NotFound();
 
-            employer.UpdateFromDto(dto);
+            List<Job>? jobs = null;
+
+            if (dto.Jobs is not null)
+            {
+                jobs = await _context.Jobs
+                    .Where(j => dto.Jobs.Contains(j.Id))
+                    .ToListAsync();
+            }
+
+            employer.UpdateFromDto(dto, jobs);
             await _context.SaveChangesAsync();
 
             return NoContent();

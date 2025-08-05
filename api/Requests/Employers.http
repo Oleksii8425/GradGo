@@ -17,6 +17,7 @@ Content-Type: application/json
 
 {
     "Name": "Microsoft",
+    "Email": "microsoft@gmail.com",
     "City": "London",
     "CountryId": 1,
     "StaffCount": "MoreThan500"

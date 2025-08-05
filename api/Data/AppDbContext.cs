@@ -12,6 +12,11 @@ namespace GradGo.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasDiscriminator<string>("role")
+                .HasValue<Employer>("employer")
+                .HasValue<Jobseeker>("jobseeker");
+
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
                 .HasConversion<string>();
@@ -36,10 +41,11 @@ namespace GradGo.Data
         public DbSet<Application> Applications { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Employer> Employers { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<Jobseeker> Jobseekers { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<University> Universities { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Employer> Employers { get; set; }
+        public DbSet<Jobseeker> Jobseekers { get; set; }
     }
 }

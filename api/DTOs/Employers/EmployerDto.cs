@@ -5,6 +5,7 @@ namespace GradGo.DTOs
         string Name,
         string City,
         string CountryName,
-        string StaffCount
+        string StaffCount,
+        List<JobDto> jobs
     );
 }

@@ -4,8 +4,10 @@ namespace GradGo.DTOs
 {
     public record EmployerUpdateDto(
         string? Name,
+        string? Email,
         string? City,
         int? CountryId,
-        StaffCount? StaffCount
+        StaffCount? StaffCount,
+        List<Guid> Jobs
     );
 }

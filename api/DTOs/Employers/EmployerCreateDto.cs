@@ -5,6 +5,7 @@ namespace GradGo.DTOs
 {
     public record EmployerCreateDto(
         [Required] string Name,
+        [Required] string Email,
         [Required] string City,
         [Required] int CountryId,
         [Required] StaffCount StaffCount

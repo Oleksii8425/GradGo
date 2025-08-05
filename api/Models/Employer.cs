@@ -1,12 +1,9 @@
 namespace GradGo.Models
 {
-    public class Employer
+    public class Employer : User
     {
-        public Guid Id { get; set; }
-        public int CountryId { get; set; }
         public required string Name { get; set; }
-        public required string City { get; set; }
-        public Country Country { get; set; } = null!;
         public StaffCount StaffCount { get; set; }
+        public ICollection<Job> Jobs { get; set; } = new List<Job>();
     }
 }
