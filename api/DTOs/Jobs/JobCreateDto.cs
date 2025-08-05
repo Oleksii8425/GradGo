@@ -6,6 +6,7 @@ namespace GradGo.DTOs
     public record JobCreateDto(
         [Required] Guid EmployerId,
         [Required] int CountryId,
+        [Required] string Title,
         [Required, MinLength(100), MaxLength(1000)] string Description,
         [Required] JobType Type,
         [Required] int Salary,

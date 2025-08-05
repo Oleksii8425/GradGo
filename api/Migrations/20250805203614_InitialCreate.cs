@@ -134,6 +134,7 @@ namespace GradGo.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EmployerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CountryId = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Salary = table.Column<int>(type: "integer", nullable: false),

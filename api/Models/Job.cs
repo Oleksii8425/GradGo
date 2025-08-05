@@ -6,6 +6,7 @@ namespace GradGo.Models
         public Guid EmployerId { get; set; }
         public int CountryId { get; set; }
         public Employer Employer { get; set; } = null!;
+        public required string Title { get; set; }
         public required string Description { get; set; }
         public JobType Type { get; set; }
         public int Salary { get; set; }

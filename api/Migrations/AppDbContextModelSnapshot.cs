@@ -143,6 +143,10 @@ namespace GradGo.Migrations
                     b.Property<int>("Salary")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");

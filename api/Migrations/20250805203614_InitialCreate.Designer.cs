@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GradGo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250805151652_InitialCreate")]
+    [Migration("20250805203614_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -145,6 +145,10 @@ namespace GradGo.Migrations
 
                     b.Property<int>("Salary")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Type")
                         .IsRequired()
