@@ -1,24 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: Inter;
   font-size: 14pt;
 }
 
 body {
-  padding: 5px;
+  padding: 10px;
   background-color: #ccc;
 }
 
-header {
+html,
+body,
+#root {
   width: 100%;
+  height: 100%;
+}
+
+header {
+  padding: 10px;
   display: flex;
-  justify-content: left;
-  gap: 10px;
-  position: sticky;
-  top: 5px;
-  z-index: 1000;
-  background-color: #ccc;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+h1 {
+  font-family: Archivo;
+  font-size: 25pt;
+  align-content: center;
 }
 
 .main-container {
@@ -62,22 +75,43 @@ input[type="text"] {
   border-radius: 5px;
 }
 
+.country-manager-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ccc;
+}
+
 table {
   width: 100%;
   border: 2px solid black;
   border-collapse: collapse;
   text-align: center;
   table-layout: fixed;
-  margin: 5px 0 5px 0;
 }
 
+.table-container {
+  height: 90vh;
+  overflow-y: auto;
+  margin-top: 10px;
+  border: 2px solid black;
+}
+
+thead,
 th,
 td {
   border: 2px solid black;
-  padding: 8px;
+  padding: 5px;
 }
 
-tr:hover {
+thead th {
+  background-color: #a2a2a2;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+tbody tr:hover {
   font-weight: bold;
   color: green;
   background-color: #c0bfbf;
@@ -88,6 +122,11 @@ tr:hover {
   background-color: rgb(41, 131, 60);
   font-weight: bold;
   color: white;
+}
+
+.toolbar {
+  display: flex;
+  gap: 5px;
 }
 
 .toolbar__button {
@@ -116,7 +155,7 @@ tr:hover {
   color: white;
 }
 
-.control {
+.form__button {
   margin: 5px;
   padding: 10px;
   border: none;
@@ -124,11 +163,25 @@ tr:hover {
   transition: all 0.2s;
 }
 
-.control:hover {
+.form__button:hover {
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.4);
 }
 
-.error {
-    margin: 15px 0px 15px 0px;
-    color: red;
+.error__container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.error__message {
+  margin: 15px 0px 15px 0px;
+  color: red;
+  font-size: 16pt;
+}
+
+.error__close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0);
 }

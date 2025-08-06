@@ -64,26 +64,31 @@ function CountryManager() {
   return (
     <>
       <header>
-        <button
-          className="toolbar__button toolbar__button--add"
-          onClick={() => {
-            setCreatingCountry(!creatingCountry);
-            setEditingCountry(false);
-          }}
-        >Add Country</button>
-        <button
-          className="toolbar__button toolbar__button--edit"
-          onClick={() => {
-            setEditingCountry(!editingCountry);
-            setCreatingCountry(false);
-          }}
-        >Edit Country</button>
-        <button
-          className="toolbar__button toolbar__button--delete"
-          onClick={handleDelete}
-        >Delete Country</button>
+        <h1>Countries</h1>
+        <div className="toolbar">
+          <button
+            className="toolbar__button toolbar__button--add"
+            onClick={() => {
+              setCreatingCountry(!creatingCountry);
+              setEditingCountry(false);
+            }}>
+            Add
+          </button>
+          <button
+            className="toolbar__button toolbar__button--edit"
+            onClick={() => {
+              setEditingCountry(!editingCountry);
+              setCreatingCountry(false);
+            }}>
+            Edit
+          </button>
+          <button
+            className="toolbar__button toolbar__button--delete"
+            onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
       </header>
-
       {loading && <p>Loading...</p>}
       {error && <div className="error__container">
         <p className="error__message">Error: {error}</p>
@@ -128,33 +133,38 @@ function CountryManager() {
           />
         )
       }
-
-      <table>
-        <tr>
-          <th>Id</th>
-          <th>ISO-2</th>
-          <th>Name</th>
-          <th>Phone Code</th>
-          <th>Currency</th>
-          <th>Currency Symbol</th>
-        </tr>
-        {countries.map(c => (
-          <tr
-            key={c.id}
-            onClick={() =>
-              setSelectedCountryId(prev => prev === c.id ? null : c.id)
-            }
-            className={selectedCountryId === c.id ? "table__row--selected" : ""}
-          >
-            <td>{c.id}</td>
-            <td>{c.countryCode}</td>
-            <td>{c.name}</td>
-            <td>{c.phoneCode}</td>
-            <td>{c.currencyCode}</td>
-            <td>{c.currencySymbol}</td>
-          </tr>
-        ))}
-      </table>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>ISO-2</th>
+              <th>Name</th>
+              <th>Phone Code</th>
+              <th>Currency</th>
+              <th>Currency Symbol</th>
+            </tr>
+          </thead>
+          <tbody>
+            {countries.map(c => (
+              <tr
+                key={c.id}
+                onClick={() =>
+                  setSelectedCountryId(prev => prev === c.id ? null : c.id)
+                }
+                className={selectedCountryId === c.id ? "table__row--selected" : ""}
+              >
+                <td>{c.id}</td>
+                <td>{c.countryCode}</td>
+                <td>{c.name}</td>
+                <td>{c.phoneCode}</td>
+                <td>{c.currencyCode}</td>
+                <td>{c.currencySymbol}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
