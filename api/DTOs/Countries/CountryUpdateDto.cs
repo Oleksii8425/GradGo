@@ -1,7 +1,10 @@
 namespace GradGo.DTOs
 {
     public record CountryUpdateDto(
+        string? CountryCode,
+        string? Name,
         string? PhoneCode,
-        string? Name
+        string? CurrencyCode,
+        string? CurrencySymbol
     );
 }

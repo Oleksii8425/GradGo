@@ -3,9 +3,12 @@ import CreateCountry from "./CreateCountry";
 import EditCountry from "./EditCountry";
 
 interface Country {
-  id: number,
-  phoneCode: string,
-  name: string
+  id: number;
+  countryCode: string;
+  name: string;
+  phoneCode: string;
+  currencyCode: string;
+  currencySymbol: string;
 }
 
 const baseUrl: string = "https://localhost:7086/countries/";
@@ -82,7 +85,10 @@ function CountryManager() {
       </header>
 
       {loading && <p>Loading...</p>}
-      {error && <p className="error">Error: {error}</p>}
+      {error && <div className="error__container">
+        <p className="error__message">Error: {error}</p>
+        <button className="error__close" onClick={() => setError("")}>X</button>
+      </div>}
 
       {
         creatingCountry &&
@@ -125,9 +131,12 @@ function CountryManager() {
 
       <table>
         <tr>
-          <th style={{ width: "10%" }}>Id</th>
-          <th style={{ width: "30%" }}>Phone Code</th>
-          <th style={{ width: "50%" }}>Name</th>
+          <th>Id</th>
+          <th>ISO-2</th>
+          <th>Name</th>
+          <th>Phone Code</th>
+          <th>Currency</th>
+          <th>Currency Symbol</th>
         </tr>
         {countries.map(c => (
           <tr
@@ -138,8 +147,11 @@ function CountryManager() {
             className={selectedCountryId === c.id ? "table__row--selected" : ""}
           >
             <td>{c.id}</td>
-            <td>{c.phoneCode}</td>
+            <td>{c.countryCode}</td>
             <td>{c.name}</td>
+            <td>{c.phoneCode}</td>
+            <td>{c.currencyCode}</td>
+            <td>{c.currencySymbol}</td>
           </tr>
         ))}
       </table>

@@ -9,16 +9,22 @@ interface EditCountryProps {
 
 interface Country {
   id: number;
-  phoneCode: string;
+  countryCode: string;
   name: string;
+  phoneCode: string;
+  currencyCode: string;
+  currencySymbol: string;
 }
 
 const baseUrl: string = "https://localhost:7086/countries/";
 
 function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
   const [id, setId] = useState<number>(-1);
+  const [countryCode, setCountryCode] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [phoneCode, setPhoneCode] = useState<string>("");
+  const [currencyCode, setCurrencyCode] = useState<string>("");
+  const [currencySymbol, setCurrencySymbol] = useState<string>("");
 
   useEffect(() => {
     setId(country.id);
@@ -30,8 +36,11 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
     e.preventDefault();
 
     const countryData = {
+      countryCode,
       phoneCode,
-      name
+      name,
+      currencyCode,
+      currencySymbol
     };
 
     try {
@@ -45,7 +54,7 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
 
       if (!res.ok) throw new Error("Failed to update the country!");
 
-      onEdit({id, phoneCode, name});
+      onEdit({id, countryCode, name, phoneCode, currencyCode, currencySymbol});
     } catch (err) {
       if (err instanceof Error) {
         onError(err.message);
@@ -58,25 +67,49 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
   return (
     <>
       <form onSubmit={handleEdit}>
-        <label htmlFor="phoneCode">Country Phone Code</label>
+        <label htmlFor="countryCode">Country Code</label>
         <input
           type="text"
-          name="phoneCode"
-          id="phoneCode"
-          onChange={(e) => setPhoneCode(e.target.value)}
-          value={phoneCode}
+          name="countryCode"
+          id="countryCode"
+          value={countryCode}
+          onChange={(e) => setCountryCode(e.target.value)}
         />
         <label htmlFor="name">Country Name</label>
         <input
           type="text"
           name="name"
           id="name"
-          onChange={(e) => setName(e.target.value)}
           value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <label htmlFor="phoneCode">Country Phone Code</label>
+        <input
+          type="text"
+          name="phoneCode"
+          id="phoneCode"
+          value={phoneCode}
+          onChange={(e) => setPhoneCode(e.target.value)}
+        />
+        <label htmlFor="currencyCode">Currency Code</label>
+        <input
+          type="text"
+          name="currencyCode"
+          id="currencyCode"
+          value={currencyCode}
+          onChange={(e) => setCurrencyCode(e.target.value)}
+        />
+        <label htmlFor="currencySymbol">Currency Symbol</label>
+        <input
+          type="text"
+          name="currencySymbol"
+          id="currencySymbol"
+          value={currencySymbol}
+          onChange={(e) => setCurrencySymbol(e.target.value)}
         />
         <div>
-          <input className="control" type="submit" value="Update" />
-          <button className="control" onClick={onCancel}>Cancel</button>
+          <input className="form__button" type="submit" value="Update" />
+          <button className="form__button" onClick={onCancel}>Cancel</button>
         </div>
       </form>
     </>
