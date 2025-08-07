@@ -13,9 +13,9 @@ namespace GradGo.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasDiscriminator<string>("role")
-                .HasValue<Employer>("employer")
-                .HasValue<Jobseeker>("jobseeker");
+                .HasDiscriminator<string>("Role")
+                .HasValue<Employer>("Employer")
+                .HasValue<Jobseeker>("Jobseeker");
 
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
