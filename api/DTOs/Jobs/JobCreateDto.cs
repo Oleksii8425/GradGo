@@ -7,7 +7,7 @@ namespace GradGo.DTOs
         [Required] Guid EmployerId,
         [Required] int CountryId,
         [Required] string Title,
-        [Required, MinLength(100), MaxLength(1000)] string Description,
+        [Required, MinLength(100)] string Description,
         [Required] JobType Type,
         [Required] int Salary,
         [Required] string City,
