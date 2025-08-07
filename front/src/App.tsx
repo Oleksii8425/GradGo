@@ -1,9 +1,7 @@
-import CountryManager from "./Countries/CountryManager";
+import JobsBoard from "./Jobs/JobsBoard";
 
 function App() {
-  return (
-    <CountryManager />
-  );
+  return <JobsBoard />
 }
 
 export default App;

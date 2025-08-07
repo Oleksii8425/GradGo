@@ -14,11 +14,10 @@ body {
   background-color: #ccc;
 }
 
+#root,
 html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
+body {
+  min-height: 100%;
 }
 
 header {
@@ -32,17 +31,6 @@ h1 {
   font-family: Archivo;
   font-size: 25pt;
   align-content: center;
-}
-
-.main-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  border-radius: 10px;
-  min-width: 300px;
-  background-color: rgb(228, 228, 228);
 }
 
 form {
@@ -184,4 +172,70 @@ tbody tr:hover {
   height: 30px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0);
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 10px;
+  padding-right: 10px;
+  min-width: 40%;
+}
+
+.card {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.card__title {
+  font-family: Archivo;
+  font-size: 25pt;
+  font-weight: bold;
+}
+
+.card:hover {
+  box-shadow: 5px 5px 10px green;
+}
+
+.card:active {
+  background-color: #b54848;
+}
+
+.card-details {
+  border: 1px solid black;
+  border-radius: 15px;
+  min-width: 50%;
+  min-height: 100%;
+  padding: 10px;
+}
+
+.card-details__title {
+  font-family: Archivo;
+  font-size: 25pt;
+  font-weight: bold;
+}
+
+.card-details__spacer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.card-details__content {
+  text-align: justify;
+  font-size: 16pt;
+  overflow: auto;
+}
+
+.card-details__category-title {
+  margin-top: 15px;
+  font-family: Archivo;
+  font-size: 20pt;
+}
+
+.card-details__skills-container {
+  padding-top: 0px;
+  display: flex;
+  gap: 5px;
 }
