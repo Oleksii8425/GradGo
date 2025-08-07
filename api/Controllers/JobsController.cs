@@ -93,8 +93,8 @@ public class JobsController : ControllerBase
         return CreatedAtAction(nameof(GetJobById), new { id = job.Id }, savedjob.ToDto());
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateJob(int id, [FromBody] JobUpdateDto dto)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateJob(Guid id, [FromBody] JobUpdateDto dto)
     {
         var job = await _context.Jobs.FindAsync(id);
 
@@ -118,7 +118,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteJob(int id)
+    public async Task<IActionResult> DeleteJob(Guid id)
     {
         var job = await _context.Jobs.FindAsync(id);
 
