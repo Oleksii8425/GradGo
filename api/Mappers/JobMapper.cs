@@ -15,7 +15,7 @@ namespace GradGo.Mappers
                 job.Employer.Name,
                 job.Salary,
                 job.City,
-                job.Country.Name,
+                job.Country.ToDto(),
                 job.RequiredDegree.GetDescription(),
                 job.Applications.Count,
                 job.Skills.Select(s => s.ToDto()).ToList()

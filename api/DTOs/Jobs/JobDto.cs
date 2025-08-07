@@ -8,7 +8,7 @@ namespace GradGo.DTOs
         string EmployerName,
         int Salary,
         string City,
-        string CountryName,
+        CountryDto Country,
         string RequiredDegree,
         int ApplicantsNo,
         List<SkillDto> Skills
