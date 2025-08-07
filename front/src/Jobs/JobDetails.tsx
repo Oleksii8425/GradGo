@@ -46,14 +46,16 @@ function JobDetails({
       <p>{type} - {city}, {country.name}</p>
       <p>{country.currencySymbol}{salary}</p>
       <p>{applicantsNo} applied</p>
-      <button>Apply</button>
-      <button>Save</button>
+      <div className="toolbar">
+        <button className="toolbar__button">Apply</button>
+        <button className="toolbar__button">Save</button>
+      </div>
       <hr className="card-details__spacer" />
       <p className="card-details__content">{description}</p>
       <h1 className="card-details__category-title">Skills</h1>
       <div className="card-details__skills-container">
         {skills.map(s => (
-          <p key={s.id} className="card-details__skill">{s.title} • </p>
+          <p key={s.id} className="card-details__skill">{s.title}</p>
         ))}
       </div>
       <div>

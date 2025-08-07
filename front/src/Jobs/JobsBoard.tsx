@@ -51,7 +51,7 @@ function JobsBoard() {
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="jobs-board">
       <div className="card-container">
         {jobs.map(j => (
           <Job
@@ -66,19 +66,7 @@ function JobsBoard() {
         ))}
       </div>
       {selectedJob &&
-        <JobDetails
-          id={selectedJob.id}
-          title={selectedJob.title}
-          description={selectedJob.description}
-          type={selectedJob.type}
-          employerName={selectedJob.employerName}
-          salary={selectedJob.salary}
-          city={selectedJob.city}
-          country={selectedJob.country}
-          requiredDegree={selectedJob.requiredDegree}
-          applicantsNo={selectedJob.applicantsNo}
-          skills={selectedJob.skills}
-        />
+        <JobDetails {...selectedJob} />
       }
     </div>
   );
