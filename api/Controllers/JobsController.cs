@@ -58,24 +58,25 @@ public class JobsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<JobDto>> CreateJob([FromBody] JobCreateDto dto)
     {
-        _logger.LogWarning("dto.Skills:");
-        foreach (var skill in dto.Skills)
-        {
-            _logger.LogWarning(skill.ToString());
-        }
+        var job = dto.ToJob();
 
-        var skills = await _context.Skills
+        if (dto.Skills is not null)
+        {
+            var skills = await _context.Skills
             .Where(s => dto.Skills.Contains(s.Id))
             .ToHashSetAsync();
 
-        _logger.LogWarning("skills:");
-        foreach (var skill in skills)
-        {
-            _logger.LogWarning("skill " + skill.Id + ": " + skill.Title);
+            job.Skills = skills;
         }
 
-        var job = dto.ToJob();
-        job.Skills = skills;
+        if (dto.Applications is not null)
+        {
+            var applications = await _context.Applications
+            .Where(a => dto.Applications.Contains(a.Id))
+            .ToHashSetAsync();
+
+            job.Applications = applications;
+        }
 
         _context.Add(job);
         await _context.SaveChangesAsync();

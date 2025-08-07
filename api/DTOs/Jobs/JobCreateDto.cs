@@ -12,7 +12,7 @@ namespace GradGo.DTOs
         [Required] int Salary,
         [Required] string City,
         [Required] Degree RequiredDegree,
-        [Required] List<int> Skills,
-        List<Guid> Applications
+        List<int>? Skills,
+        List<Guid>? Applications
     );
 }
