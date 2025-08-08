@@ -28,8 +28,11 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
 
   useEffect(() => {
     setId(country.id);
-    setPhoneCode(country.phoneCode);
+    setCountryCode(country.countryCode);
     setName(country.name);
+    setPhoneCode(country.phoneCode);
+    setCurrencyCode(country.currencyCode);
+    setCurrencySymbol(country.currencySymbol);
   }, [country]);
 
   const handleEdit = async (e: React.FormEvent) => {
@@ -46,7 +49,7 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
     try {
       const res = await fetch(baseUrl + country.id,
         {
-          headers: {"Content-Type": "application/json"},
+          headers: { "Content-Type": "application/json" },
           method: "PUT",
           body: JSON.stringify(countryData)
         }
@@ -54,7 +57,7 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
 
       if (!res.ok) throw new Error("Failed to update the country!");
 
-      onEdit({id, countryCode, name, phoneCode, currencyCode, currencySymbol});
+      onEdit({ id, countryCode, name, phoneCode, currencyCode, currencySymbol });
     } catch (err) {
       if (err instanceof Error) {
         onError(err.message);
@@ -65,54 +68,52 @@ function EditCountry({ country, onEdit, onCancel, onError }: EditCountryProps) {
   }
 
   return (
-    <>
-      <form onSubmit={handleEdit}>
-        <label htmlFor="countryCode">Country Code</label>
-        <input
-          type="text"
-          name="countryCode"
-          id="countryCode"
-          value={countryCode}
-          onChange={(e) => setCountryCode(e.target.value)}
-        />
-        <label htmlFor="name">Country Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label htmlFor="phoneCode">Country Phone Code</label>
-        <input
-          type="text"
-          name="phoneCode"
-          id="phoneCode"
-          value={phoneCode}
-          onChange={(e) => setPhoneCode(e.target.value)}
-        />
-        <label htmlFor="currencyCode">Currency Code</label>
-        <input
-          type="text"
-          name="currencyCode"
-          id="currencyCode"
-          value={currencyCode}
-          onChange={(e) => setCurrencyCode(e.target.value)}
-        />
-        <label htmlFor="currencySymbol">Currency Symbol</label>
-        <input
-          type="text"
-          name="currencySymbol"
-          id="currencySymbol"
-          value={currencySymbol}
-          onChange={(e) => setCurrencySymbol(e.target.value)}
-        />
-        <div>
-          <input className="form__button" type="submit" value="Update" />
-          <button className="form__button" onClick={onCancel}>Cancel</button>
-        </div>
-      </form>
-    </>
+    <form style={{ flex: "1 1 1" }} onSubmit={handleEdit}>
+      <label htmlFor="countryCode">Country Code</label>
+      <input
+        type="text"
+        name="countryCode"
+        id="countryCode"
+        value={countryCode}
+        onChange={(e) => setCountryCode(e.target.value)}
+      />
+      <label htmlFor="name">Country Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label htmlFor="phoneCode">Country Phone Code</label>
+      <input
+        type="text"
+        name="phoneCode"
+        id="phoneCode"
+        value={phoneCode}
+        onChange={(e) => setPhoneCode(e.target.value)}
+      />
+      <label htmlFor="currencyCode">Currency Code</label>
+      <input
+        type="text"
+        name="currencyCode"
+        id="currencyCode"
+        value={currencyCode}
+        onChange={(e) => setCurrencyCode(e.target.value)}
+      />
+      <label htmlFor="currencySymbol">Currency Symbol</label>
+      <input
+        type="text"
+        name="currencySymbol"
+        id="currencySymbol"
+        value={currencySymbol}
+        onChange={(e) => setCurrencySymbol(e.target.value)}
+      />
+      <div className="toolbar">
+        <input className="toolbar__button" type="submit" value="Update" />
+        <button className="toolbar__button" onClick={onCancel}>Cancel</button>
+      </div>
+    </form>
   );
 }
 

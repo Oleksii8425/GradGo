@@ -46,7 +46,7 @@ namespace GradGo.Controllers
         {
             var employer = dto.ToEmployer();
 
-            _context.Add(employer);
+            _context.Employers.Add(employer);
             await _context.SaveChangesAsync();
 
             var savedEmployer = await _context.Employers

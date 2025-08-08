@@ -78,7 +78,7 @@ public class JobsController : ControllerBase
             job.Applications = applications;
         }
 
-        _context.Add(job);
+        _context.Jobs.Add(job);
         await _context.SaveChangesAsync();
 
         var savedjob = await _context.Jobs

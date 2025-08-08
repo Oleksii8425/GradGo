@@ -44,7 +44,9 @@ function CreateCountry({ onCreate, onCancel, onError }: CreateCountryProps) {
 
       if (!res.ok) throw new Error("Failed to create country");
 
+      console.log(res);
       const newCountry = await res.json();
+      console.log(newCountry);
       onCreate(newCountry);
     } catch (err) {
       if (err instanceof Error) {
@@ -98,9 +100,9 @@ function CreateCountry({ onCreate, onCancel, onError }: CreateCountryProps) {
           value={currencySymbol}
           onChange={(e) => setCurrencySymbol(e.target.value)}
         />
-        <div>
-          <input className="form__button" type="submit" value="Create" />
-          <button className="form__button" type="button" onClick={onCancel}>Cancel</button>
+        <div className="toolbar">
+          <input className="toolbar__button" type="submit" value="Create" />
+          <button className="toolbar__button" type="button" onClick={onCancel}>Cancel</button>
         </div>
       </form>
     </>

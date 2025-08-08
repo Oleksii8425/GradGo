@@ -119,8 +119,11 @@ function CountryManager() {
                 if (c.id === selectedCountryId) {
                   return {
                     ...c,
+                    countryCode: country.countryCode,
+                    name: country.name,
                     phoneCode: country.phoneCode,
-                    name: country.name
+                    currencyCode: country.currencyCode,
+                    currencySymbol: country.currencySymbol
                   };
                 } else {
                   return c;
