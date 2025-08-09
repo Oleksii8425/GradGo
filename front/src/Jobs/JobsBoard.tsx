@@ -31,14 +31,15 @@ interface Skill {
   title: string
 }
 
+const baseUrl = 'https://localhost:7086/jobs';
+
 function JobsBoard() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelecetedJob] = useState<Job | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
 
   useEffect(() => {
-    const url = "https://localhost:7086/jobs";
-
-    fetch(url)
+    fetch(baseUrl)
       .then(res => {
         if (!res.ok) console.error("Error occurred");
         return res.json();
@@ -48,15 +49,36 @@ function JobsBoard() {
         setJobs(data);
       })
       .catch((e: Error) => {
-        console.error(e.message)
+        alert(e.message)
       });
   }, []);
 
+  const onSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const q = searchKeyword.trim();
+    const url = q ? `${baseUrl}?keyword=${encodeURIComponent(q)}` : baseUrl;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      alert("Failed to fetch jobs using filter=\"" + searchKeyword + "\"");
+      return;
+    }
+
+    setJobs(await res.json());
+    setSelecetedJob(jobs.length > 0 ? jobs[0] : null);
+  };
+
   return (
     <div className="main-container">
-      <form className="search-bar">
-        <input type="text" placeholder="Search..." />
-        <button >Search</button>
+      <form className="search-bar" onSubmit={onSearch}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+        />
+        <input type="submit" value="Search" />
       </form>
       <div className="job-container">
         <div className="job-list">
@@ -72,7 +94,8 @@ function JobsBoard() {
             />
           ))}
         </div>
-        {selectedJob &&
+        {
+          selectedJob &&
           <JobDetails {...selectedJob} />
         }
       </div>

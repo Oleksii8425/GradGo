@@ -11,7 +11,7 @@
   --yellow: #fce702;
   --purple: #8154f0;
   --muddy: #bb8652;
- 
+
   --border-radius-small: 10px;
   --border-radius-regular: 10px;
   --border-radius-large: 25px;
@@ -53,7 +53,6 @@ header {
   top: 0;
   left: 0;
   z-index: 1000;
-  padding: 10px;
   min-width: 100dvw;
   height: var(--header-height);
   background-color: white;
@@ -65,14 +64,6 @@ h1 {
   margin-bottom: var(--margin-regular);
   color: #333;
 }
-
-/*form {
-  display: flex;
-  flex-direction: column;
-  max-width: 700px;
-  gap: 10px;
-  margin-top: var(--header-height);
-}*/
 
 label {
   margin-top: var(--margin-regular);
@@ -134,20 +125,21 @@ tbody tr:hover {
 
 .toolbar {
   display: flex;
-  gap: 10px;
 }
 
 .toolbar__button {
   padding: 10px 20px;
-  border-radius: var(--border-radius-large);
   border: none;
   background: none;
   font-weight: bold;
-  transition: 0.2s;
 }
 
 .toolbar__button:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 3px solid var(--turquoise);
+}
+
+.toolbar__button:active {
+  border-bottom: 3px solid var(--turquoise);
 }
 
 .toolbar__button--green {

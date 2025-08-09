@@ -20,20 +20,21 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<JobDto>>> GetAll()
+    public async Task<ActionResult<List<JobDto>>> GetAll([FromQuery] string? keyword)
     {
-        var jobs = await _context.Jobs
+        var query = _context.Jobs
             .AsNoTracking()
             .Include(j => j.Employer)
             .Include(j => j.Country)
             .Include(j => j.Skills)
             .Include(j => j.Applications)
-            .AsSplitQuery()
-            .ToListAsync();
+            .AsSplitQuery();
 
-        var response = jobs.Select(j => j.ToDto()).ToList();
+        if (!string.IsNullOrWhiteSpace(keyword))
+            query = query.Where(j => EF.Functions.Like(j.Title, $"%{keyword}%"));
 
-        return Ok(response);
+        var jobs = await query.Select(j => j.ToDto()).ToListAsync();
+        return Ok(jobs);
     }
 
     [HttpGet("{id}")]
