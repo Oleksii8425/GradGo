@@ -64,10 +64,9 @@ function CountryManager() {
   return (
     <>
       <header>
-        <h1>Countries</h1>
         <div className="toolbar">
           <button
-            className="toolbar__button toolbar__button--add"
+            className="toolbar__button toolbar__button--green"
             onClick={() => {
               setCreatingCountry(!creatingCountry);
               setEditingCountry(false);
@@ -75,7 +74,7 @@ function CountryManager() {
             Add
           </button>
           <button
-            className="toolbar__button toolbar__button--edit"
+            className="toolbar__button toolbar__button--yellow"
             onClick={() => {
               setEditingCountry(!editingCountry);
               setCreatingCountry(false);
@@ -83,7 +82,7 @@ function CountryManager() {
             Edit
           </button>
           <button
-            className="toolbar__button toolbar__button--delete"
+            className="toolbar__button toolbar__button--red"
             onClick={handleDelete}>
             Delete
           </button>
