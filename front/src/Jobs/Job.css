@@ -1,0 +1,26 @@
+.job {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-small);
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s, transform 0.2s;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.job:hover {
+  transform: translate(-20px);
+  box-shadow: 3px 3px 5px var(--turquoise);
+}
+
+.job:active {
+  background-color: #eaeaea;
+}
+
+.job-title {
+  font-size: 18pt;
+  font-family: Archivo, sans-serif;
+  font-weight: bold;
+  margin-bottom: 5px;
+}

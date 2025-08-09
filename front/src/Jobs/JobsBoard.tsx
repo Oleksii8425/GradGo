@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Job from "./Job";
 import JobDetails from "./JobDetails";
+import './JobsBoard.css';
 
 interface Job {
   id: string,
@@ -43,6 +44,7 @@ function JobsBoard() {
         return res.json();
       })
       .then((data: Job[]) => {
+        setSelecetedJob(data[0]);
         setJobs(data);
       })
       .catch((e: Error) => {
@@ -51,23 +53,29 @@ function JobsBoard() {
   }, []);
 
   return (
-    <div className="jobs-board">
-      <div className="card-container">
-        {jobs.map(j => (
-          <Job
-            key={j.id}
-            title={j.title}
-            employer={j.employerName}
-            type={j.type}
-            city={j.city}
-            country={j.country}
-            onClick={() => setSelecetedJob(j)}
-          />
-        ))}
+    <div className="main-container">
+      <form className="search-bar">
+        <input type="text" placeholder="Search..." />
+        <button >Search</button>
+      </form>
+      <div className="job-container">
+        <div className="job-list">
+          {jobs.map(j => (
+            <Job
+              key={j.id}
+              title={j.title}
+              employer={j.employerName}
+              type={j.type}
+              city={j.city}
+              country={j.country}
+              onClick={() => setSelecetedJob(j)}
+            />
+          ))}
+        </div>
+        {selectedJob &&
+          <JobDetails {...selectedJob} />
+        }
       </div>
-      {selectedJob &&
-        <JobDetails {...selectedJob} />
-      }
     </div>
   );
 }

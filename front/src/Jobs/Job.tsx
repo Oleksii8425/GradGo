@@ -1,3 +1,5 @@
+import './Job.css';
+
 interface JobProps {
   title: string;
   employer: string;
@@ -25,8 +27,8 @@ function Job({
   onClick
 }: JobProps) {
   return (
-    <div className="card" onClick={onClick}>
-      <h1 className="card__title">{title}</h1>
+    <div className="job" onClick={onClick}>
+      <h1 className="job-title">{title}</h1>
       <p>{employer}</p>
       <p>{type} - {city}, {country.name}</p>
     </div>
