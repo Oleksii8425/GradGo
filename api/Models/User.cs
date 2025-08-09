@@ -8,5 +8,6 @@ namespace GradGo.Models
         public string? PhoneNumber { get; set; }
         public required string City { get; set; }
         public Country Country { get; set; } = null!;
+        public string? Bio { get; set; }
     }
 }
