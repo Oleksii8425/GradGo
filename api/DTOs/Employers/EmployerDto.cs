@@ -2,10 +2,13 @@ namespace GradGo.DTOs
 {
     public record EmployerDto(
         Guid Id,
-        string Name,
+        string PhoneNumber,
+        string Email,
         string City,
-        string CountryName,
+        CountryDto Country,
+        string Bio,
+        string Name,
         string StaffCount,
         List<JobDto> jobs
-    );
+    ) : UserDto(Id, PhoneNumber, Email, City, Country, Bio);
 }

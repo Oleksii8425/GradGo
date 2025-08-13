@@ -7,12 +7,14 @@ namespace GradGo.Mappers
     {
         public static EmployerDto ToDto(this Employer employer)
         {
-            return new EmployerDto
-            (
+            return new EmployerDto(
                 employer.Id,
-                employer.Name,
+                employer.PhoneNumber ?? string.Empty,
+                employer.Email,
                 employer.City,
-                employer.Country.Name,
+                employer.Country.ToDto(),
+                employer.Bio,
+                employer.Name,
                 employer.StaffCount.GetDescription(),
                 employer.Jobs.Select(j => j.ToDto()).ToList()
             );
@@ -22,10 +24,12 @@ namespace GradGo.Mappers
         {
             return new Employer
             {
-                CountryId = dto.CountryId,
-                Name = dto.Name,
+                PhoneNumber = dto.PhoneNumber,
                 Email = dto.Email,
                 City = dto.City,
+                CountryId = dto.CountryId,
+                Bio = dto.Bio,
+                Name = dto.Name,
                 StaffCount = dto.StaffCount,
                 Jobs = new List<Job>()
             };
