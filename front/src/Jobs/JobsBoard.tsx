@@ -1,35 +1,9 @@
 import { useEffect, useState } from "react";
-import Job from "./Job";
+import JobComponent from "./Job";
 import JobDetails from "./JobDetails";
 import './JobsBoard.css';
 
-interface Job {
-  id: string,
-  title: string,
-  description: string,
-  type: string,
-  employerName: string,
-  salary: number,
-  city: string,
-  country: Country,
-  requiredDegree: string,
-  applicantsNo: number,
-  skills: Skill[]
-}
-
-interface Country {
-  id: number,
-  countryCode: string,
-  name: string,
-  phoneCode: string,
-  currencyCode: string,
-  currencySymbol: string
-}
-
-interface Skill {
-  id: number,
-  title: string
-}
+import type { Job } from "./../types";
 
 const baseUrl = 'https://localhost:7086/jobs';
 
@@ -83,7 +57,7 @@ function JobsBoard() {
       <div className="job-container">
         <div className="job-list">
           {jobs.map(j => (
-            <Job
+            <JobComponent
               key={j.id}
               title={j.title}
               employer={j.employerName}

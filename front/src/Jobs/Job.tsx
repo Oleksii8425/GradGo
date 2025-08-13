@@ -1,5 +1,7 @@
 import './Job.css';
 
+import type { Country } from "./../types";
+
 interface JobProps {
   title: string;
   employer: string;
@@ -7,15 +9,6 @@ interface JobProps {
   city: string;
   country: Country;
   onClick?: () => void;
-}
-
-interface Country {
-  id: number,
-  countryCode: string,
-  name: string,
-  phoneCode: string,
-  currencyCode: string,
-  currencySymbol: string
 }
 
 function Job({
