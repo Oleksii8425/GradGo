@@ -9,6 +9,7 @@ namespace GradGo.Mappers
         {
             return new EmployerDto(
                 employer.Id,
+                employer.Role.GetDescription(),
                 employer.PhoneNumber ?? string.Empty,
                 employer.Email,
                 employer.City,
@@ -24,12 +25,13 @@ namespace GradGo.Mappers
         {
             return new Employer
             {
+                Name = dto.Name,
+                Role = dto.Role,
                 PhoneNumber = dto.PhoneNumber,
                 Email = dto.Email,
                 City = dto.City,
                 CountryId = dto.CountryId,
                 Bio = dto.Bio,
-                Name = dto.Name,
                 StaffCount = dto.StaffCount,
                 Jobs = new List<Job>()
             };
@@ -39,6 +41,7 @@ namespace GradGo.Mappers
         {
             if (dto.CountryId.HasValue) employer.CountryId = dto.CountryId.Value;
             if (dto.Name is not null) employer.Name = dto.Name;
+            if (dto.Role.HasValue) employer.Role = dto.Role.Value;
             if (dto.City is not null) employer.City = dto.City;
             if (dto.StaffCount.HasValue) employer.StaffCount = dto.StaffCount.Value;
             if (jobs is not null) employer.Jobs = jobs;

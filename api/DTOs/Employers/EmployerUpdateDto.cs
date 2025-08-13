@@ -4,6 +4,7 @@ namespace GradGo.DTOs
 {
     public record EmployerUpdateDto(
         string? Name,
+        UserRole? Role,
         string? Email,
         string? City,
         int? CountryId,

@@ -11,6 +11,7 @@ namespace GradGo.Mappers
             {
                 Id = user.Id,
                 CountryId = user.CountryId,
+                Role = user.Role,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 City = user.City,
@@ -31,6 +32,7 @@ namespace GradGo.Mappers
             {
                 Id = user.Id,
                 CountryId = user.CountryId,
+                Role = user.Role,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 City = user.City,

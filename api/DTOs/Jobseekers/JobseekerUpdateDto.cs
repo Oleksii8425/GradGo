@@ -1,10 +1,14 @@
+using GradGo.Models;
+
 namespace GradGo.DTOs
 {
     public record JobseekerUpdateDto
     (
-        string? Firstname,
-        string? Lastname,
+        string? FirstName,
+        string? LastName,
         int? Age,
+        UserRole? Role,
+        string? PhoneNumber,
         string? Email,
         string? City,
         int? CountryId,

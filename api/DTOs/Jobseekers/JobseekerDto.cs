@@ -2,6 +2,7 @@ namespace GradGo.DTOs
 {
     public record JobseekerDto(
         Guid Id,
+        string Role,
         string PhoneNumber,
         string Email,
         string City,

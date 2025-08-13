@@ -13,9 +13,13 @@ namespace GradGo.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasDiscriminator<string>("Role")
-                .HasValue<Employer>("Employer")
-                .HasValue<Jobseeker>("Jobseeker");
+                .Property(u => u.Role)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<User>()
+                .HasDiscriminator<UserRole>("Role")
+                .HasValue<Employer>(UserRole.Employer)
+                .HasValue<Jobseeker>(UserRole.Jobseeker);
 
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
@@ -24,6 +28,10 @@ namespace GradGo.Data
             modelBuilder.Entity<Employer>()
                 .HasIndex(e => e.StaffCount)
                 .IsUnique();
+
+            modelBuilder.Entity<Employer>()
+                .Property(e => e.StaffCount)
+                .HasConversion<string>();
 
             modelBuilder.Entity<Job>()
                 .Property(j => j.RequiredDegree)
