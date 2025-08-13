@@ -11,7 +11,7 @@ namespace GradGo.Mappers
                 university.Id,
                 university.Name,
                 university.City,
-                university.Country.Name
+                university.Country.ToDto()
             );
         }
 
