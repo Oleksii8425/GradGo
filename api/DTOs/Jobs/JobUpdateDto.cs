@@ -3,7 +3,8 @@ using GradGo.Models;
 
 namespace GradGo.DTOs
 {
-    public record JobUpdateDto(
+    public record JobUpdateDto
+    (
         Guid? EmployerId,
         int? CountryId,
         string? Title,

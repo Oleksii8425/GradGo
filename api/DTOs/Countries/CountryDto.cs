@@ -1,6 +1,7 @@
 namespace GradGo.DTOs
 {
-    public record CountryDto(
+    public record CountryDto
+    (
         int Id,
         string CountryCode,
         string Name,

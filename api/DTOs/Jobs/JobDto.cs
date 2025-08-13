@@ -1,6 +1,7 @@
 namespace GradGo.DTOs
 {
-    public record JobDto(
+    public record JobDto
+    (
         Guid Id,
         string Title,
         string Description,
