@@ -35,7 +35,12 @@ body,
 #root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
+}
+
+#root {
+    margin-top: var(--header-height);
+    padding: var(--pading-regular);
 }
 
 body {
@@ -80,7 +85,6 @@ input[type="text"] {
   display: block;
   overflow-x: auto;
   overflow-y: auto;
-  margin: calc(var(--header-height) + 10px) 0 var(--margin-regular);
   border: 2px solid black;
   max-width: 100%;
 }
