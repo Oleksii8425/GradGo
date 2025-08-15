@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GradGo.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace GradGo.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
@@ -17,9 +19,22 @@ namespace GradGo.Data
                 .HasConversion<string>();
 
             modelBuilder.Entity<User>()
-                .HasDiscriminator<UserRole>("Role")
+                .HasDiscriminator(u => u.Role)
+                .HasValue<User>(UserRole.BaseUser)
                 .HasValue<Employer>(UserRole.Employer)
                 .HasValue<Jobseeker>(UserRole.Jobseeker);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.CountryId)
+                .HasDefaultValue(198);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.City)
+                .HasDefaultValue("N/A");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Bio)
+                .HasDefaultValue("");
 
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
@@ -52,7 +67,6 @@ namespace GradGo.Data
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<University> Universities { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<Jobseeker> Jobseekers { get; set; }
     }

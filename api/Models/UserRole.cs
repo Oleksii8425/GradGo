@@ -9,6 +9,8 @@ namespace GradGo.Models
         [Description("Employer")]
         Employer,
         [Description("Jobseeker")]
-        Jobseeker
+        Jobseeker,
+        [Description("Base User")]
+        BaseUser
     }
 }

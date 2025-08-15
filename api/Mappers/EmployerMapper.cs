@@ -11,7 +11,7 @@ namespace GradGo.Mappers
                 employer.Id,
                 employer.Role.GetDescription(),
                 employer.PhoneNumber ?? string.Empty,
-                employer.Email,
+                employer.Email ?? string.Empty,
                 employer.City,
                 employer.Country.ToDto(),
                 employer.Bio,
