@@ -34,15 +34,11 @@ namespace GradGo.Data
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Bio)
-                .HasDefaultValue("");
+                .HasDefaultValue("N/A");
 
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
                 .HasConversion<string>();
-
-            modelBuilder.Entity<Employer>()
-                .HasIndex(e => e.StaffCount)
-                .IsUnique();
 
             modelBuilder.Entity<Employer>()
                 .Property(e => e.StaffCount)
