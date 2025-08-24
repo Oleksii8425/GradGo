@@ -5,6 +5,7 @@ namespace GradGo.DTOs
         string Role,
         string PhoneNumber,
         string Email,
+        string UserName,
         string City,
         CountryDto Country,
         string Bio,

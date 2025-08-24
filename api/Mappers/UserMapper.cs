@@ -1,9 +1,22 @@
+using GradGo.DTOs;
 using GradGo.Models;
 
 namespace GradGo.Mappers
 {
     public static class UserMapper
     {
+        public static UserDto ToDto(this User user)
+        {
+            return new UserDto
+            (
+                user.Id,
+                user.PhoneNumber ?? string.Empty,
+                user.Email ?? string.Empty,
+                user.City,
+                user.Country.ToDto(),
+                user.Bio
+            );
+        }
 
         public static Jobseeker ToJobseeker(this User user, Jobseeker jobseeker)
         {

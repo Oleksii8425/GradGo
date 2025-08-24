@@ -8,6 +8,7 @@ namespace GradGo.DTOs
         [Required] UserRole Role,
         string PhoneNumber,
         [Required] string Email,
+        [Required] string Password,
         [Required] string City,
         [Required] int CountryId,
         [Required] string Bio,

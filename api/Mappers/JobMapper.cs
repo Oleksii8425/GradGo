@@ -12,7 +12,7 @@ namespace GradGo.Mappers
                 job.Title,
                 job.Description,
                 job.Type.GetDescription(),
-                job.Employer.Name,
+                job.Employer.ToDto(),
                 job.Salary,
                 job.City,
                 job.Country.ToDto(),

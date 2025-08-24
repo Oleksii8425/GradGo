@@ -6,7 +6,7 @@ namespace GradGo.DTOs
         string Title,
         string Description,
         string Type,
-        string EmployerName,
+        EmployerDto Employer,
         int Salary,
         string City,
         CountryDto Country,

@@ -4,7 +4,7 @@ namespace GradGo.DTOs
 {
     [JsonDerivedType(typeof(JobseekerDto), typeDiscriminator: "jobseeker")]
     [JsonDerivedType(typeof(EmployerDto), typeDiscriminator: "employer")]
-    public abstract record UserDto
+    public record UserDto
     (
         Guid Id,
         string PhoneNumber,
