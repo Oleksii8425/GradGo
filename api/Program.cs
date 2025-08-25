@@ -74,7 +74,7 @@ builder.Services.AddCors(opt =>
     });
 });
 
-builder.Services.AddSingleton<IEmailSender, PapercutEmailSender>();
+builder.Services.AddSingleton<IEmailSender, MailjetEmailSender>();
 
 var app = builder.Build();
 
@@ -84,8 +84,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors("AllowReactFrontend");
 
