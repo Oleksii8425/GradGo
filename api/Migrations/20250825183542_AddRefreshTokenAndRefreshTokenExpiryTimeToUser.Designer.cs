@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GradGo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250824163339_RemoveUniqueIndexOnStaffCount")]
-    partial class RemoveUniqueIndexOnStaffCount
+    [Migration("20250825183542_AddRefreshTokenAndRefreshTokenExpiryTimeToUser")]
+    partial class AddRefreshTokenAndRefreshTokenExpiryTimeToUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -284,6 +284,13 @@ namespace GradGo.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Role")
                         .IsRequired()
