@@ -90,6 +90,33 @@ namespace GradGo.Controllers
             return Ok(new { Message = "User registered successfully. Please check your email to confirm your account." });
         }
 
+        [HttpPost("/login")]
+        public async Task<IActionResult> Login(UserLoginDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null)
+                return Unauthorized("Invalid email or password");
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+            if (!isPasswordValid)
+                return Unauthorized("Invalid email or password");
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+                return BadRequest("Email not confirmed. Please check your inbox.");
+
+            UserDto res;
+            if (user.Role == UserRole.BaseUser)
+                res = user.ToDto();
+            else if (user.Role == UserRole.Jobseeker)
+                res = ((Jobseeker)user).ToDto();
+            else if (user.Role == UserRole.Employer)
+                res = ((Employer)user).ToDto();
+            else
+                return BadRequest("Unknown user type");
+
+            return Ok(res);
+        }
+
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(Guid userId, string token)
         {
