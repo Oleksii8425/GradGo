@@ -8,8 +8,8 @@ public class MailjetEmailSender : IEmailSender
 
     public MailjetEmailSender(IConfiguration config)
     {
-        _apiKey = config["MailjetApiKey"];
-        _secretKey = config["MailjetSecretKey"];
+        _apiKey = config["MailjetApiKey"]!;
+        _secretKey = config["MailjetSecretKey"]!;
     }
 
     public async Task SendEmailAsync(string email, string subject, string htmlMessage)
@@ -17,7 +17,7 @@ public class MailjetEmailSender : IEmailSender
         var client = new MailjetClient(_apiKey, _secretKey);
 
         var message = new TransactionalEmailBuilder()
-            .WithFrom(new SendContact("oleksiy678@gmail.com")) // must match Mailjet verified sender
+            .WithFrom(new SendContact("oleksiy678@gmail.com"))
             .WithSubject(subject)
             .WithHtmlPart(htmlMessage)
             .WithTo(new SendContact(email))
