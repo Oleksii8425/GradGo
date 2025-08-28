@@ -1,21 +1,19 @@
+import { useAuth } from "~/components/AuthContext";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useAuth } from "~/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  const { user, token, isAuthLoading } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       navigate("/login");
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
-  if (isAuthLoading)
-    return <p>Loading...</p>
-  else
-    return <p>Welcome {user!.userName}</p>
+  if (loading) return <p>Loading...</p>;
+  return <p>Welcome {user?.userName}</p>;
 }
 
 export default Profile;

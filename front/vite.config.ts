@@ -9,4 +9,13 @@ export default defineConfig({
     reactRouter(),
     tsconfigPaths()
   ],
+  server: {
+    proxy: {
+      "/users": {
+        target: "http://localhost:5272",
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 });
