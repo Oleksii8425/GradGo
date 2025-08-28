@@ -25,7 +25,7 @@ namespace GradGo.Controllers
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.None, // dev only
             Expires = DateTime.UtcNow.AddDays(7)
         };
 
@@ -111,6 +111,7 @@ namespace GradGo.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto dto)
         {
+            PrintLog("Login");
             var user = await _context.Users
                 .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
@@ -127,6 +128,7 @@ namespace GradGo.Controllers
 
             var accessToken = GenerateJwtToken(user);
             var refreshToken = Guid.NewGuid().ToString();
+            PrintLog("REFRESH TOKEN ON LOGIN: " + refreshToken);
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
@@ -149,26 +151,50 @@ namespace GradGo.Controllers
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
+            PrintLog("REFRESH TOKEN: " + refreshToken);
 
-            if (refreshToken == null)
+            if (string.IsNullOrEmpty(refreshToken))
                 return Unauthorized(new { message = "No refresh token provided" });
 
             var user = await _userManager.Users
+                .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            PrintLog("USER: " + user?.UserName);
 
             if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
                 return Unauthorized(new { message = "Invalid or expired refresh token" });
 
             var newAccessToken = GenerateJwtToken(user);
-            var newRefreshToken = Guid.NewGuid().ToString();
+            PrintLog("NEW ACCESS TOKEN: " + newAccessToken);
+            var userDto = user.Role switch
+            {
+                UserRole.BaseUser => user.ToDto(),
+                UserRole.Employer => ((Employer)user).ToDto(),
+                UserRole.Jobseeker => ((Jobseeker)user).ToDto(),
+                _ => throw new Exception("Unknown user type")
+            };
 
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-            await _userManager.UpdateAsync(user);
+            return Ok(new { token = newAccessToken, user = userDto });
+        }
 
-            Response.Cookies.Append("refreshToken", newRefreshToken, REFRESH_TOKEN_OPTIONS);
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+                if (user != null)
+                {
+                    user.RefreshToken = "";
+                    user.RefreshTokenExpiryTime = DateTime.MinValue;
+                    await _context.SaveChangesAsync();
+                }
+            }
 
-            return Ok(new { Token = newAccessToken });
+            Response.Cookies.Delete("refreshToken");
+            return Ok(new { message = "Logged out" });
         }
 
 
@@ -222,11 +248,18 @@ namespace GradGo.Controllers
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddSeconds(20),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private void PrintLog(string msg)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(msg);
+            Console.ResetColor();
         }
     }
 }
