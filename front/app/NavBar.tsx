@@ -8,7 +8,7 @@ interface NavLinkProps {
 
 function MyNavLink({ to, children }: NavLinkProps) {
   return (
-    <NavLink to={to} className="m-4 p-4 rounded-2xl bg-amber-200 text-amber-950 hover:bg-amber-400">
+    <NavLink to={to} className="p-2 rounded-2xl bg-amber-200 text-amber-950 hover:bg-amber-400">
       {children}
     </NavLink>
   );
@@ -16,7 +16,7 @@ function MyNavLink({ to, children }: NavLinkProps) {
 
 function NavBar() {
   return (
-    <div className="flex justify-center-safe">
+    <div className="w-full flex items-start gap-2 border-b p-2">
       <MyNavLink to="/jobs">Jobs</MyNavLink>
       <MyNavLink to="/profile">Profile</MyNavLink>
     </div>
