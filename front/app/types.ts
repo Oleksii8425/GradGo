@@ -6,6 +6,17 @@ export type Application = {
   status: string
 };
 
+export type BaseUser = {
+  id: string,
+  role: "Jobseeker" | "Employer",
+  userName: string,
+  phoneNumber: string,
+  email: string,
+  country: Country,
+  city: string,
+  bio: string,
+};
+
 export type Country = {
   id: number,
   countryCode: string,
@@ -25,7 +36,8 @@ export type Course = {
   jobseekers: Jobseeker[]
 };
 
-export type Employer = User & {
+export type Employer = BaseUser & {
+  role: "Employer",
   name: string
   staffCount: StaffCount,
   jobs: Job[]
@@ -45,9 +57,10 @@ export type Job = {
   skills: Skill[]
 };
 
-export type Jobseeker = User & {
+export type Jobseeker = BaseUser & {
+  role: "Jobseeker",
   firstName: string,
-  lastname: string,
+  lastName: string,
   age: number,
   skills: Skill[],
   courses: Course[],
@@ -73,13 +86,4 @@ export type University = {
   country: Country
 };
 
-export type User = {
-  id: string,
-  role: string,
-  userName: string,
-  phoneNumber: string,
-  email: string,
-  country: Country,
-  city: string,
-  bio: string,
-};
+export type User = Jobseeker | Employer;
