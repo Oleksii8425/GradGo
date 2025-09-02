@@ -7,7 +7,6 @@ export default [
   layout("routes/layout.tsx", [
     route("profile", "routes/profile.tsx"),
     route("jobs", "routes/jobs.tsx"),
-    route("users", "routes/users.tsx")
   ]),
   
   layout("routes/auth/layout.tsx", [
