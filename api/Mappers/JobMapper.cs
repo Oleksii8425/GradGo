@@ -9,13 +9,16 @@ namespace GradGo.Mappers
         {
             return new JobDto(
                 job.Id,
+                job.Employer.Id,
+                job.CountryId,
                 job.Title,
                 job.Description,
+                job.Employer.Name,
                 job.Type.GetDescription(),
-                job.Employer.ToDto(),
                 job.Salary,
+                job.Country.CurrencySymbol,
                 job.City,
-                job.Country.ToDto(),
+                job.Country.Name,
                 job.RequiredDegree.GetDescription(),
                 job.Applications.Count,
                 job.Skills.Select(s => s.ToDto()).ToList()

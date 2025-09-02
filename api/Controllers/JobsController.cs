@@ -20,7 +20,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<JobDto>>> GetAll([FromQuery] string? keyword)
+    public async Task<ActionResult<List<JobDto>>> GetAll([FromQuery] Guid? employerId)
     {
         var query = _context.Jobs
             .AsNoTracking()
@@ -28,12 +28,18 @@ public class JobsController : ControllerBase
             .Include(j => j.Country)
             .Include(j => j.Skills)
             .Include(j => j.Applications)
-            .AsSplitQuery();
+            .AsSplitQuery()
+            .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(keyword))
-            query = query.Where(j => EF.Functions.Like(j.Title, $"%{keyword}%"));
+        if (employerId != null)
+        {
+            query = query.Where(j => j.EmployerId == employerId);
+        }
 
-        var jobs = await query.Select(j => j.ToDto()).ToListAsync();
+        var jobs = await query
+            .Select(j => j.ToDto())
+            .ToListAsync();
+
         return Ok(jobs);
     }
 
@@ -64,8 +70,8 @@ public class JobsController : ControllerBase
         if (dto.Skills is not null)
         {
             var skills = await _context.Skills
-            .Where(s => dto.Skills.Contains(s.Id))
-            .ToHashSetAsync();
+                .Where(s => dto.Skills.Contains(s.Id))
+                .ToHashSetAsync();
 
             job.Skills = skills;
         }
@@ -73,8 +79,8 @@ public class JobsController : ControllerBase
         if (dto.Applications is not null)
         {
             var applications = await _context.Applications
-            .Where(a => dto.Applications.Contains(a.Id))
-            .ToHashSetAsync();
+                .Where(a => dto.Applications.Contains(a.Id))
+                .ToHashSetAsync();
 
             job.Applications = applications;
         }
@@ -84,14 +90,15 @@ public class JobsController : ControllerBase
 
         var savedjob = await _context.Jobs
             .AsNoTracking()
-            .Where(j => j.Id == job.Id)
             .Include(j => j.Employer)
-            .Include(j => j.Skills)
+                .ThenInclude(e => e.Country)
             .Include(j => j.Country)
+            .Include(j => j.Skills)
             .Include(j => j.Applications)
-            .SingleAsync();
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(j => j.Id == job.Id);
 
-        return CreatedAtAction(nameof(GetJobById), new { id = job.Id }, savedjob.ToDto());
+        return CreatedAtAction(nameof(GetJobById), new { id = job.Id }, savedjob!.ToDto());
     }
 
     [HttpPut("{id}")]
@@ -107,8 +114,8 @@ public class JobsController : ControllerBase
         if (dto.Skills != null)
         {
             var skills = await _context.Skills
-                        .Where(s => dto.Skills.Contains(s.Id))
-                        .ToListAsync();
+                .Where(s => dto.Skills.Contains(s.Id))
+                .ToListAsync();
 
             job.Skills = skills;
         }

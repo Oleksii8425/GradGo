@@ -3,13 +3,16 @@ namespace GradGo.DTOs
     public record JobDto
     (
         Guid Id,
+        Guid EmployerId,
+        int CountryId,
         string Title,
         string Description,
+        string EmplyerName,
         string Type,
-        EmployerDto Employer,
         int Salary,
+        string currencySymbol,
         string City,
-        CountryDto Country,
+        string CountryName,
         string RequiredDegree,
         int ApplicantsNo,
         List<SkillDto> Skills
