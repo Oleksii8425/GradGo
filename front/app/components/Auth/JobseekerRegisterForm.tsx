@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Country, Course, Skill } from "~/types";
-import SkillSelector from "./SkillSelector";
+import SkillSelector from "./JobCreate/SkillSelector";
 import submitForm from "./submitForm";
 import { useNavigate } from "react-router";
 
