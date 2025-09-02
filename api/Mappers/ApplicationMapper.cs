@@ -9,8 +9,8 @@ namespace GradGo.Mappers
         {
             return new ApplicationDto(
                 application.Id,
-                application.Job.ToDto(),
-                application.Jobseeker.ToDto(),
+                application.Job.Id,
+                application.Jobseeker.Id,
                 application.AppliedOn,
                 application.Status
             );

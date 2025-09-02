@@ -3,8 +3,8 @@ namespace GradGo.DTOs
     public record ApplicationDto
     (
         Guid Id,
-        JobDto Job,
-        JobseekerDto Jobseeker,
+        Guid JobId,
+        Guid JobseekerId,
         DateTime AppliedOn,
         string Status
     );
