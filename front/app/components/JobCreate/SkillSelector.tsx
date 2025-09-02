@@ -45,7 +45,7 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
         }}
       >
         <option value="" disabled>
-          -- Select a skill --
+          -- Add required skills --
         </option>
         {skills.map((skill: Skill) => (
           <option key={skill.id} value={skill.id}>
@@ -57,14 +57,14 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
       {selectedSkills.length > 0 && (
         <div className="flex flex-wrap w-full gap-2 mt-2">
           {skills
-            .filter((s) => selectedSkills.includes(s.id))
-            .map((s) => (
+            .filter((skill) => selectedSkills.includes(skill.id))
+            .map((skill) => (
               <div
-                key={s.id}
+                key={skill.id}
                 className="flex items-center space-x-2 px-2 py-1 w-max rounded-full bg-slate-700 text-green-600"
               >
                 <span className="select-none cursor-default text-gray-300">
-                  {s.title}
+                  {skill.title}
                 </span>
                 <svg
                   focusable="false"
@@ -72,7 +72,7 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   onClick={() =>
-                    setSelectedSkills(selectedSkills.filter((ss) => ss !== s.id))
+                    setSelectedSkills(selectedSkills.filter((s) => s !== skill.id))
                   }
                   className="w-5 h-5 rounded-full hover:fill-gray-300 cursor-pointer"
                 >
