@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import EmployerRegisterForm from "~/components/EmployerRegisterForm";
-import JobseekerRegisterForm from "~/components/JobseekerRegisterForm";
+import EmployerRegisterForm from "~/components/Auth/EmployerRegisterForm";
+import JobseekerRegisterForm from "~/components/Auth/JobseekerRegisterForm";
 import type { Country, Course } from "~/types";
 
 function Register() {
@@ -51,20 +51,20 @@ function Register() {
           <button
             onClick={() => setRole("jobseeker")}
             className={`min-h-full w-full p-4 rounded-tl-xl text-gray-300 border-b-2
-        ${role === "jobseeker"
-                ? "bg-slate-900 border-b-2 border-green-700"
+              ${role === "jobseeker"
+                ? "bg-slate-900 border-green-700"
                 : "bg-slate-900 border-slate-900"}
-      `}
+              `}
           >
             Jobseeker
           </button>
           <button
             onClick={() => setRole("employer")}
             className={`min-h-full w-full p-4 rounded-tr-xl text-gray-300 border-b-2
-        ${role === "employer"
+              ${role === "employer"
                 ? "bg-slate-900 border-b-2 border-green-700"
                 : "bg-slate-900 border-slate-900"}
-      `}
+              `}
           >
             Employer
           </button>

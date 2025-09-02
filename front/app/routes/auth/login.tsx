@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "~/components/AuthContext";
+import { useAuth } from "~/components/Auth/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Login() {
     setErrors([]);
 
     try {
-      const res = await fetch("/users/login", {
+      const res = await fetch("http://localhost:5272/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

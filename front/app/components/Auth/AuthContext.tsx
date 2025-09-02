@@ -5,7 +5,7 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-import type { User } from "../types";
+import type { User } from "~/types";
 
 interface AuthContextType {
   user: User | null;
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshAccessToken = async (): Promise<boolean> => {
     try {
-      const res = await fetch("/users/refresh-token", {
+      const res = await fetch("http://localhost:5272/users/refresh-token", {
         method: "POST",
         credentials: "include"
       });
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setToken(null);
 
-    fetch("/users/logout", {
+    fetch("http://localhost:5272/users/logout", {
       method: "POST",
       credentials: "include",
     }).catch(() => { });
