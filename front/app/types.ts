@@ -36,6 +36,12 @@ export type Course = {
   jobseekers: Jobseeker[]
 };
 
+export enum Degree {
+  Bachelors,
+  Masters,
+  Doctors
+};
+
 export type Employer = BaseUser & {
   role: "Employer",
   name: string
@@ -47,12 +53,12 @@ export type Job = {
   id: string,
   title: string,
   description: string,
-  type: string,
+  type: JobType,
   employer: Employer,
   salary: number,
   country: Country,
   city: string,
-  requiredDegree: string,
+  requiredDegree: Degree,
   applicantsNo: Int16Array,
   skills: Skill[]
 };
@@ -65,6 +71,12 @@ export type Jobseeker = BaseUser & {
   skills: Skill[],
   courses: Course[],
   applications: Application[]
+};
+
+export enum JobType {
+  OnSite,
+  Hybrid,
+  Remote
 };
 
 export type Skill = {
