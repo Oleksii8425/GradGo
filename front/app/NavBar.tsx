@@ -8,7 +8,15 @@ interface NavLinkProps {
 
 function MyNavLink({ to, children }: NavLinkProps) {
   return (
-    <NavLink to={to} className="p-2 rounded-2xl bg-amber-200 text-amber-950 hover:bg-amber-400">
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `p-2 border-b-2 ${isActive
+          ? "border-gray-300 text-gray-300 font-bold"
+          : "border-slate-900 hover:border-gray-300"
+        }`
+      }
+    >
       {children}
     </NavLink>
   );
@@ -16,7 +24,7 @@ function MyNavLink({ to, children }: NavLinkProps) {
 
 function NavBar() {
   return (
-    <div className="w-full flex items-start gap-2 border-b p-2">
+    <div className="w-full flex items-start bg-slate-900">
       <MyNavLink to="/jobs">Jobs</MyNavLink>
       <MyNavLink to="/profile">Profile</MyNavLink>
     </div>

@@ -9,7 +9,7 @@ namespace GradGo.Models
         public required string Title { get; set; }
         public required string Description { get; set; }
         public JobType Type { get; set; }
-        public int Salary { get; set; }
+        public int Salary { get; set; } // -1: negotiable | 0: no salary | >0 
         public required string City { get; set; }
         public Country Country { get; set; } = null!;
         public Degree RequiredDegree { get; set; }
