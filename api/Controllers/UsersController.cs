@@ -111,7 +111,6 @@ namespace GradGo.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto dto)
         {
-            PrintLog("Login");
             var user = await _context.Users
                 .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
@@ -128,7 +127,6 @@ namespace GradGo.Controllers
 
             var accessToken = GenerateJwtToken(user);
             var refreshToken = Guid.NewGuid().ToString();
-            PrintLog("REFRESH TOKEN ON LOGIN: " + refreshToken);
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
@@ -151,7 +149,6 @@ namespace GradGo.Controllers
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            PrintLog("REFRESH TOKEN: " + refreshToken);
 
             if (string.IsNullOrEmpty(refreshToken))
                 return Unauthorized(new { message = "No refresh token provided" });
@@ -160,13 +157,10 @@ namespace GradGo.Controllers
                 .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
 
-            PrintLog("USER: " + user?.UserName);
-
             if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
                 return Unauthorized(new { message = "Invalid or expired refresh token" });
 
             var newAccessToken = GenerateJwtToken(user);
-            PrintLog("NEW ACCESS TOKEN: " + newAccessToken);
             var userDto = user.Role switch
             {
                 UserRole.BaseUser => user.ToDto(),
@@ -253,13 +247,6 @@ namespace GradGo.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private void PrintLog(string msg)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(msg);
-            Console.ResetColor();
         }
     }
 }
