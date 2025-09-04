@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "~/components/Auth/AuthContext";
-import CountrySelector from "~/components/JobCreate/CountrySelector";
-import DegreeSelector from "~/components/JobCreate/DegreeSelector";
-import SalaryInput from "~/components/JobCreate/SalaryInput";
-import SkillSelector from "~/components/JobCreate/SkillSelector";
-import TypeSelector from "~/components/JobCreate/TypeSelector";
-import { Degree, JobType, type Country } from "~/types";
+import { useAuth } from "~/Components/Auth/AuthContext";
+import CountrySelector from "~/Components/JobCreate/CountrySelector";
+import DegreeSelector from "~/Components/JobCreate/DegreeSelector";
+import SalaryInput from "~/Components/JobCreate/SalaryInput";
+import SkillSelector from "~/Components/JobCreate/SkillSelector";
+import TypeSelector from "~/Components/JobCreate/TypeSelector";
+import { Degree, JobType, type Country, type Job } from "~/Types";
+import JobDetails from "./JobDetails";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showAddJobForm, setShowAddJobForm] = useState<boolean>(false);
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
@@ -18,11 +20,13 @@ export default function JobsPage() {
   const [salary, setSalary] = useState<string>("");
   const [city, setCity] = useState<string | null>(null);
   const [degree, setDegree] = useState<Degree | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const [jobsLoading, setJobsLoading] = useState(true);
 
   useEffect(() => {
+    if (loading) return;
+
     async function fetchJobs() {
       try {
         const res = await fetch(
@@ -38,7 +42,7 @@ export default function JobsPage() {
       } catch (err: any) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setJobsLoading(false);
       }
     }
 
@@ -53,13 +57,13 @@ export default function JobsPage() {
       } catch (err: any) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setJobsLoading(false);
       }
     }
 
     fetchJobs();
     fetchCountries();
-  }, []);
+  }, [user, loading]);
 
   const createJob = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,8 +98,8 @@ export default function JobsPage() {
     alert('Job created successfully');
   }
 
-  if (loading) {
-    return <div className="p-6">Loading jobs...</div>;
+  if (loading || jobsLoading) {
+    return <div className="p-6">Loading...</div>;
   }
 
   if (error) {
@@ -103,12 +107,10 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="min-w-[600px] max-w-3xl w-full flex flex-col rounded-xl p-4 bg-slate-900">
-      <h1 className="text-xl font-bold mb-4 border-b">Jobs</h1>
-
+    <div className="w-4/6 min-w-[100px] max-w-3xl h-full flex flex-col rounded-lg p-4 bg-slate-900">
       {/*Employer controls*/}
       {user?.role === "Employer" && (
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col overflow-scroll gap-4">
           <div className="flex justify-items-start gap-1">
             <button
               onClick={() => setShowAddJobForm(!showAddJobForm)}
@@ -119,7 +121,7 @@ export default function JobsPage() {
           </div>
           {showAddJobForm && (
             <form
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto"
               onSubmit={createJob}
             >
               <input
@@ -138,7 +140,7 @@ export default function JobsPage() {
                 required
                 value={description ?? ""}
                 onChange={(e) => setDescription(e.target.value)}
-                className="border rounded-lg p-2 min-h-11"
+                className="border rounded-lg p-2 min-h-11 max-h-76"
               />
               <CountrySelector onChange={setCountry} />
               <input
@@ -170,11 +172,27 @@ export default function JobsPage() {
         </div>
       )}
 
-      <ul className="list-disc p-4">
-        {jobs.map((job) => (
-          <li key={job.id}>{job.title}</li>
-        ))}
-      </ul>
+      {jobs.length > 0 && (
+        <div className="flex gap-4 w-full flex-1 pt-4 overflow-hidden">
+          <ul className="flex-1 overflow-y-auto">
+            {jobs.map((job) => (
+              <li
+                key={job.id}
+                onClick={() => setSelectedJob(job)}
+                className={`mb-2 p-2 rounded-lg hover:bg-slate-800 ${selectedJob?.id === job.id ? "bg-slate-800" : ""}`}
+              >
+                {job.title}
+              </li>
+            ))}
+          </ul>
+          {selectedJob &&
+            <JobDetails
+              job={selectedJob}
+            />
+          }
+        </div>
+      )
+      }
     </div>
   );
 }
