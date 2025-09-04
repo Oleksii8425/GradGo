@@ -51,15 +51,18 @@ export type Employer = BaseUser & {
 
 export type Job = {
   id: string,
+  employerId: string,
+  countryId: number,
   title: string,
   description: string,
+  emplyerName: string,
   type: JobType,
-  employer: Employer,
   salary: number,
-  country: Country,
+  currencySymbol: string,
   city: string,
+  countryName: string,
   requiredDegree: Degree,
-  applicantsNo: Int16Array,
+  applicantsNo: number,
   skills: Skill[]
 };
 
