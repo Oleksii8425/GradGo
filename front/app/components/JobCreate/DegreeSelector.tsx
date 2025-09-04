@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Degree } from "~/types";
+import { Degree } from "~/Types";
 
 interface DegreeSelectorProps {
   onChange: (degree: Degree | null) => void;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Country } from "~/types";
+import type { Country } from "~/Types";
 
 interface CountrySelectorProps {
   onChange: (selected: Country | null) => void;

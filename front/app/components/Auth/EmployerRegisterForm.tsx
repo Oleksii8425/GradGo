@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { StaffCount, type Country } from "~/types";
-import submitForm from "./submitForm";
+import { StaffCount, type Country } from "~/Types";
 import { useNavigate } from "react-router";
+import submitForm from "../submitForm";
 
 interface EmployerRegisterFormProps {
   countries: Country[]

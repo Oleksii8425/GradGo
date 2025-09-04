@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import EmployerRegisterForm from "~/components/Auth/EmployerRegisterForm";
-import JobseekerRegisterForm from "~/components/Auth/JobseekerRegisterForm";
-import type { Country, Course } from "~/types";
+import EmployerRegisterForm from "~/Components/Auth/EmployerRegisterForm";
+import JobseekerRegisterForm from "~/Components/Auth/JobseekerRegisterForm";
+import type { Country, Course } from "~/Types";
 
 function Register() {
   const [role, setRole] = useState<"jobseeker" | "employer">("employer");

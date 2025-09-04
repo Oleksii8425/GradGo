@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Skill } from "~/types";
+import type { Skill } from "~/Types";
 
 interface SkillSelectorProps {
   onChange: (selected: number[]) => void;
