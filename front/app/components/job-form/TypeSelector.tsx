@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { JobType } from "~/Types";
+import { JobType } from "~/types";
 
 interface TypeSelectorProps {
   onChange: (type: JobType | null) => void;

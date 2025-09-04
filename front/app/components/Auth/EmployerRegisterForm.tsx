@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StaffCount, type Country } from "~/Types";
+import { StaffCount, type Country } from "~/types";
 import { useNavigate } from "react-router";
 import submitForm from "../submitForm";
 

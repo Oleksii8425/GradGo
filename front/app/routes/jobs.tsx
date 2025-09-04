@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "~/Components/Auth/AuthContext";
-import CountrySelector from "~/Components/JobCreate/CountrySelector";
-import DegreeSelector from "~/Components/JobCreate/DegreeSelector";
-import SalaryInput from "~/Components/JobCreate/SalaryInput";
-import SkillSelector from "~/Components/JobCreate/SkillSelector";
-import TypeSelector from "~/Components/JobCreate/TypeSelector";
-import { Degree, JobType, type Country, type Job } from "~/Types";
-import JobDetails from "./JobDetails";
+import { useAuth } from "~/components/auth/AuthContext";
+import CountrySelector from "~/components/job-form/CountrySelector";
+import DegreeSelector from "~/components/job-form/DegreeSelector";
+import SalaryInput from "~/components/job-form/SalaryInput";
+import SkillSelector from "~/components/job-form/SkillSelector";
+import TypeSelector from "~/components/job-form/TypeSelector";
+import { Degree, JobType, type Country, type Job } from "~/types";
+import JobDetails from "../components/JobDetails";
+import { NewtonsCradle } from 'ldrs/react'
+import 'ldrs/react/NewtonsCradle.css'
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -99,7 +101,7 @@ export default function JobsPage() {
   }
 
   if (loading || jobsLoading) {
-    return <div className="p-6">Loading...</div>;
+    return <NewtonsCradle speed="1" />;
   }
 
   if (error) {

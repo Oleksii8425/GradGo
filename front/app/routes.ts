@@ -1,16 +1,16 @@
 import { index, layout, route, type RouteConfig } from "@react-router/dev/routes";
 
 export default [
-  index("Routes/Home.tsx"),
-  route("confirm-email", "Routes/ConfirmEmail.tsx"),
+  index("routes/home.tsx"),
+  route("confirm-email", "routes/confirm-email.tsx"),
 
-  layout("Routes/layout.tsx", [
-    route("profile", "Routes/Profile.tsx"),
-    route("jobs", "Routes/Jobs.tsx"),
+  layout("routes/layout.tsx", [
+    route("profile", "routes/profile.tsx"),
+    route("jobs", "routes/jobs.tsx"),
   ]),
   
-  layout("Routes/auth/Layout.tsx", [
-    route("login", "Routes/Auth/Login.tsx"),
-    route("register", "Routes/Auth/Register.tsx"),
+  layout("routes/auth/layout.tsx", [
+    route("login", "routes/auth/login.tsx"),
+    route("register", "routes/auth/register.tsx"),
   ]),
 ] satisfies RouteConfig;
