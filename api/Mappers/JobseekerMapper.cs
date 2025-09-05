@@ -10,9 +10,9 @@ namespace GradGo.Mappers
             return new JobseekerDto(
                 jobseeker.Id,
                 jobseeker.Role.GetDescription(),
-                jobseeker.Email ?? string.Empty,
-                jobseeker.Email ?? string.Empty,
                 jobseeker.PhoneNumber!,
+                jobseeker.Email ?? string.Empty,
+                jobseeker.Email ?? string.Empty,
                 jobseeker.City,
                 jobseeker.Country.ToDto(),
                 jobseeker.Bio,
