@@ -123,7 +123,10 @@ namespace GradGo.Controllers
                 return Unauthorized(new { message = "Invalid email or password" });
 
             if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                await SendEmailAsync(user);
                 return BadRequest(new { message = "Email not confirmed. Please check your inbox." });
+            }
 
             var accessToken = GenerateJwtToken(user);
             var refreshToken = Guid.NewGuid().ToString();
