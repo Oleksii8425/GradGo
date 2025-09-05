@@ -1,6 +1,7 @@
 import { useAuth } from "~/components/auth/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { NewtonsCradle } from "ldrs/react";
 
 function Profile() {
   const { user, loading, logout } = useAuth();
@@ -12,7 +13,7 @@ function Profile() {
     }
   }, [user, loading, navigate]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <NewtonsCradle speed="1" color="white" />;
 
   return (
     <div className="flex items-center justify-center max-w-xl w-full py-10">

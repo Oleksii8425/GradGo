@@ -101,7 +101,7 @@ export default function JobsPage() {
   }
 
   if (loading || jobsLoading) {
-    return <NewtonsCradle speed="1" />;
+    return <NewtonsCradle speed="1" color="white" />;
   }
 
   if (error) {
