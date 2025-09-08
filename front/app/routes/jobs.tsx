@@ -9,9 +9,16 @@ import { Degree, JobType, type Country, type Job } from "~/types";
 import JobDetails from "../components/JobDetails";
 import { NewtonsCradle } from 'ldrs/react'
 import 'ldrs/react/NewtonsCradle.css'
+import type { Route } from "./+types/jobs";
+
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Top job picks for you" },
+  ];
+}
 
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showAddJobForm, setShowAddJobForm] = useState<boolean>(false);
   const [title, setTitle] = useState<string | null>(null);
@@ -109,7 +116,7 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="w-4/6 min-w-[100px] max-w-3xl h-full flex flex-col rounded-lg p-4 bg-slate-900">
+    <div className="w-4/6 min-w-[100px] max-w-5xl h-full flex flex-col rounded-lg p-4 mb-4 bg-slate-900">
       {/*Employer controls*/}
       {user?.role === "Employer" && (
         <div className="w-full flex flex-col overflow-scroll gap-4">
@@ -175,15 +182,21 @@ export default function JobsPage() {
       )}
 
       {jobs.length > 0 && (
-        <div className="flex gap-4 w-full flex-1 pt-4 overflow-hidden">
+        <div className="flex gap-4 w-full flex-1 overflow-hidden">
           <ul className="flex-1 overflow-y-auto">
             {jobs.map((job) => (
               <li
                 key={job.id}
                 onClick={() => setSelectedJob(job)}
-                className={`mb-2 p-2 rounded-lg hover:bg-slate-800 ${selectedJob?.id === job.id ? "bg-slate-800" : ""}`}
+                className={`mb-2 p-2 rounded-lg hover:bg-slate-800 cursor-pointer select-none ${selectedJob?.id === job.id ? "bg-slate-800" : ""}`}
               >
-                {job.title}
+                <p>{job.title}</p>
+                <p className="text-xs">
+                  {job.city}, {job.countryName} ({job.type})
+                </p>
+                <p className="text-xs">
+                  {job.salary}{job.currencySymbol}
+                </p>
               </li>
             ))}
           </ul>
