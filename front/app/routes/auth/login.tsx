@@ -77,14 +77,14 @@ function Login() {
 
         <button
           type="submit"
-          className="bg-green-700 text-white rounded py-2 hover:bg-green-900"
+          className="bg-emerald-700 text-white rounded py-2 hover:bg-emerald-600"
         >
           Login
         </button>
 
         <p>
           Not registered?
-          <a href="/register" className="hover:text-green-700"> Register</a>
+          <a href="/register" className="hover:text-emerald-600"> Register</a>
         </p>
       </form>
     </div>

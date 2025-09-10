@@ -22,9 +22,14 @@ function JobDetails({ job }: JobDetailsProps) {
           {job.type}
         </p>
       </div>
-      <button className="rounded-full p-2 mt-2 bg-slate-700 hover:bg-slate-800">
-        Apply
-      </button>
+      <div className="flex gap-2">
+        <button className="rounded-full p-2 mt-2 bg-slate-700 hover:bg-slate-600">
+          Apply
+        </button>
+        <button className="rounded-full p-2 mt-2 border border-slate-500 hover:border-slate-400 hover:bg-slate-800">
+          Save
+        </button>
+      </div>
       <h1 className="mt-4 mb-2 text-2xl font-bold">About the job</h1>
       {/*<div className="flex gap-2 mb-4">
         {
@@ -35,8 +40,10 @@ function JobDetails({ job }: JobDetailsProps) {
           )
         }
       </div>*/}
-      <div className="flex flex-col overflow-scroll">
-        <p className="text-justify pr-2">{job.description}</p>
+      <div className="w-full flex flex-col overflow-y-scroll">
+        <p className="text-justify pr-2 wrap-break-word">
+          {job.description}
+        </p>
       </div>
     </div>
   );
