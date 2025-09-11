@@ -22,13 +22,11 @@ public class JobsController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<List<JobDto>>> GetAll(
-        [FromQuery] Guid? employerId,
+        [FromQuery] List<string>? keywords,
         [FromQuery] int? countryId,
-        [FromQuery] string? title,
         [FromQuery] JobType? type,
         [FromQuery] int? minSalary,
         [FromQuery] string? city,
-        [FromQuery] List<int>? skills,
         [FromQuery] Degree? requiredDegree
     )
     {
@@ -41,19 +39,20 @@ public class JobsController : ControllerBase
             .AsSplitQuery()
             .AsQueryable();
 
-        if (employerId is not null)
+        if (keywords is not null)
         {
-            query = query.Where(j => j.EmployerId == employerId);
+            query = query.Where(j =>
+                keywords.Any(k =>
+                    j.Employer.Name.Contains(k) ||
+                    j.Description.Contains(k) ||
+                    j.Skills.Any(s => s.Title.Contains(k))
+                )
+            );
         }
 
         if (countryId is not null)
         {
             query = query.Where(j => j.CountryId == countryId);
-        }
-
-        if (title is not null)
-        {
-            query = query.Where(j => EF.Functions.ILike(j.Title, $"%{title}%"));
         }
 
         if (type is not null)
@@ -69,11 +68,6 @@ public class JobsController : ControllerBase
         if (city is not null)
         {
             query = query.Where(j => j.City == city);
-        }
-
-        if (skills is not null && skills.Count > 0)
-        {
-            query = query.Where(j => j.Skills.Any(s => skills.Contains(s.Id)));
         }
 
         if (requiredDegree is not null)
