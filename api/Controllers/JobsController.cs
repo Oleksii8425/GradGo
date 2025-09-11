@@ -56,6 +56,11 @@ public class JobsController : ControllerBase
             query = query.Where(j => EF.Functions.ILike(j.Title, $"%{title}%"));
         }
 
+        if (type is not null)
+        {
+            query = query.Where(j => j.Type == type);
+        }
+
         if (minSalary is not null)
         {
             query = query.Where(j => j.Salary >= minSalary);
