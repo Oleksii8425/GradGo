@@ -39,11 +39,12 @@ public class JobsController : ControllerBase
             .AsSplitQuery()
             .AsQueryable();
 
-        if (keywords is not null)
+        if (keywords is not null && keywords.Count > 0)
         {
             query = query.Where(j =>
                 keywords.Any(k =>
                     j.Employer.Name.Contains(k) ||
+                    j.Title.Contains(k) ||
                     j.Description.Contains(k) ||
                     j.Skills.Any(s => s.Title.Contains(k))
                 )
