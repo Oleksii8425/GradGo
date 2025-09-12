@@ -43,10 +43,10 @@ public class JobsController : ControllerBase
         {
             query = query.Where(j =>
                 keywords.Any(k =>
-                    j.Employer.Name.Contains(k) ||
-                    j.Title.Contains(k) ||
-                    j.Description.Contains(k) ||
-                    j.Skills.Any(s => s.Title.Contains(k))
+                    j.Employer.Name.Contains(k, StringComparison.OrdinalIgnoreCase) ||
+                    j.Title.Contains(k, StringComparison.OrdinalIgnoreCase) ||
+                    j.Description.Contains(k, StringComparison.OrdinalIgnoreCase) ||
+                    j.Skills.Any(s => s.Title.Contains(k, StringComparison.OrdinalIgnoreCase))
                 )
             );
         }
