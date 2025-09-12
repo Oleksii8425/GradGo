@@ -16,6 +16,8 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
   const [country, setCountry] = useState<Country | null>(null);
   const [type, setType] = useState<JobType | null>(null);
 
+  const [advancedSearch, setAdvancedSearch] = useState<boolean>(false);
+
   const filterJobs = async () => {
     const params = new URLSearchParams();
 
@@ -40,71 +42,86 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
   };
 
   return (
-    <div className="w-full flex flex-wrap gap-1 mb-4">
-      <Tooltip
-        placement="bottom-start"
-        content={
-          <div className="bg-slate-600 p-2 rounded-lg">
-            Keywords, Employers or Skills separated by comma
-          </div>
-        }
-      >
-        <input
-          id="keywords"
-          name="keywords"
-          type="text"
-          placeholder="Keywords, Employers or Skills"
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-          className="flex-1 min-w-1/4 rounded-lg border border-gray-300 p-1 hover:border-white"
-        />
-      </Tooltip>
+    <div className="mb-2">
+      <div className="w-full flex items-center flex-wrap gap-1 mb-2">
+        <div className="w-full flex-1 flex gap-2 flex-wrap">
+          <Tooltip
+            placement="bottom-start"
+            content={
+              <div className="bg-slate-600 p-2 rounded-lg">
+                Keywords, Employers or Skills separated by comma
+              </div>
+            }
+          >
+            <input
+              id="keywords"
+              name="keywords"
+              type="text"
+              placeholder="Keywords, Employers or Skills"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+              className="flex-1 min-w-1/4 rounded-lg border border-gray-300 p-1 hover:border-white"
+            />
+          </Tooltip>
 
-      <input
-        id="city"
-        name="city"
-        type="text"
-        placeholder="City"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        className="flex-1 min-w-1/4 rounded-lg border border-gray-300 p-1 hover:border-white"
-      />
+          <input
+            id="city"
+            name="city"
+            type="text"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="flex-1 min-w-1/4 w-full rounded-lg border border-gray-300 p-1 hover:border-white"
+          />
 
-      <CountrySelector
-        onChange={setCountry}
-        className="flex-1 min-w-1/4 "
-        placeholder="Country"
-      />
+          <CountrySelector
+            onChange={setCountry}
+            className="flex-1 min-w-1/4 w-full"
+            placeholder="Country"
+          />
+        </div>
 
-      <DegreeSelector
-        onChange={setRequiredDegree}
-        className="flex-1 min-w-1/4"
-        placeholder="Degree"
-      />
-
-      <TypeSelector
-        onChange={setType}
-        className="flex-1 min-w-1/4"
-        placeholder="Type"
-      />
+        <button
+          className="rounded-full w-9 h-9 ml-2 hover:cursor-pointer group"
+          onClick={() => filterJobs()}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-8 h-8 stroke-gray-300 group-hover:stroke-white">
+            <path
+              d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
 
       <button
-        className="rounded-full w-8 h-8 hover:cursor-pointer group"
-        onClick={() => filterJobs()}
+        onClick={() => setAdvancedSearch(!advancedSearch)}
+        className="p-2"
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-8 h-8 stroke-gray-300 group-hover:stroke-white">
-          <path
-            d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        Advanced Search
       </button>
+      
+      {advancedSearch && (
+        <div className="flex w-1/2">
+          <DegreeSelector
+            onChange={setRequiredDegree}
+            className="flex-1 min-w-1/4 w-full"
+            placeholder="Degree"
+          />
+
+          <TypeSelector
+            onChange={setType}
+            className="flex-1 min-w-1/4 w-full"
+            placeholder="Type"
+          />
+        </div>
+      )}
     </div>
   );
 }
