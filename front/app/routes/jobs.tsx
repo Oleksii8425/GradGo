@@ -10,6 +10,7 @@ import JobDetails from "../components/JobDetails";
 import { NewtonsCradle } from 'ldrs/react'
 import 'ldrs/react/NewtonsCradle.css'
 import type { Route } from "./+types/jobs";
+import JobSearchBar from "~/components/JobSearchBar";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -46,8 +47,10 @@ export default function JobsPage() {
 
         if (!res.ok) throw new Error("Failed to fetch jobs");
 
-        const data = await res.json();
-        setJobs(data);
+        const jobs = await res.json();
+        setJobs(jobs);
+        if (jobs.length > 0)
+          setSelectedJob(jobs[0]);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -89,8 +92,6 @@ export default function JobsPage() {
       skills,
       applications: []
     };
-
-    console.log(body);
 
     const res = await fetch(
       "http://localhost:5272/jobs",
@@ -181,6 +182,14 @@ export default function JobsPage() {
         </div>
       )}
 
+      <JobSearchBar onSearch={setJobs} />
+
+      {jobs.length == 0 && (
+        <p className="text-xl p-2 text-gray-300 text-center">
+          No jobs found matching applied filters.
+        </p>
+      )}
+
       {jobs.length > 0 && (
         <div className="flex gap-4 w-full flex-1 overflow-hidden">
           <ul className="flex-1 overflow-y-auto">
@@ -188,9 +197,9 @@ export default function JobsPage() {
               <li
                 key={job.id}
                 onClick={() => setSelectedJob(job)}
-                className={`mb-2 p-2 rounded-lg hover:bg-slate-800 cursor-pointer select-none ${selectedJob?.id === job.id ? "bg-slate-800" : ""}`}
+                className={`mb-2 p-2 rounded-lg hover:bg-slate-700 cursor-pointer select-none ${selectedJob?.id === job.id ? "bg-slate-700" : ""}`}
               >
-                <p>{job.title}</p>
+                <p className="text-xl font-bold">{job.title}</p>
                 <p className="text-xs">
                   {job.city}, {job.countryName} ({job.type})
                 </p>
@@ -206,8 +215,7 @@ export default function JobsPage() {
             />
           }
         </div>
-      )
-      }
+      )}
     </div>
   );
 }
