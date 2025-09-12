@@ -41,14 +41,16 @@ public class JobsController : ControllerBase
 
         if (keywords is not null && keywords.Count > 0)
         {
-            query = query.Where(j =>
-                keywords.Any(k =>
-                    j.Employer.Name.Contains(k, StringComparison.OrdinalIgnoreCase) ||
-                    j.Title.Contains(k, StringComparison.OrdinalIgnoreCase) ||
-                    j.Description.Contains(k, StringComparison.OrdinalIgnoreCase) ||
-                    j.Skills.Any(s => s.Title.Contains(k, StringComparison.OrdinalIgnoreCase))
-                )
-            );
+            foreach (var k in keywords)
+            {
+                var pattern = $"%{k}%";
+                query = query.Where(j =>
+                    EF.Functions.ILike(j.Employer.Name, pattern) ||
+                    EF.Functions.ILike(j.Title, pattern) ||
+                    EF.Functions.ILike(j.Description, pattern) ||
+                    j.Skills.Any(s => EF.Functions.ILike(s.Title, pattern))
+                );
+            }
         }
 
         if (countryId is not null)
@@ -68,7 +70,7 @@ public class JobsController : ControllerBase
 
         if (city is not null)
         {
-            query = query.Where(j => j.City == city);
+            query = query.Where(j => EF.Functions.ILike(j.City, city));
         }
 
         if (requiredDegree is not null)
