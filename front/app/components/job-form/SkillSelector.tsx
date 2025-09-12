@@ -3,9 +3,11 @@ import type { Skill } from "~/types";
 
 interface SkillSelectorProps {
   onChange: (selected: number[]) => void;
+  className?: string;
+  placeholder?: string;
 }
 
-function SkillSelector({ onChange }: SkillSelectorProps) {
+function SkillSelector({ onChange, className, placeholder }: SkillSelectorProps) {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<number[]>([]);
 
@@ -30,11 +32,11 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
   }, [selectedSkills, onChange]);
 
   return (
-    <>
+    <div className={`${className ?? ""}`}>
       <select
         name="skills"
         id="skills"
-        className="border rounded px-2 py-2 bg-slate-900 text-gray-300"
+        className="w-full border rounded-lg p-2 bg-slate-900 text-gray-300"
         value=""
         onChange={(e) => {
           const value = Number(e.target.value);
@@ -45,7 +47,7 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
         }}
       >
         <option value="" disabled>
-          -- Add required skills --
+          {placeholder ?? ""}
         </option>
         {skills.map((skill: Skill) => (
           <option key={skill.id} value={skill.id}>
@@ -82,7 +84,7 @@ function SkillSelector({ onChange }: SkillSelectorProps) {
             ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

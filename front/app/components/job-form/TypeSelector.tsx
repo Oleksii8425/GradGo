@@ -3,9 +3,11 @@ import { JobType } from "~/types";
 
 interface TypeSelectorProps {
   onChange: (type: JobType | null) => void;
+  className?: string;
+  placeholder?: string;
 };
 
-function TypeSelector({ onChange }: TypeSelectorProps) {
+function TypeSelector({ onChange, className, placeholder }: TypeSelectorProps) {
   const [type, setType] = useState<JobType | null>(null);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ function TypeSelector({ onChange }: TypeSelectorProps) {
     <select
       name="jobTypes"
       id="jobTypes"
-      className="border rounded px-2 py-2 bg-slate-900 text-gray-300"
+      className={`border rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
       value={type ?? ""}
       required
       onChange={(e) => {
@@ -25,7 +27,7 @@ function TypeSelector({ onChange }: TypeSelectorProps) {
       }}
     >
       <option value="" disabled>
-        -- Select a job type --
+        {placeholder ?? ""}
       </option>
       <option value={Number(JobType.OnSite)}>On Site</option>
       <option value={Number(JobType.Remote)}>Remote</option>

@@ -3,9 +3,11 @@ import type { Country } from "~/types";
 
 interface CountrySelectorProps {
   onChange: (selected: Country | null) => void;
+  className?: string;
+  placeholder?: string;
 }
 
-function CountrySelector({ onChange }: CountrySelectorProps) {
+function CountrySelector({ onChange, className, placeholder }: CountrySelectorProps) {
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<number | null>(null);
 
@@ -38,13 +40,11 @@ function CountrySelector({ onChange }: CountrySelectorProps) {
     <select
       name="countries"
       id="countries"
-      className="border rounded px-2 py-2 bg-slate-900 text-gray-300"
+      className={`border rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
       value={selectedCountry || ""}
       required
       onChange={(e) => {
         const value = Number(e.target.value);
-
-        if (!value) return;
 
         if (selectedCountry != value) {
           setSelectedCountry(value);
@@ -52,7 +52,7 @@ function CountrySelector({ onChange }: CountrySelectorProps) {
       }}
     >
       <option value="" disabled>
-        -- Select a country --
+        {placeholder ?? ""}
       </option>
       {countries.map((country: Country) => (
         <option key={country.id} value={country.id}>
