@@ -7,7 +7,7 @@ interface JobDetailsProps {
 function JobDetails({ job }: JobDetailsProps) {
   return (
     <div className="flex-2 max-h-full flex flex-col items-start overflow-scroll rounded-lg p-4 border border-slate-500">
-      <p className="text-xs">{job.emplyerName}</p>
+      <p className="text-xs">{job.employerName}</p>
       <h1 className="text-2xl font-bold">{job.title}</h1>
       <p className="text-xs mb-2">
         {job.city}, {job.countryName}
