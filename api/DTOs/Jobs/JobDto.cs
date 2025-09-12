@@ -7,7 +7,7 @@ namespace GradGo.DTOs
         int CountryId,
         string Title,
         string Description,
-        string EmplyerName,
+        string EmployerName,
         string Type,
         int Salary,
         string CurrencySymbol,
