@@ -55,7 +55,7 @@ export type Job = {
   countryId: number,
   title: string,
   description: string,
-  emplyerName: string,
+  empolyerName: string,
   type: JobType,
   salary: number,
   currencySymbol: string,
