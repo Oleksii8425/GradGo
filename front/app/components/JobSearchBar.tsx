@@ -108,7 +108,7 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
       </button>
       
       {advancedSearch && (
-        <div className="flex w-1/2">
+        <div className="flex w-1/2 gap-2">
           <DegreeSelector
             onChange={setRequiredDegree}
             className="flex-1 min-w-1/4 w-full"
