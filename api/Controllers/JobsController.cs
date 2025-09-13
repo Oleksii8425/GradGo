@@ -12,12 +12,10 @@ namespace GradGo.Controllers;
 public class JobsController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly ILogger<JobsController> _logger;
 
     public JobsController(AppDbContext context, ILogger<JobsController> logger)
     {
         _context = context;
-        _logger = logger;
     }
 
     [HttpGet]
@@ -104,6 +102,15 @@ public class JobsController : ControllerBase
         return Ok(job.ToDto());
     }
 
+    [HttpGet("{jobId}/applied/{jobseekerId}")]
+    public async Task<ActionResult<bool>> HasApplied(Guid jobId, Guid jobseekerId)
+    {
+        var exists = await _context.Applications
+            .AnyAsync(a => a.JobId == jobId && a.JobseekerId == jobseekerId);
+
+        return Ok(exists);
+    }
+
     [HttpPost]
     public async Task<ActionResult<JobDto>> CreateJob([FromBody] JobCreateDto dto)
     {
@@ -111,20 +118,16 @@ public class JobsController : ControllerBase
 
         if (dto.Skills is not null)
         {
-            var skills = await _context.Skills
+            job.Skills = await _context.Skills
                 .Where(s => dto.Skills.Contains(s.Id))
                 .ToHashSetAsync();
-
-            job.Skills = skills;
         }
 
         if (dto.Applications is not null)
         {
-            var applications = await _context.Applications
+            job.Applications = await _context.Applications
                 .Where(a => dto.Applications.Contains(a.Id))
                 .ToHashSetAsync();
-
-            job.Applications = applications;
         }
 
         _context.Jobs.Add(job);
