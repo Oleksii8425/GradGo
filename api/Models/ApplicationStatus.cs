@@ -6,8 +6,11 @@ namespace GradGo.Models
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ApplicationStatus
     {
-        [Description("Under Review")] UnderReview,
-        [Description("Successful")] Successful,
-        [Description("Rejected")] Rejected
+        [Description("Under Review")]
+        UnderReview,
+        [Description("Successful")]
+        Successful,
+        [Description("Rejected")]
+        Rejected
     }
 }

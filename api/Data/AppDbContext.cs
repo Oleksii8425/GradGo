@@ -14,6 +14,10 @@ namespace GradGo.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Application>()
+                .Property(a => a.Status)
+                .HasConversion<string>();
+
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .HasConversion<string>();
