@@ -16,7 +16,7 @@ namespace GradGo.Mappers
             );
         }
 
-        public static Application ToApplication(this ApplicationDto dto)
+        public static Application ToApplication(this ApplicationCreateDto dto)
         {
             return new Application
             {
