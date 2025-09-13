@@ -12,8 +12,34 @@ namespace GradGo.Mappers
                 application.Job.Id,
                 application.Jobseeker.Id,
                 application.AppliedOn,
-                application.Status
+                application.Status.GetDescription()
             );
+        }
+
+        public static Application ToApplication(this ApplicationDto dto)
+        {
+            return new Application
+            {
+                JobId = dto.JobId,
+                JobseekerId = dto.JobseekerId,
+                AppliedOn = DateTime.UtcNow,
+                Status = ApplicationStatus.UnderReview
+            };
+        }
+
+        public static void UpdateApplicationFromDto(this Application application, ApplicationUpdateDto dto)
+        {
+            if (dto.JobId.HasValue)
+                application.JobId = dto.JobId.Value;
+
+            if (dto.JobseekerId.HasValue)
+                application.JobseekerId = dto.JobseekerId.Value;
+
+            if (dto.AppliedOn.HasValue)
+                application.AppliedOn = dto.AppliedOn.Value;
+
+            if (dto.Status.HasValue)
+                application.Status = dto.Status.Value;
         }
     }
 }

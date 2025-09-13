@@ -1,3 +1,5 @@
+using GradGo.Models;
+
 namespace GradGo.DTOs
 {
     public record ApplicationUpdateDto
@@ -5,6 +7,6 @@ namespace GradGo.DTOs
         Guid? JobId,
         Guid? JobseekerId,
         DateTime? AppliedOn,
-        string? Status
+        ApplicationStatus? Status
     );
 }

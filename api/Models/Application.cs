@@ -8,6 +8,6 @@ namespace GradGo.Models
         public Job Job { get; set; } = null!;
         public Jobseeker Jobseeker { get; set; } = null!;
         public DateTime AppliedOn { get; set; }
-        public required ApplicationStatus Status { get; set; }
+        public ApplicationStatus Status { get; set; }
     }
 }
