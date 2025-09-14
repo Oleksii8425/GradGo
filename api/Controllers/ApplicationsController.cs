@@ -1,3 +1,5 @@
+using Amazon.S3;
+using Amazon.S3.Model;
 using GradGo.Data;
 using GradGo.DTOs;
 using GradGo.Mappers;
@@ -11,10 +13,12 @@ namespace GradGo.Controllers
     public class ApplicationsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IAmazonS3 _s3client;
 
-        public ApplicationsController(AppDbContext context, ILogger<JobsController> logger)
+        public ApplicationsController(AppDbContext context, IAmazonS3 s3Client)
         {
             _context = context;
+            _s3client = s3Client;
         }
 
         [HttpGet("{id}")]
@@ -30,7 +34,7 @@ namespace GradGo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateApplication([FromBody] ApplicationCreateDto dto)
+        public async Task<IActionResult> CreateApplication([FromForm] ApplicationCreateDto dto)
         {
             var exists = await _context.Applications
                 .AnyAsync(a => a.JobId == dto.JobId && a.JobseekerId == dto.JobseekerId);
@@ -38,7 +42,39 @@ namespace GradGo.Controllers
             if (exists)
                 return BadRequest(new { message = "User already applied to this job." });
 
+            string cvKey = $"{dto.JobseekerId}/Applications/{dto.JobId}/{dto.Cv.FileName}";
+
+            string? coverLetterKey = dto.CoverLetter != null
+                ? $"{dto.JobseekerId}/Applications/{dto.JobId}/{dto.CoverLetter.FileName}"
+                : null;
+
+            // Upload CV
+            var cvRequest = new PutObjectRequest
+            {
+                BucketName = "gradgo-users",
+                Key = cvKey,
+                InputStream = dto.Cv.OpenReadStream(),
+                ContentType = dto.Cv.ContentType,
+            };
+            await _s3client.PutObjectAsync(cvRequest);
+
+            // Upload cover letter if present
+            if (dto.CoverLetter is not null)
+            {
+                var clRequest = new PutObjectRequest
+                {
+                    BucketName = "gradgo-users",
+                    Key = coverLetterKey,
+                    InputStream = dto.CoverLetter.OpenReadStream(),
+                    ContentType = dto.CoverLetter.ContentType
+                };
+                await _s3client.PutObjectAsync(clRequest);
+            }
+
+            // Create Application entity
             var application = dto.ToApplication();
+            application.CvPath = cvKey;
+            application.CoverLetterPath = coverLetterKey;
 
             _context.Applications.Add(application);
             await _context.SaveChangesAsync();

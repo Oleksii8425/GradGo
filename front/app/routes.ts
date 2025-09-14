@@ -7,6 +7,7 @@ export default [
   layout("routes/layout.tsx", [
     route("profile", "routes/profile.tsx"),
     route("jobs", "routes/jobs.tsx"),
+    route("apply/:jobId", "routes/application.tsx"),
   ]),
   
   layout("routes/auth/layout.tsx", [

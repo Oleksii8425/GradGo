@@ -6,8 +6,8 @@ namespace GradGo.DTOs
     (
         [Required] Guid JobId,
         [Required] Guid JobseekerId,
-        [Required] string CvPath,
-        string? CoverLetterPath,
+        [Required] IFormFile Cv,
+        IFormFile? CoverLetter,
         string? CoverLetterText
     );
 }

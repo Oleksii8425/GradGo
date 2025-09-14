@@ -1,3 +1,6 @@
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
 using GradGo.Data;
 using GradGo.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
 
 // Add services to the container.
 
@@ -76,6 +81,13 @@ builder.Services.AddCors(opt =>
 });
 
 builder.Services.AddSingleton<IEmailSender, MailjetEmailSender>();
+
+var awsAccessKey = builder.Configuration["AWS:AccessKeyId"];
+var awsSecretKey = builder.Configuration["AWS:SecretAccessKey"];
+var awsRegion = builder.Configuration["AWS:Region"];
+var awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+var s3Client = new AmazonS3Client(awsCredentials, RegionEndpoint.GetBySystemName(awsRegion));
+builder.Services.AddSingleton<IAmazonS3>(s3Client);
 
 var app = builder.Build();
 
