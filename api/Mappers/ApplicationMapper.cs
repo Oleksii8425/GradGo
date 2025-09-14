@@ -23,7 +23,10 @@ namespace GradGo.Mappers
                 JobId = dto.JobId,
                 JobseekerId = dto.JobseekerId,
                 AppliedOn = DateTime.UtcNow,
-                Status = ApplicationStatus.UnderReview
+                Status = ApplicationStatus.UnderReview,
+                CvPath = dto.CvPath,
+                CoverLetterPath = dto.CoverLetterPath,
+                CoverLetterText = dto.CoverLetterText
             };
         }
 

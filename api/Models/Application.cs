@@ -9,5 +9,8 @@ namespace GradGo.Models
         public Jobseeker Jobseeker { get; set; } = null!;
         public DateTime AppliedOn { get; set; }
         public ApplicationStatus Status { get; set; }
+        public string CvPath { get; set; } = null!;
+        public string? CoverLetterPath { get; set; }
+        public string? CoverLetterText { get; set; }
     }
 }
