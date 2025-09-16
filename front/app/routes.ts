@@ -5,7 +5,7 @@ export default [
   route("confirm-email", "routes/confirm-email.tsx"),
 
   layout("routes/layout.tsx", [
-    route("profile", "routes/profile.tsx"),
+    route("profile", "routes/profile/profile.tsx"),
     route("jobs", "routes/jobs.tsx"),
     route("apply/:jobId", "routes/application.tsx"),
   ]),
