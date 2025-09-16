@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace GradGo.Models
 {
     public class Jobseeker : User
     {
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
+        [Range(16, 100)]
         public int Age { get; set; }
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
         public ICollection<Course> Courses { get; set; } = new List<Course>();

@@ -7,7 +7,7 @@ namespace GradGo.DTOs
     (
         [Required] string FirstName,
         [Required] string LastName,
-        [Required] int Age,
+        [Required] [Range(16, 100)] int Age,
         [Required] UserRole Role,
         [Required] string PhoneNumber,
         [Required] string Email,
