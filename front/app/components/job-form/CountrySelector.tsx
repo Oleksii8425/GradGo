@@ -41,7 +41,7 @@ function CountrySelector({ onChange, className, placeholder, value }: CountrySel
     <select
       name="countries"
       id="countries"
-      className={`border rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
+      className={`border border-slate-500 rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
       value={selectedCountry || ""}
       required
       onChange={(e) => {
