@@ -5,11 +5,12 @@ interface CountrySelectorProps {
   onChange: (selected: Country | null) => void;
   className?: string;
   placeholder?: string;
+  value?: number;
 }
 
-function CountrySelector({ onChange, className, placeholder }: CountrySelectorProps) {
+function CountrySelector({ onChange, className, placeholder, value }: CountrySelectorProps) {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<number | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<number | null>(value ?? null);
 
   useEffect(() => {
     const fetchCountries = async () => {
