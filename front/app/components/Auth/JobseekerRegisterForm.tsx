@@ -3,6 +3,7 @@ import type { Country, Course, Skill } from "~/types";
 import SkillSelector from "../job-form/SkillSelector";
 import submitForm from "../submitForm";
 import { useNavigate } from "react-router";
+import CountrySelector from "../job-form/CountrySelector";
 
 interface JobseekerRegisterFormProps {
   countries: Country[],
@@ -10,7 +11,7 @@ interface JobseekerRegisterFormProps {
 }
 
 function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProps) {
-  const [selectedCountry, setSelectedCountry] = useState<number | "">("");
+  const [country, setCountry] = useState<Country | null>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [age, setAge] = useState<number | null>(null);
@@ -21,7 +22,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
   const [city, setCity] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState<number[]>([]);
+  const [skills, setSkills] = useState<number[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -45,9 +46,9 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
       password,
       confirmPassword,
       city,
-      countryId: selectedCountry,
+      countryId: country,
       bio,
-      skills: selectedSkills
+      skills: skills
     };
 
     submitForm(
@@ -62,7 +63,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 w-full max-w-xl bg-slate-900 p-6 rounded-b-xl"
+      className="flex flex-col gap-2 overflow-y-scroll w-full max-w-xl bg-slate-900 rounded-lg"
     >
       <input
         type="text"
@@ -72,7 +73,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
@@ -83,37 +84,21 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
         type="number"
+        min={16}
+        max={100}
         name="age"
         id="age"
         placeholder="Age"
         required
         value={age ?? ""}
         onChange={(e) => setAge(Number(e.target.value))}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
-
-      <select
-        name="countries"
-        id="countries"
-        className="border rounded px-3 py-2 bg-slate-900 text-gray-300"
-        required
-        value={selectedCountry}
-        onChange={(e) => setSelectedCountry(Number(e.target.value))}
-      >
-        <option value="" disabled hidden>
-          Country
-        </option>
-        {countries.map((country: Country) => (
-          <option key={country.id} value={country.id}>
-            {country.name}
-          </option>
-        ))}
-      </select>
 
       <input
         type="text"
@@ -123,8 +108,10 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={city}
         onChange={(e) => setCity(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
+
+      <CountrySelector onChange={setCountry} placeholder="Country" />
 
       <textarea
         name="bio"
@@ -133,13 +120,13 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={bio}
         onChange={(e) => setBio(e.target.value)}
-        className="border rounded px-3 py-2 min-h-[40px] text-gray-300"
+        className="border rounded-lg p-2 min-h-[40px] text-gray-300"
       />
 
       <select
         name="courses"
         id="courses"
-        className="border rounded px-3 py-2 bg-slate-900 text-gray-300"
+        className="border rounded-lg p-2 bg-slate-900 text-gray-300"
         onChange={(e) => setSelectedCourses([...selectedCourses, Number(e.target.value)])}
       >
         {courses.map((course: Course) => (
@@ -149,18 +136,17 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         ))}
       </select>
 
-      <SkillSelector onChange={setSelectedSkills} />
+      <SkillSelector onChange={setSkills} placeholder="Skills" />
 
       <input
         type="email"
         name="email"
         id="email"
         placeholder="Email"
-        pattern="^[A-Za-z0-9._+\-']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
@@ -171,7 +157,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
@@ -183,7 +169,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
@@ -194,7 +180,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
         required
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       {
@@ -209,7 +195,7 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
 
       < button
         type="submit"
-        className="bg-green-700 rounded py-2 hover:bg-green-900 text-gray-300"
+        className="bg-emerald-700 rounded-lg py-2 hover:bg-emerald-600"
       >
         Register
       </button>

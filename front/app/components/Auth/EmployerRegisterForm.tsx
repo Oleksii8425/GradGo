@@ -2,13 +2,14 @@ import { useState } from "react";
 import { StaffCount, type Country } from "~/types";
 import { useNavigate } from "react-router";
 import submitForm from "../submitForm";
+import CountrySelector from "../job-form/CountrySelector";
 
 interface EmployerRegisterFormProps {
   countries: Country[]
 }
 
 function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
-  const [selectedCountry, setSelectedCountry] = useState<number | "">("");
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -16,7 +17,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [staffCount, setStaffCount] = useState<StaffCount | "">("");
+  const [staffCount, setStaffCount] = useState<StaffCount | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 w-full max-w-xl bg-slate-900 p-6 rounded-b-xl"
+      className="flex flex-col gap-2 w-full max-w-xl bg-slate-900 p-6 rounded-lg"
     >
       <input
         type="text"
@@ -65,26 +66,8 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
-
-      <select
-        name="countries"
-        id="countries"
-        className="border rounded px-3 py-2 bg-slate-900"
-        required
-        value={selectedCountry}
-        onChange={(e) => setSelectedCountry(Number(e.target.value))}
-      >
-        <option value="" disabled hidden>
-          Country
-        </option>
-        {countries.map((country: Country) => (
-          <option key={country.id} value={country.id}>
-            {country.name}
-          </option>
-        ))}
-      </select>
 
       <input
         type="text"
@@ -94,8 +77,10 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={city}
         onChange={(e) => setCity(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
+
+      <CountrySelector onChange={setSelectedCountry} placeholder="Country" />
 
       <input
         type="text"
@@ -105,15 +90,15 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={bio}
         onChange={(e) => setBio(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
 
       <select
         name="staffCount"
         id="staffCount"
-        className="border rounded px-3 py-2 bg-slate-900 text-gray-300"
+        className={`border rounded-lg p-2 bg-slate-900 text-gray-300 ${!staffCount && "text-gray-500"}`}
         required
-        value={staffCount}
+        value={staffCount ?? ""}
         onChange={(e) => setStaffCount(Number(e.target.value) as StaffCount)}
       >
         <option value="" disabled hidden>
@@ -134,7 +119,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
 
       <input
@@ -145,7 +130,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
-        className="border rounded px-3 py-2 text-gray-300"
+        className="border rounded-lg p-2 text-gray-300"
       />
 
       <input
@@ -157,7 +142,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
 
       <input
@@ -168,7 +153,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         required
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        className="border rounded px-3 py-2"
+        className="border rounded-lg p-2"
       />
 
       {
@@ -183,7 +168,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
 
       < button
         type="submit"
-        className="bg-green-700 text-white rounded py-2 hover:bg-green-900"
+        className="bg-emerald-700 text-white rounded-lg py-2 hover:bg-emerald-600"
       >
         Register
       </button>

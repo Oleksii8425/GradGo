@@ -41,56 +41,54 @@ function Register() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen py-2 items-center justify-center overflow-scroll">
+    <motion.div
+      layout
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="flex flex-col gap-4 px-4 overflow-hidden w-full max-w-xl rounded-lg items-center bg-slate-900"
+    >
+      <div className="flex w-full max-w-xl rounded-t-lg justify-center">
+        <button
+          onClick={() => setRole("jobseeker")}
+          className={`min-h-full w-full p-4 rounded-tl-lg text-gray-300 border-b-2
+              ${role === "jobseeker"
+              ? "bg-slate-900 border-emerald-700"
+              : "bg-slate-900 border-slate-900"}
+              `}
+        >
+          Jobseeker
+        </button>
+        <button
+          onClick={() => setRole("employer")}
+          className={`min-h-full w-full p-4 rounded-tr-lg text-gray-300 border-b-2
+              ${role === "employer"
+              ? "bg-slate-900 border-emerald-700"
+              : "bg-slate-900 border-slate-900"}
+              `}
+        >
+          Employer
+        </button>
+      </div>
+
       <motion.div
         layout
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="flex flex-col overflow-hidden w-full max-w-xl rounded-xl items-center bg-slate-900"
+        className="w-full overflow-scroll"
       >
-        <div className="flex w-full max-w-xl rounded-t-xl justify-center">
-          <button
-            onClick={() => setRole("jobseeker")}
-            className={`min-h-full w-full p-4 rounded-tl-xl text-gray-300 border-b-2
-              ${role === "jobseeker"
-                ? "bg-slate-900 border-green-700"
-                : "bg-slate-900 border-slate-900"}
-              `}
-          >
-            Jobseeker
-          </button>
-          <button
-            onClick={() => setRole("employer")}
-            className={`min-h-full w-full p-4 rounded-tr-xl text-gray-300 border-b-2
-              ${role === "employer"
-                ? "bg-slate-900 border-b-2 border-green-700"
-                : "bg-slate-900 border-slate-900"}
-              `}
-          >
-            Employer
-          </button>
+        <div className={role === "jobseeker" ? "block" : "hidden"}>
+          <JobseekerRegisterForm countries={countries} courses={courses} />
         </div>
-
-        <motion.div
-          layout
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="w-full"
-        >
-          <div className={role === "jobseeker" ? "block" : "hidden"}>
-            <JobseekerRegisterForm countries={countries} courses={courses} />
-          </div>
-          <div className={role === "employer" ? "block" : "hidden"}>
-            <EmployerRegisterForm countries={countries} />
-          </div>
-        </motion.div>
-
-        <p className="text-gray-300 mb-6">
-          Already registered?{" "}
-          <a href="/login" className="hover:text-green-700">
-            Login.
-          </a>
-        </p>
+        <div className={role === "employer" ? "block" : "hidden"}>
+          <EmployerRegisterForm countries={countries} />
+        </div>
       </motion.div>
-    </div>
+
+      <p className="text-gray-300 mb-4">
+        Already registered?{" "}
+        <a href="/login" className="hover:text-emerald-600">
+          Login.
+        </a>
+      </p>
+    </motion.div>
   );
 }
 

@@ -37,7 +37,7 @@ function SkillSelector({ onChange, className, placeholder, selected }: SkillSele
       <select
         name="skills"
         id="skills"
-        className="w-full border rounded-lg p-2 bg-slate-900 text-gray-300"
+        className="w-full border rounded-lg p-2 bg-slate-900 text-gray-500"
         value=""
         onChange={(e) => {
           const value = Number(e.target.value);
