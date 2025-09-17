@@ -58,7 +58,7 @@ function Application() {
           accept='.pdf, .docx'
           onChange={(e) => setCv(e.target.files?.[0] ?? null)}
           required
-          className='flex-1 rounded-lg p-2 border border-slate-500 hover:border-slate-400 hover:bg-slate-800'
+          className='flex-1 rounded-lg p-2 border hover:border-slate-400 hover:bg-slate-800'
         />
       </div>
       <div className='flex flex-col gap-2'>
@@ -72,14 +72,14 @@ function Application() {
             id='coverLetter'
             accept='.pdf, .docx, .txt'
             onChange={(e) => setCoverLetter(e.target.files?.[0] ?? null)}
-            className='rounded-lg p-2 border border-slate-500 hover:border-slate-400 hover:bg-slate-800'
+            className='rounded-lg p-2 border hover:border-slate-400 hover:bg-slate-800'
           />
         </div>
         <textarea
           name='coverLetter'
           id='coverLetter'
           onChange={(e) => setCoverLetterText(e.target.value)}
-          className='rounded-lg p-2 min-h-[40px] max-h-[300px] border border-slate-500'
+          className='rounded-lg p-2 min-h-[40px] max-h-[300px] border'
         />
       </div>
       <input

@@ -15,6 +15,12 @@ body {
   }
 }
 
+@layer base {
+  *, ::before, ::after {
+    @apply border-slate-500;
+  }
+}
+
 @layer components {
   label.required::after {
     content: " *";

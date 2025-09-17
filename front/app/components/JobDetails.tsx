@@ -34,7 +34,7 @@ function JobDetails({ job }: JobDetailsProps) {
   }, [job, user]);
 
   return (
-    <div className="flex-2 max-h-full flex flex-col items-start overflow-scroll rounded-lg p-4 border border-slate-500">
+    <div className="flex-2 max-h-full flex flex-col items-start overflow-scroll rounded-lg p-4 border">
       <div className="w-full flex justify-between">
         <div>
           <p className="text-xs">{job.employerName}</p>
@@ -57,7 +57,7 @@ function JobDetails({ job }: JobDetailsProps) {
 
           {/*Save button*/}
           <button
-            className="rounded-full p-2 mt-2 border border-slate-500 hover:border-slate-400 hover:bg-slate-800">
+            className="rounded-full p-2 mt-2 border hover:border-slate-400 hover:bg-slate-800">
             Save
           </button>
         </div>

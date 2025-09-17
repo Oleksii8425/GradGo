@@ -18,7 +18,7 @@ function TypeSelector({ onChange, className, placeholder }: TypeSelectorProps) {
     <select
       name="jobTypes"
       id="jobTypes"
-      className={`border border-slate-500 rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
+      className={`border rounded-lg px-2 py-2 bg-slate-900 text-gray-300 ${className ?? ""}`}
       value={type ?? ""}
       required
       onChange={(e) => {

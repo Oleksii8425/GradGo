@@ -16,7 +16,7 @@ function DegreeSelector({ onChange }: DegreeSelectorProps) {
     <select
       name="degree"
       id="degree"
-      className="border border-slate-500 rounded px-2 py-2 bg-slate-900 text-gray-300"
+      className="border rounded px-2 py-2 bg-slate-900 text-gray-300"
       value={degree ?? ""}
       required
       onChange={(e) => {

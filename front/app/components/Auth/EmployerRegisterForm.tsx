@@ -71,7 +71,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
       <select
         name="countries"
         id="countries"
-        className="border rounded px-3 py-2 bg-slate-900 text-gray-300"
+        className="border rounded px-3 py-2 bg-slate-900"
         required
         value={selectedCountry}
         onChange={(e) => setSelectedCountry(Number(e.target.value))}

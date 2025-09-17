@@ -60,7 +60,7 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
               placeholder="Keywords, Employers or Skills"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-              className="flex-1 min-w-1/4 rounded-lg border border-slate-500 p-1 hover:border-white"
+              className="flex-1 min-w-1/4 rounded-lg border p-1 hover:border-white"
             />
           </Tooltip>
 
@@ -71,7 +71,7 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="flex-1 min-w-1/4 w-full rounded-lg border border-slate-500 p-1 hover:border-white"
+            className="flex-1 min-w-1/4 w-full rounded-lg border p-1 hover:border-white"
           />
 
           <CountrySelector
