@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "~/components/auth/AuthContext";
-import CountrySelector from "~/components/job-form/CountrySelector";
-import DegreeSelector from "~/components/job-form/DegreeSelector";
-import SalaryInput from "~/components/job-form/SalaryInput";
-import SkillSelector from "~/components/job-form/SkillSelector";
-import TypeSelector from "~/components/job-form/TypeSelector";
+import CountrySelector from "~/components/CountrySelector";
+import DegreeSelector from "~/components/DegreeSelector";
+import SalaryInput from "~/components/SalaryInput";
+import SkillSelector from "~/components/SkillSelector";
+import TypeSelector from "~/components/TypeSelector";
 import { Degree, JobType, type Country, type Job } from "~/types";
 import JobDetails from "../components/JobDetails";
 import { NewtonsCradle } from 'ldrs/react'

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import CountrySelector from "./job-form/CountrySelector";
+import CountrySelector from "./CountrySelector";
 import { Degree, JobType, type Country, type Job } from "~/types";
-import TypeSelector from "./job-form/TypeSelector";
+import TypeSelector from "./TypeSelector";
 import DegreeSelector from "./DegreeSelector";
 import { Tooltip } from "@material-tailwind/react";
 
@@ -106,7 +106,7 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
       >
         Advanced Search
       </button>
-      
+
       {advancedSearch && (
         <div className="flex w-1/2 gap-2">
           <DegreeSelector

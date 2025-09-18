@@ -12,8 +12,8 @@ function MyNavLink({ to, children }: NavLinkProps) {
       to={to}
       className={({ isActive }) =>
         `p-2 border-b-2 ${isActive
-          ? "border-gray-300 text-gray-300 font-bold"
-          : "border-slate-900 hover:border-gray-300"
+          ? " text-white font-bold"
+          : "border-slate-900 hover:border-slate-300"
         }`
       }
     >

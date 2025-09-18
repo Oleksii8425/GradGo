@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { Country, Course, Skill } from "~/types";
-import SkillSelector from "../job-form/SkillSelector";
+import SkillSelector from "../SkillSelector";
 import submitForm from "../submitForm";
 import { useNavigate } from "react-router";
-import CountrySelector from "../job-form/CountrySelector";
+import CountrySelector from "../CountrySelector";
 
 interface JobseekerRegisterFormProps {
   countries: Country[],

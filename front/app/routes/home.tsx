@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
-import NavBar from "~/NavBar";
+import NavBar from "~/components/NavBar";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "GradGO" },
     { name: "description", content: "Welcome to React Router!" },
