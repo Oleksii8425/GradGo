@@ -9,7 +9,7 @@ namespace GradGo.Models
         public string City { get; set; } = null!;
         public Country Country { get; set; } = null!;
         public string Bio { get; set; } = null!;
-        public string RefreshToken { get; set; } = null!;
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }
