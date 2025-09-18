@@ -21,7 +21,8 @@ namespace GradGo.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
-        private readonly CookieOptions REFRESH_TOKEN_OPTIONS = new CookieOptions
+
+        private readonly CookieOptions REFRESH_TOKEN_OPTIONS = new()
         {
             HttpOnly = true,
             Secure = true,
@@ -44,8 +45,8 @@ namespace GradGo.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            var res = await _userManager.Users.ToListAsync();
-            return Ok(res);
+            var users = await _userManager.Users.ToListAsync();
+            return Ok(users.Select(u => u.ToDto()).ToList());
         }
 
         [HttpGet("{id}")]
@@ -56,36 +57,18 @@ namespace GradGo.Controllers
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
-                return BadRequest(new { message = "User with such ID doesn't exist." });
+                return NotFound(new { message = "User with such ID doesn't exist." });
 
-            UserDto res;
-
-            if (user.Role == UserRole.BaseUser)
-            {
-                res = user.ToDto();
-            }
-            else if (user.Role == UserRole.Employer)
-            {
-                res = ((Employer)user).ToDto();
-            }
-            else if (user.Role == UserRole.Jobseeker)
-            {
-                res = ((Jobseeker)user).ToDto();
-            }
-            else
-            {
-                return BadRequest(new { message = "Unknown user type" });
-            }
-
-            return Ok(res);
+            var dto = await MapUserToDtoAsync(user);
+            return Ok(dto);
         }
 
         [HttpPost("register/employer")]
-        public async Task<ActionResult<EmployerDto>> RegisterEmployer(EmployerCreateDto dto)
+        public async Task<ActionResult> RegisterEmployer(EmployerCreateDto dto)
         {
             var employer = dto.ToEmployer();
-
             var result = await _userManager.CreateAsync(employer, dto.Password);
+
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
@@ -95,9 +78,23 @@ namespace GradGo.Controllers
         }
 
         [HttpPost("register/jobseeker")]
-        public async Task<ActionResult<JobseekerDto>> RegisterJobseeker(JobseekerCreateDto dto)
+        public async Task<ActionResult> RegisterJobseeker(JobseekerCreateDto dto)
         {
             var jobseeker = dto.ToJobseeker();
+
+            if (dto.Skills is not null)
+            {
+                jobseeker.Skills = await _context.Skills
+                    .Where(s => dto.Skills.Contains(s.Id))
+                    .ToListAsync();
+            }
+
+            if (dto.Courses is not null)
+            {
+                jobseeker.Courses = await _context.Courses
+                    .Where(c => dto.Courses.Contains(c.Id))
+                    .ToListAsync();
+            }
 
             var result = await _userManager.CreateAsync(jobseeker, dto.Password);
             if (!result.Succeeded)
@@ -115,11 +112,7 @@ namespace GradGo.Controllers
                 .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            if (user == null)
-                return Unauthorized(new { message = "Invalid email or password" });
-
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
-            if (!isPasswordValid)
+            if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
                 return Unauthorized(new { message = "Invalid email or password" });
 
             if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -137,22 +130,15 @@ namespace GradGo.Controllers
 
             Response.Cookies.Append("refreshToken", refreshToken, REFRESH_TOKEN_OPTIONS);
 
-            UserDto res = user.Role switch
-            {
-                UserRole.BaseUser => user.ToDto(),
-                UserRole.Employer => ((Employer)user).ToDto(),
-                UserRole.Jobseeker => ((Jobseeker)user).ToDto(),
-                _ => throw new Exception("Unknown user type")
-            };
+            var dtoRes = await MapUserToDtoAsync(user);
 
-            return Ok(new { Token = accessToken, User = res });
+            return Ok(new { token = accessToken, user = dtoRes });
         }
 
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-
             if (string.IsNullOrEmpty(refreshToken))
                 return Unauthorized(new { message = "No refresh token provided" });
 
@@ -164,15 +150,9 @@ namespace GradGo.Controllers
                 return Unauthorized(new { message = "Invalid or expired refresh token" });
 
             var newAccessToken = GenerateJwtToken(user);
-            var userDto = user.Role switch
-            {
-                UserRole.BaseUser => user.ToDto(),
-                UserRole.Employer => ((Employer)user).ToDto(),
-                UserRole.Jobseeker => ((Jobseeker)user).ToDto(),
-                _ => throw new Exception("Unknown user type")
-            };
+            var dto = await MapUserToDtoAsync(user);
 
-            return Ok(new { token = newAccessToken, user = userDto });
+            return Ok(new { token = newAccessToken, user = dto });
         }
 
         [HttpPost("logout")]
@@ -184,7 +164,7 @@ namespace GradGo.Controllers
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
                 if (user != null)
                 {
-                    user.RefreshToken = "";
+                    user.RefreshToken = string.Empty;
                     user.RefreshTokenExpiryTime = DateTime.MinValue;
                     await _context.SaveChangesAsync();
                 }
@@ -193,7 +173,6 @@ namespace GradGo.Controllers
             Response.Cookies.Delete("refreshToken");
             return Ok(new { message = "Logged out" });
         }
-
 
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(Guid userId, string token)
@@ -207,6 +186,41 @@ namespace GradGo.Controllers
                 return BadRequest(new { message = "Email confirmation failed" });
 
             return Ok(new { message = "Email confirmed successfully" });
+        }
+
+        // 🔹 Private Helpers
+
+        private async Task<UserDto> MapUserToDtoAsync(User user)
+        {
+            return user.Role switch
+            {
+                UserRole.BaseUser => user.ToDto(),
+                UserRole.Employer => (await LoadEmployerAsync(user.Id)).ToDto(),
+                UserRole.Jobseeker => (await LoadJobseekerAsync(user.Id)).ToDto(),
+                _ => throw new Exception("Unknown user type")
+            };
+        }
+
+        private async Task<Employer> LoadEmployerAsync(Guid userId)
+        {
+            var employer = await _context.Employers
+                .Include(e => e.Country)
+                .Include(e => e.Jobs)
+                .FirstOrDefaultAsync(e => e.Id == userId);
+
+            return employer ?? throw new Exception("Employer not found");
+        }
+
+        private async Task<Jobseeker> LoadJobseekerAsync(Guid userId)
+        {
+            var jobseeker = await _context.Jobseekers
+                .Include(j => j.Country)
+                .Include(j => j.Skills)
+                .Include(j => j.Courses)
+                .Include(j => j.Applications)
+                .FirstOrDefaultAsync(j => j.Id == userId);
+
+            return jobseeker ?? throw new Exception("Jobseeker not found");
         }
 
         private async Task SendEmailAsync(User user)
@@ -231,7 +245,7 @@ namespace GradGo.Controllers
         {
             var jwtSettings = _configuration.GetSection("Jwt");
 
-            var claims = new Claim[]
+            var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email!),
@@ -245,7 +259,7 @@ namespace GradGo.Controllers
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddSeconds(20),
+                expires: DateTime.UtcNow.AddMinutes(15), // extended from 20s
                 signingCredentials: creds
             );
 
