@@ -7,7 +7,6 @@ namespace GradGo.DTOs
         string Degree,
         UniversityDto University,
         DateOnly StartDate,
-        DateOnly EndDate,
-        List<JobseekerDto> Jobseekers
+        DateOnly EndDate
     );
 }
