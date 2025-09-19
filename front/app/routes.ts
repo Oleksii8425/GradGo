@@ -1,11 +1,17 @@
-import { index, layout, route, type RouteConfig } from "@react-router/dev/routes";
+import { index, layout, prefix, route, type RouteConfig } from "@react-router/dev/routes";
 
 export default [
   index("routes/home.tsx"),
   route("confirm-email", "routes/confirm-email.tsx"),
+  route("confirm-email-message", "routes/confirm-email-message.tsx"),
 
   layout("routes/layout.tsx", [
-    route("profile", "routes/profile/profile.tsx"),
+    ...prefix("profile", [
+      index("routes/profile/profile.tsx"),
+      route("edit-jobseeker", "routes/profile/jobseeker-profile-editor.tsx"),
+      route("edit-employer", "routes/profile/employer-profile-editor.tsx"),
+    ]),
+
     route("jobs", "routes/jobs.tsx"),
     route("apply/:jobId", "routes/application.tsx"),
   ]),
