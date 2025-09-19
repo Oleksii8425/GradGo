@@ -88,11 +88,11 @@ export type Skill = {
 };
 
 export enum StaffCount {
-  LessThan50,
-  Between50And100,
-  Between100And500,
-  MoreThan500
-};
+  LessThan50 = "LessThan50",
+  Between50And100 = "Between50And100",
+  Between100And500 = "Between100And500",
+  MoreThan500 = "MoreThan500"
+}
 
 export type University = {
   id: string,
