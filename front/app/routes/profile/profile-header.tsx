@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router";
 import { useAuth } from "~/components/auth/AuthContext";
 
-function ProfileHeader({ userName }: { userName: string }) {
+interface ProfileHeaderProps {
+  userName: string;
+  role: "Employer" | "Jobseeker";
+}
+
+function ProfileHeader({ userName, role }: ProfileHeaderProps) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -10,6 +17,31 @@ function ProfileHeader({ userName }: { userName: string }) {
       </div>
       <div className="mt-4 flex space-x-2 items-center">
         <h1 className="text-2xl font-semibold">{userName}</h1>
+
+        {/* Edit Profile Button */}
+        <button
+          onClick={() => {
+            if (role === "Employer")
+              navigate("/profile/edit-employer");
+
+            if (role === "Jobseeker")
+              navigate("/profile/edit-jobseeker");
+          }}
+          className="rounded-lg p-1 hover:cursor-pointer"
+          title="Edit Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-6 h-6 fill-emerald-500 hover:fill-emerald-400"
+          >
+            <path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zM21.41 
+                     6.34c.39-.39.39-1.02 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 
+                     0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+          </svg>
+        </button>
+
+        {/* Logout Button */}
         <button
           onClick={() => logout()}
           className="rounded-lg hover:cursor-pointer"

@@ -2,11 +2,11 @@ import { useAuth } from "~/components/auth/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NewtonsCradle } from "ldrs/react";
-import JobseekerProfile from "./JobseekerProfile";
-import EmployerProfile from "./EmployerProfile";
+import JobseekerProfile from "./jobseeker-profile";
+import EmployerProfile from "./employer-profile";
 
 function Profile() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
