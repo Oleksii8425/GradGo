@@ -188,7 +188,7 @@ namespace GradGo.Controllers
             return Ok(new { message = "Email confirmed successfully" });
         }
 
-        // 🔹 Private Helpers
+        // Private Helpers
 
         private async Task<UserDto> MapUserToDtoAsync(User user)
         {
@@ -206,6 +206,12 @@ namespace GradGo.Controllers
             var employer = await _context.Employers
                 .Include(e => e.Country)
                 .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Country)
+                .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Applications)
+                .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Skills)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(e => e.Id == userId);
 
             return employer ?? throw new Exception("Employer not found");
@@ -218,6 +224,8 @@ namespace GradGo.Controllers
                 .Include(j => j.Skills)
                 .Include(j => j.Courses)
                 .Include(j => j.Applications)
+                    .ThenInclude(a => a.Job)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(j => j.Id == userId);
 
             return jobseeker ?? throw new Exception("Jobseeker not found");
