@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { StaffCount, type Country } from "~/types";
-import { useNavigate } from "react-router";
-import submitForm from "../submitForm";
+import type { StaffCount, Country } from "~/types";
+import sendRequestAsync from "../sendRequest";
 import CountrySelector from "../CountrySelector";
+import StaffCountSelector from "../StaffCountSelector";
 
-interface EmployerRegisterFormProps {
-  countries: Country[]
-}
-
-function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+function EmployerRegisterForm() {
+  const [country, setCountry] = useState<Country | null>(null);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -19,7 +15,6 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
   const [bio, setBio] = useState<string>("");
   const [staffCount, setStaffCount] = useState<StaffCount | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,18 +33,17 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
       email,
       password,
       confirmPassword,
-      countryId: selectedCountry,
+      countryId: country?.id,
       city,
       bio,
       staffCount
     };
 
-    submitForm(
+    sendRequestAsync(
       url,
+      "POST",
       body,
-      setErrors,
-      navigate,
-      "/confirm-email"
+      setErrors
     );
   };
 
@@ -80,7 +74,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         className="border rounded-lg p-2"
       />
 
-      <CountrySelector onChange={setSelectedCountry} placeholder="Country" />
+      <CountrySelector onChange={setCountry} placeholder="Country" />
 
       <input
         type="text"
@@ -93,22 +87,7 @@ function EmployerRegisterForm({ countries }: EmployerRegisterFormProps) {
         className="border rounded-lg p-2"
       />
 
-      <select
-        name="staffCount"
-        id="staffCount"
-        className={`border rounded-lg p-2 bg-slate-900 text-gray-300 ${!staffCount && "text-gray-500"}`}
-        required
-        value={staffCount ?? ""}
-        onChange={(e) => setStaffCount(Number(e.target.value) as StaffCount)}
-      >
-        <option value="" disabled hidden>
-          Number of staff
-        </option>
-        <option key={StaffCount.LessThan50} value={StaffCount.LessThan50}>Less than 50</option>
-        <option key={StaffCount.Between50And100} value={StaffCount.Between50And100}>Between 50 and 100</option>
-        <option key={StaffCount.Between100And500} value={StaffCount.Between100And500}>Between 100 and 500</option>
-        <option key={StaffCount.MoreThan500} value={StaffCount.MoreThan500}>More than 500</option>
-      </select>
+      <StaffCountSelector onChange={setStaffCount} placeholder="" />
 
       <input
         type="email"

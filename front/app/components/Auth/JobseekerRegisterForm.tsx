@@ -1,16 +1,15 @@
 import { useState } from "react";
 import type { Country, Course, Skill } from "~/types";
 import SkillSelector from "../SkillSelector";
-import submitForm from "../submitForm";
+import sendRequestAsync from "../sendRequest";
 import { useNavigate } from "react-router";
 import CountrySelector from "../CountrySelector";
 
 interface JobseekerRegisterFormProps {
-  countries: Country[],
   courses: Course[]
 }
 
-function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProps) {
+function JobseekerRegisterForm({ courses }: JobseekerRegisterFormProps) {
   const [country, setCountry] = useState<Country | null>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -46,18 +45,20 @@ function JobseekerRegisterForm({ countries, courses }: JobseekerRegisterFormProp
       password,
       confirmPassword,
       city,
-      countryId: country,
+      countryId: country?.id,
       bio,
-      skills: skills
+      skills: skills,
+      courses: courses.map(c => c.id)
     };
 
-    submitForm(
+    sendRequestAsync(
       url,
+      "POST",
       body,
-      setErrors,
-      navigate,
-      "/confirm-email"
+      setErrors
     );
+
+    navigate("/confirm-email-message", { state: { email: email } });
   };
 
   return (

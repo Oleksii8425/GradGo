@@ -75,10 +75,10 @@ function Register() {
         className="w-full overflow-scroll"
       >
         <div className={role === "jobseeker" ? "block" : "hidden"}>
-          <JobseekerRegisterForm countries={countries} courses={courses} />
+          <JobseekerRegisterForm courses={courses} />
         </div>
         <div className={role === "employer" ? "block" : "hidden"}>
-          <EmployerRegisterForm countries={countries} />
+          <EmployerRegisterForm />
         </div>
       </motion.div>
 
