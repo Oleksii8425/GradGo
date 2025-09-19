@@ -14,6 +14,7 @@ namespace GradGo.DTOs
         int? CountryId,
         string? Bio,
         List<int>? Skills,
-        List<int>? Courses
+        List<int>? Courses,
+        List<Guid>? Applications
     );
 }

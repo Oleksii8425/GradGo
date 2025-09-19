@@ -13,8 +13,7 @@ namespace GradGo.Mappers
                 course.Degree.GetDescription(),
                 course.University.ToDto(),
                 course.StartDate,
-                course.EndDate,
-                course.Jobseekers.Select(j => j.ToDto()).ToList()
+                course.EndDate
             );
         }
     }
