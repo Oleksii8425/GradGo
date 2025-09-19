@@ -20,8 +20,15 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem("token");
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,6 +39,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     initializeAuth();
   }, []);
+
+  // keep localStorage in sync
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
 
   const updateUser = (newUser: User | null) => {
     setUser(newUser);
@@ -45,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const res = await fetch("http://localhost:5272/users/refresh-token", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
 
       if (!res.ok) {
