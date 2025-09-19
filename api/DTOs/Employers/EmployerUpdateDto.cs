@@ -9,6 +9,6 @@ namespace GradGo.DTOs
         string? City,
         int? CountryId,
         StaffCount? StaffCount,
-        List<Guid> Jobs
+        List<Guid>? Jobs
     );
 }

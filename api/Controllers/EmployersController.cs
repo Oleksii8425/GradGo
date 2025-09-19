@@ -41,27 +41,18 @@ namespace GradGo.Controllers
             return Ok(employer.ToDto());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateEmployer([FromBody] EmployerCreateDto dto)
-        {
-            var employer = dto.ToEmployer();
-
-            _context.Employers.Add(employer);
-            await _context.SaveChangesAsync();
-
-            var savedEmployer = await _context.Employers
-                .Include(e => e.Country)
-                .FirstOrDefaultAsync(e => e.Id == employer.Id);
-
-            return CreatedAtAction(nameof(GetEmployerById), new { id = employer.Id }, savedEmployer!.ToDto());
-        }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployer(Guid id, [FromBody] EmployerUpdateDto dto)
         {
             var employer = await _context.Employers
                 .Include(e => e.Country)
                 .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Country)
+                .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Applications)
+                .Include(e => e.Jobs)
+                    .ThenInclude(j => j.Skills)
+                .AsSplitQuery()
                 .SingleOrDefaultAsync(e => e.Id == id);
 
             if (employer is null)
@@ -79,7 +70,7 @@ namespace GradGo.Controllers
             employer.UpdateFromDto(dto, jobs);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(employer.ToDto());
         }
 
         [HttpDelete("{id}")]
