@@ -8,7 +8,7 @@ interface JobseekerProfileProps {
 
 function JobseekerProfile({ jobseeker }: JobseekerProfileProps) {
   return (
-    <div className="self-center max-w-xl flex-1 bg-slate-900 rounded-2xl p-8 flex flex-col items-center">
+    <div className="max-w-3xl min-h-0 flex-1 bg-slate-900 rounded-lg p-6 flex flex-col items-center">
       <ProfileHeader userName={jobseeker.userName} role={"Jobseeker"} />
 
       <div className="mt-6 space-y-3 w-full">
@@ -20,6 +20,7 @@ function JobseekerProfile({ jobseeker }: JobseekerProfileProps) {
           label="Location"
           value={jobseeker.city && jobseeker.country?.name ? `${jobseeker.city}, ${jobseeker.country.name}` : null}
         />
+        <ProfileRow label="Bio" />
       </div>
     </div>
   );

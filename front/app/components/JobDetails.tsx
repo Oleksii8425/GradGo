@@ -34,7 +34,7 @@ function JobDetails({ job }: JobDetailsProps) {
   }, [job, user]);
 
   return (
-    <div className="flex-2 max-h-full flex flex-col items-start overflow-scroll rounded-lg p-4 border">
+    <div className="flex-2 flex flex-col items-start overflow-scroll rounded-lg p-4 border">
       <div className="w-full flex justify-between">
         <div>
           <p className="text-xs">{job.employerName}</p>
@@ -74,23 +74,17 @@ function JobDetails({ job }: JobDetailsProps) {
         </p>
       </div>
 
+      {/*Skills*/}
+      <div className="flex w-full gap-2 mt-2">
+        {job.skills.map(s => s.title).join(", ")}
+      </div>
+
       <h1 className="mt-4 mb-2 text-2xl font-bold">About the job</h1>
-      <div className="w-full flex flex-col overflow-y-scroll">
+      <div className="w-full flex flex-col">
         {/*Description*/}
         <p className="text-justify pr-2 wrap-break-word">
           {job.description}
         </p>
-      </div>
-
-      {/*Skills*/}
-      <div className="flex w-full gap-2 mt-2">
-        {
-          job.skills.map((skill) =>
-            <p className="p-2 rounded-full bg-slate-700">
-              {skill.title}
-            </p>
-          )
-        }
       </div>
     </div>
   );

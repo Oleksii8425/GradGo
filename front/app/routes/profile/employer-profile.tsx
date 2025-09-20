@@ -8,7 +8,7 @@ interface EmployerProfileProps {
 
 function EmployerProfile({ employer }: EmployerProfileProps) {
   return (
-    <div className="self-center max-w-xl flex-1 bg-slate-900 rounded-2xl p-8 flex flex-col items-center">
+    <div className="max-w-3xl min-h-0 flex-1 bg-slate-900 rounded-lg p-6 flex flex-col items-center">
       <ProfileHeader userName={employer.userName} role={"Employer"} />
 
       <div className="mt-6 space-y-3 w-full">
