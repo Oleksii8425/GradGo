@@ -43,7 +43,7 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
 
   return (
     <div className="mb-2">
-      <div className="w-full flex items-center flex-wrap gap-1 mb-2">
+      <div className="w-full flex items-center flex-wrap gap-1">
         <div className="w-full flex-1 flex gap-2 flex-wrap">
           <Tooltip
             placement="bottom-start"
@@ -108,17 +108,15 @@ function JobSearchBar({ onSearch }: JobSearchBarProps) {
       </button>
 
       {advancedSearch && (
-        <div className="flex w-1/2 gap-2">
+        <div className="flex gap-2 justify-start">
           <DegreeSelector
             onChange={setRequiredDegree}
-            className="flex-1 min-w-1/4 w-full"
-            placeholder="Degree"
+            placeholder="Required Degree"
           />
 
           <TypeSelector
             onChange={setType}
-            className="flex-1 min-w-1/4 w-full"
-            placeholder="Type"
+            placeholder="Location"
           />
         </div>
       )}

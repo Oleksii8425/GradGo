@@ -117,14 +117,14 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="w-4/6 min-w-[100px] max-w-5xl h-full flex flex-col rounded-lg p-4 mb-4 bg-slate-900">
+    <div className="w-4/6 min-w-[100px] max-w-5xl flex flex-col rounded-lg p-4 bg-slate-900">
       {/*Employer controls*/}
       {user?.role === "Employer" && (
-        <div className="w-full flex flex-col overflow-scroll gap-4">
+        <div className="w-full flex flex-col overflow-scroll gap-4 mb-4">
           <div className="flex justify-items-start gap-1">
             <button
               onClick={() => setShowAddJobForm(!showAddJobForm)}
-              className="bg-slate-700 hover:bg-slate-800 rounded-lg px-4 py-2 cursor-pointer"
+              className="bg-emerald-600 hover:bg-emerald-500 rounded-full px-4 py-2 cursor-pointer"
             >
               Add Job
             </button>
