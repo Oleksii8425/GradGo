@@ -24,7 +24,7 @@ function MyNavLink({ to, children }: NavLinkProps) {
 
 function NavBar() {
   return (
-    <div className="w-full flex items-start bg-slate-900">
+    <div className="w-full flex items-start bg-slate-900 sticky top-0">
       <MyNavLink to="/jobs">Jobs</MyNavLink>
       <MyNavLink to="/profile">Profile</MyNavLink>
     </div>
