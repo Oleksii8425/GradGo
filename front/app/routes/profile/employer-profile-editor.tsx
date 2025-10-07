@@ -12,6 +12,7 @@ function EmployerProfileEditor() {
   const [phoneNumber, setPhoneNumber] = useState<string>((user as Employer)?.phoneNumber);
   const [city, setCity] = useState<string>((user as Employer)?.city);
   const [country, setCountry] = useState<Country | null>((user as Employer)?.country);
+  const [bio, setBio] = useState<string>(user?.bio ?? "");
   const [staffCount, setStaffCount] = useState<StaffCount | null>((user as Employer)?.staffCount);
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ function EmployerProfileEditor() {
       ...(phoneNumber !== employer.phoneNumber && { phoneNumber }),
       ...(city !== employer.city && { city }),
       ...(country && country?.id !== employer.country.id && { countryId: country.id }),
+      ...(bio !== employer.bio && { bio }),
       ...(staffCount !== employer.staffCount && { staffCount })
     };
 
@@ -38,7 +40,7 @@ function EmployerProfileEditor() {
   };
 
   return (
-    <div className="self-center w-full max-w-xl bg-slate-900 p-4 rounded-lg">
+    <div className="w-full max-w-3xl bg-slate-900 p-4 rounded-lg">
       <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
       <form
         className="w-full flex flex-col gap-2"
@@ -104,6 +106,21 @@ function EmployerProfileEditor() {
                 <StaffCountSelector
                   onChange={setStaffCount}
                   selected={(user as Employer).staffCount} />
+              </td>
+            </tr>
+            <tr>
+              <td className="align-top">Bio</td>
+              <td>
+                <textarea
+                  name="bio"
+                  id="bio"
+                  rows={10}
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  className="w-full p-2 rounded-lg border"
+                >
+                  {user?.bio}
+                </textarea>
               </td>
             </tr>
           </tbody>

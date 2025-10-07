@@ -16,6 +16,7 @@ function JobseekerProfileEditor() {
   const [phoneNumber, setPhoneNumber] = useState<string>(user?.phoneNumber ?? "");
   const [city, setCity] = useState<string>(user?.city ?? "");
   const [country, setCountry] = useState<Country | null>(null);
+  const [bio, setBio] = useState<string>(user?.bio ?? "");
   const [skills, setSkills] = useState<number[]>([]);
 
   const onSave = async () => {
@@ -28,6 +29,7 @@ function JobseekerProfileEditor() {
       ...(phoneNumber !== jobseeker.phoneNumber && { phoneNumber }),
       ...(city !== jobseeker.city && { city }),
       ...(country && country?.id !== jobseeker.country.id && { countryId: country.id }),
+      ...(bio !== jobseeker.bio && { bio }),
       ...(JSON.stringify(skills) !== JSON.stringify(jobseeker.skills.map(s => s.id)) && { skills })
     };
 
@@ -43,7 +45,7 @@ function JobseekerProfileEditor() {
   };
 
   return (
-    <div className="self-center w-full max-w-xl bg-slate-900 p-4 rounded-lg">
+    <div className="w-full max-w-3xl bg-slate-900 p-4 rounded-lg flex flex-col overflow-scroll">
       <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
       <form
         className="w-full flex flex-col gap-2"
@@ -132,7 +134,22 @@ function JobseekerProfileEditor() {
               </td>
             </tr>
             <tr>
-              <td>Skills</td>
+              <td className="align-top">Bio</td>
+              <td>
+                <textarea
+                  name="bio"
+                  id="bio"
+                  rows={10}
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  className="w-full p-2 rounded-lg border"
+                >
+                  {user?.bio}
+                </textarea>
+              </td>
+            </tr>
+            <tr>
+              <td className="align-top">Skills</td>
               <td>
                 <SkillSelector
                   onChange={setSkills}

@@ -2,21 +2,22 @@ import { useNavigate } from "react-router";
 import { useAuth } from "~/components/auth/AuthContext";
 
 interface ProfileHeaderProps {
-  userName: string;
+  name: string;
   role: "Employer" | "Jobseeker";
 }
 
-function ProfileHeader({ userName, role }: ProfileHeaderProps) {
+function ProfileHeader({ name, role }: ProfileHeaderProps) {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-600">
-        {userName?.[0] ?? "?"}
+      {/* Avatar */}
+      <div className="mt-6 w-24 h-24 rounded-full bg-slate-700 flex items-center justify-center text-3xl font-bold">
+        {name[0]}
       </div>
       <div className="mt-4 flex space-x-2 items-center">
-        <h1 className="text-2xl font-semibold">{userName}</h1>
+        <h1 className="text-2xl font-semibold">{name}</h1>
 
         {/* Edit Profile Button */}
         <button

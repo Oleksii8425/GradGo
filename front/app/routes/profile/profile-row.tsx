@@ -1,5 +1,5 @@
 interface ProfileRowProps {
-  label: string;
+  label?: string;
   value?: React.ReactNode
 }
 
@@ -9,8 +9,8 @@ function ProfileRow({ label, value }: ProfileRowProps) {
 
   return (
     <div className="flex justify-between border-b pb-2">
-      <span className="font-medium">{label}:</span>
-      <span>{value}</span>
+      <span className="font-medium">{label ?? ""}</span>
+      <span>{value ?? ""}</span>
     </div>
   );
 }

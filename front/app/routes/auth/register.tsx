@@ -71,7 +71,7 @@ function Register() {
 
       <motion.div
         layout
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
         className="w-full overflow-scroll"
       >
         <div className={role === "jobseeker" ? "block" : "hidden"}>
