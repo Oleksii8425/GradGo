@@ -21,6 +21,28 @@ namespace GradGo.Controllers
             _s3client = s3Client;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<ApplicationDto>> GetApplications([FromQuery] Guid? jobseekerId)
+        {
+            var applications = _context.Applications
+                .Include(a => a.Job)
+                    .ThenInclude(j => j.Employer)
+                .Include(a => a.Jobseeker)
+                .AsQueryable();
+
+            if (jobseekerId is not null)
+            {
+                applications = applications
+                    .Where(a => a.Jobseeker.Id == jobseekerId);
+            }
+
+            var results = await applications
+                .Select(a => a.ToDto(a.Job))
+                .ToListAsync();
+
+            return Ok(results);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationDto>> GetApplication(Guid id)
         {
