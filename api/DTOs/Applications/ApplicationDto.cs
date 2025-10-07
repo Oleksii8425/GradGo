@@ -6,6 +6,8 @@ namespace GradGo.DTOs
         Guid JobId,
         Guid JobseekerId,
         DateTime AppliedOn,
-        string Status
+        string Status,
+        string JobTitle,
+        string EmployerName
     );
 }

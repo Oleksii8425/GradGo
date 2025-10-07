@@ -5,14 +5,16 @@ namespace GradGo.Mappers
 {
     public static class ApplicationMapper
     {
-        public static ApplicationDto ToDto(this Application application)
+        public static ApplicationDto ToDto(this Application application, Job job)
         {
             return new ApplicationDto(
                 application.Id,
                 application.Job.Id,
                 application.Jobseeker.Id,
                 application.AppliedOn,
-                application.Status.GetDescription()
+                application.Status.GetDescription(),
+                job.Title,
+                job.Employer.Name
             );
         }
 

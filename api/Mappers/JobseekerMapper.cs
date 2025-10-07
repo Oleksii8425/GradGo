@@ -21,7 +21,7 @@ namespace GradGo.Mappers
                 jobseeker.Age,
                 jobseeker.Skills.Select(s => s.ToDto()).ToList(),
                 jobseeker.Courses.Select(c => c.ToDto()).ToList(),
-                jobseeker.Applications.Select(a => a.ToDto()).ToList()
+                jobseeker.Applications.Select(a => a.ToDto(a.Job)).ToList()
             );
         }
 
