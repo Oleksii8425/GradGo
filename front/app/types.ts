@@ -3,7 +3,9 @@ export type Application = {
   job: Job,
   jobseeker: Jobseeker,
   appliedOn: string,
-  status: string
+  status: string,
+  jobTitle: string,
+  employerName: string
 };
 
 export type BaseUser = {
