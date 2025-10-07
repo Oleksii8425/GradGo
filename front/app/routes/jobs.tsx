@@ -117,7 +117,7 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="w-4/6 min-w-[100px] max-w-5xl flex flex-col rounded-lg p-4 bg-slate-900">
+    <div className="w-full min-w-[100px] max-w-5xl h-full flex flex-col rounded-lg p-4 bg-slate-900">
       {/*Employer controls*/}
       {user?.role === "Employer" && (
         <div className="w-full flex flex-col overflow-scroll gap-4 mb-4">
