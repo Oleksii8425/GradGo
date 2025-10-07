@@ -3,6 +3,9 @@ import { useNavigate, useParams } from "react-router";
 import { useAuth } from "~/components/auth/AuthContext";
 
 function Application() {
+  const MAX_SIZE_MB = 10;
+  const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
   const navigate = useNavigate();
   const { user } = useAuth();
   const { jobId } = useParams<{ jobId: string }>();
@@ -49,14 +52,26 @@ function Application() {
     >
       <div className='flex gap-2 items-center'>
         <label htmlFor='cv' className='required'>
-          Upload your CV
+          Upload your CV (max {MAX_SIZE_MB}MB)
         </label>
         <input
           type='file'
           name='cv'
           id='cv'
           accept='.pdf, .docx'
-          onChange={(e) => setCv(e.target.files?.[0] ?? null)}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+
+            if (!file) return;
+
+            if (file.size > MAX_SIZE_BYTES) {
+              alert("File is too large!");
+              e.target.value = "";
+              return;
+            }
+
+            setCv(file);
+          }}
           required
           className='flex-1 rounded-lg p-2 border hover:border-slate-400 hover:bg-slate-800'
         />
