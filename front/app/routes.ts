@@ -14,6 +14,7 @@ export default [
 
     route("jobs", "routes/jobs.tsx"),
     route("apply/:jobId", "routes/application.tsx"),
+    route("applications/:jobseekerId", "routes/applications.tsx"),
   ]),
   
   layout("routes/auth/layout.tsx", [
