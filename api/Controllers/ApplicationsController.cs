@@ -25,12 +25,14 @@ namespace GradGo.Controllers
         public async Task<ActionResult<ApplicationDto>> GetApplication(Guid id)
         {
             var application = await _context.Applications
+                .Include(a => a.Job)
+                .Include(a => a.Jobseeker)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (application is null)
                 return NotFound();
 
-            return Ok(application.ToDto());
+            return Ok(application.ToDto(application.Job));
         }
 
         [HttpPost]
@@ -87,7 +89,7 @@ namespace GradGo.Controllers
             return CreatedAtAction(
                 nameof(GetApplication),
                 new { id = application.Id },
-                application.ToDto()
+                savedApplication!.ToDto(savedApplication!.Job)
             );
         }
     }

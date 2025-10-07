@@ -225,6 +225,7 @@ namespace GradGo.Controllers
                 .Include(j => j.Courses)
                 .Include(j => j.Applications)
                     .ThenInclude(a => a.Job)
+                        .ThenInclude(j => j.Employer)
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(j => j.Id == userId);
 
