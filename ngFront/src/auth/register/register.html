@@ -1,0 +1,64 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2 class="title">Sign Up</h2>
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input matInput type="text" id="firstName" name="firstName" formControlName="firstName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input matInput type="text" id="lastName" name="lastName" formControlName="lastName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Age</mat-label>
+    <input matInput type="number" id="age" name="age" formControlName="age" />
+  </mat-form-field>
+
+  <section formGroupName="address">
+    <mat-form-field appearance="outline">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country">
+        @for (country of countries; track country.id) {
+          <mat-option [value]="country">{{ country.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="city">
+        <!-- @for (city of cities; track city.id) {
+          <mat-option [value]="city">{{ city.name }}</mat-option>
+        } -->
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <mat-form-field appearance="outline">
+    <mat-label>E-mail</mat-label>
+    <input matInput type="email" id="email" name="email" formControlName="email" />
+  </mat-form-field>
+
+  <section formGroupName="passwords">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" id="password" name="password" formControlName="password" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        formControlName="confirmPassword"
+      />
+    </mat-form-field>
+    @if(form.controls.passwords.hasError('valuesNotEqual') && form.controls.passwords.touched ) {
+    <p class="error">Passwords don't match</p>
+    }
+  </section>
+  <button type="submit" class="primary" [disabled]="form.invalid">Sign Up</button>
+</form>

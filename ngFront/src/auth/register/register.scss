@@ -1,0 +1,15 @@
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+
+  input {
+    margin-bottom: 0;
+  }
+}
+
+.error {
+  margin: 0 0 1rem 0;
+  color: var(--mat-sys-error);
+}

@@ -5,17 +5,17 @@ namespace GradGo.DTOs
 {
     public record JobseekerCreateDto
     (
-        [Required] string FirstName,
-        [Required] string LastName,
-        [Required] [Range(16, 100)] int Age,
-        [Required] UserRole Role,
-        [Required] string PhoneNumber,
-        [Required] string Email,
-        [Required] string Password,
-        [Required] string City,
-        [Required] int CountryId,
-        [Required] string Bio,
-        [Required] List<int> Skills,
-        [Required] List<int> Courses
+        string FirstName,
+        string LastName,
+        [Range(16, 100)] int Age,
+        UserRole Role,
+        string PhoneNumber,
+        string Email,
+        string Password,
+        string City,
+        int CountryId,
+        string Bio,
+        List<int> Skills,
+        List<int> Courses
     );
 }

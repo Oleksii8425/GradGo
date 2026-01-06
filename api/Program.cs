@@ -1,6 +1,4 @@
-using Amazon;
-using Amazon.Runtime;
-using Amazon.S3;
+using GradGo;
 using GradGo.Data;
 using GradGo.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,8 +17,27 @@ builder.Configuration.AddUserSecrets<Program>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+using var conn = new Npgsql.NpgsqlConnection(
+    builder.Configuration.GetConnectionString("DbConnection")
+);
+
+try
+{
+    await conn.OpenAsync();
+    Console.WriteLine("Postgres connection successful!");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Connection failed: {ex.Message}");
+}
+finally
+{
+    await conn.CloseAsync();
+}
+
 builder.Services.AddDbContextPool<AppDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration["DbDefaultConnection"]));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
 
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -45,8 +62,13 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.AllowedForNewUsers = true;
 
     //User settings.
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; options.User.RequireUniqueEmail = false;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
 });
+
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("Jwt")
+);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -55,16 +77,20 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    var jwtSettings = builder.Configuration
+    .GetSection("Jwt")
+    .Get<JwtSettings>();
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = jwtSettings!.Issuer,
+        ValidAudience = jwtSettings.Audience,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt__Key"]!)
+            Encoding.UTF8.GetBytes(jwtSettings.Key)
         )
     };
 });
@@ -73,7 +99,7 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowReactFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -81,13 +107,6 @@ builder.Services.AddCors(opt =>
 });
 
 builder.Services.AddSingleton<IEmailSender, MailjetEmailSender>();
-
-var awsAccessKey = builder.Configuration["AWS:AccessKeyId"];
-var awsSecretKey = builder.Configuration["AWS:SecretAccessKey"];
-var awsRegion = builder.Configuration["AWS:Region"];
-var awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
-var s3Client = new AmazonS3Client(awsCredentials, RegionEndpoint.GetBySystemName(awsRegion));
-builder.Services.AddSingleton<IAmazonS3>(s3Client);
 
 var app = builder.Build();
 

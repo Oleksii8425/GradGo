@@ -1,5 +1,3 @@
-using Amazon.S3;
-using Amazon.S3.Model;
 using GradGo.Data;
 using GradGo.DTOs;
 using GradGo.Mappers;
@@ -13,12 +11,10 @@ namespace GradGo.Controllers
     public class ApplicationsController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IAmazonS3 _s3client;
 
-        public ApplicationsController(AppDbContext context, IAmazonS3 s3Client)
+        public ApplicationsController(AppDbContext context)
         {
             _context = context;
-            _s3client = s3Client;
         }
 
         [HttpGet]
@@ -71,29 +67,6 @@ namespace GradGo.Controllers
             string? coverLetterKey = dto.CoverLetter != null
                 ? $"{dto.JobseekerId}/Applications/{dto.JobId}/{dto.CoverLetter.FileName}"
                 : null;
-
-            // Upload CV
-            var cvRequest = new PutObjectRequest
-            {
-                BucketName = "gradgo-users",
-                Key = cvKey,
-                InputStream = dto.Cv.OpenReadStream(),
-                ContentType = dto.Cv.ContentType,
-            };
-            await _s3client.PutObjectAsync(cvRequest);
-
-            // Upload cover letter if present
-            if (dto.CoverLetter is not null)
-            {
-                var clRequest = new PutObjectRequest
-                {
-                    BucketName = "gradgo-users",
-                    Key = coverLetterKey,
-                    InputStream = dto.CoverLetter.OpenReadStream(),
-                    ContentType = dto.CoverLetter.ContentType
-                };
-                await _s3client.PutObjectAsync(clRequest);
-            }
 
             // Create Application entity
             var application = dto.ToApplication();

@@ -112,8 +112,11 @@ namespace GradGo.Controllers
                 .Include(u => u.Country)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
-                return Unauthorized(new { message = "Invalid email or password" });
+            if (user == null)
+                return Unauthorized(new { message = "User not found." });
+
+            if (!await _userManager.CheckPasswordAsync(user, dto.Password))
+                return Unauthorized(new { message = "Incorrect password." });
 
             if (!await _userManager.IsEmailConfirmedAsync(user))
             {
@@ -132,7 +135,7 @@ namespace GradGo.Controllers
 
             var dtoRes = await MapUserToDtoAsync(user);
 
-            return Ok(new { token = accessToken, user = dtoRes });
+            return Ok(new { message = "Success", token = accessToken, user = dtoRes });
         }
 
         [HttpPost("refresh-token")]
