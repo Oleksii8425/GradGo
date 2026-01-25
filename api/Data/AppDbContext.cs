@@ -28,18 +28,6 @@ namespace GradGo.Data
                 .HasValue<Employer>(UserRole.Employer)
                 .HasValue<Jobseeker>(UserRole.Jobseeker);
 
-            modelBuilder.Entity<User>()
-                .Property(u => u.CountryId)
-                .HasDefaultValue(198);
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.City)
-                .HasDefaultValue("N/A");
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.Bio)
-                .HasDefaultValue("N/A");
-
             modelBuilder.Entity<Course>()
                 .Property(c => c.Degree)
                 .HasConversion<string>();
